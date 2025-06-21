@@ -1,14 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import "./globals.css";
-import { BrowserRouter } from "react-router-dom";
+import { ApolloWrapper } from "./apollo/apollo-wrapper.tsx";
 import { Router } from "./router/index.tsx";
+import { ErrorBoundary } from "./hook/ErrorBoundary.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Router />
-    </BrowserRouter>
+    <ErrorBoundary>
+      <ApolloWrapper>
+        <Router />
+      </ApolloWrapper>
+    </ErrorBoundary>
   </React.StrictMode>
 );

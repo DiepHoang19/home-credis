@@ -1,13 +1,13 @@
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import App from "@/App";
 import DefaultLayout from "@/components/ui/default-layout";
 import Login from "@/page/login";
 import Register from "@/page/register";
-import { Outlet, useRoutes } from "react-router-dom";
 import { PUBLIC_ROUTER } from "./section";
-import { Box, LinearProgress } from "@mui/material";
+import NotFount from "@/page/not-found";
 
-export function Router() {
-  const routes = useRoutes([
+const router = createBrowserRouter(
+  [
     {
       element: (
         <DefaultLayout>
@@ -28,9 +28,20 @@ export function Router() {
           path: PUBLIC_ROUTER.ACCOUNT.REGISTER,
           element: <Register />,
         },
+        {
+          path: "*",
+          element: <NotFount />,
+        },
       ],
     },
-  ]);
+  ],
+  {
+    future: {
+      v7_relativeSplatPath: true,
+    },
+  }
+);
 
-  return routes;
+export function Router() {
+  return <RouterProvider router={router} />;
 }
