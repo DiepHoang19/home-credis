@@ -1,5 +1,5 @@
 {
-  "name": "tailwind-ai-app",
+  "name": "home-credit",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -42,7 +42,16 @@
     "react-router-dom": "^6.21.0",
     "recharts": "^2.1.14",
     "styled-components": "^6.1.19",
-    "tailwindcss": "^4.0.0"
+    "tailwindcss": "^4.0.0",
+    "sonner": "^2.0.5",
+    "yup": "^1.6.1",
+    "@mui/lab": "^7.0.0-beta.10",
+    "@mui/x-date-pickers": "^8.5.2",
+    "@hookform/resolvers": "^5.1.1",
+    "@apollo/client": "^3.13.3",
+    "@apollo/experimental-nextjs-app-support": "^0.11.10",
+    "@chatscope/chat-ui-kit-react": "^2.1.1",
+    "@chatscope/chat-ui-kit-styles": "^1.4.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
