@@ -1,3 +1,4 @@
+import ButtonCommon from "@/common/button-common";
 import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 
@@ -46,9 +47,9 @@ const ServicesGrid = () => {
             <div className="p-6">
               <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
               <p className="text-gray-600 mb-4">{service.description}</p>
-              <Button className="bg-[#E11E31] hover:bg-[#c01929] text-white rounded-full">
+              <ButtonCommon sx={{ borderRadius: 10 }} color="error">
                 {service.buttonText}
-              </Button>
+              </ButtonCommon>
             </div>
           </div>
         ))}
@@ -71,9 +72,9 @@ const ServicesGrid = () => {
               <span>Duyệt hồ sơ nhanh chóng</span>
             </li>
           </ul>
-          <Button className="bg-[#E11E31] hover:bg-[#c01929] text-white rounded-full">
+          <ButtonCommon sx={{ borderRadius: 10 }} color="error">
             Tìm hiểu thêm
-          </Button>
+          </ButtonCommon>
         </div>
 
         <div className="bg-white rounded-lg shadow-lg p-6">
@@ -92,9 +93,10 @@ const ServicesGrid = () => {
               <span>Thời gian vay linh hoạt</span>
             </li>
           </ul>
-          <Button className="bg-[#E11E31] hover:bg-[#c01929] text-white rounded-full">
+
+          <ButtonCommon sx={{ borderRadius: 10 }} color="error">
             Tìm hiểu thêm
-          </Button>
+          </ButtonCommon>
         </div>
 
         <div className="bg-white rounded-lg shadow-lg p-6">
@@ -113,9 +115,9 @@ const ServicesGrid = () => {
               <span>Quy trình bồi thường đơn giản</span>
             </li>
           </ul>
-          <Button className="bg-[#E11E31] hover:bg-[#c01929] text-white rounded-full">
+          <ButtonCommon sx={{ borderRadius: 10 }} color="error">
             Tìm hiểu thêm
-          </Button>
+          </ButtonCommon>
         </div>
       </div>
 
@@ -137,9 +139,9 @@ const ServicesGrid = () => {
               khách hàng chuyên nghiệp của chúng tôi sẽ giải đáp mọi thắc mắc và
               hỗ trợ bạn trong quá trình sử dụng dịch vụ.
             </p>
-            <Button className="bg-[#E11E31] hover:bg-[#c01929] text-white rounded-full">
+            <ButtonCommon sx={{ borderRadius: 10 }} color="error">
               Liên hệ ngay
-            </Button>
+            </ButtonCommon>
           </div>
         </div>
       </div>

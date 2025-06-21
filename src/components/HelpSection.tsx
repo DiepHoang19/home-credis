@@ -1,3 +1,4 @@
+import ButtonCommon from "@/common/button-common";
 import { Button } from "./ui/button";
 
 const HelpSection = () => {
@@ -25,9 +26,9 @@ const HelpSection = () => {
                 Quản lý khoản vay, thanh toán dễ dàng và nhận nhiều ưu đãi hấp
                 dẫn với ứng dụng Home Credit.
               </p>
-              <Button className="bg-[#E11E31] hover:bg-[#c01929] text-white rounded-full">
+              <ButtonCommon color="error" sx={{ borderRadius: 10 }}>
                 Tải ứng dụng
-              </Button>
+              </ButtonCommon>
             </div>
           </div>
         </div>
@@ -47,9 +48,9 @@ const HelpSection = () => {
                 Đội ngũ chăm sóc khách hàng chuyên nghiệp sẵn sàng hỗ trợ bạn
                 24/7.
               </p>
-              <Button className="bg-[#E11E31] hover:bg-[#c01929] text-white rounded-full">
+              <ButtonCommon color="error" sx={{ borderRadius: 10 }}>
                 Liên hệ ngay
-              </Button>
+              </ButtonCommon>
             </div>
           </div>
         </div>

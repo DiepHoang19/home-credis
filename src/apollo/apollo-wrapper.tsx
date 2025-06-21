@@ -13,8 +13,6 @@ import {
 const urlHasura = import.meta.env.VITE_HASURA_LINK;
 const hasuraKey = import.meta.env.VITE_HASURA_KEY;
 
-console.log("urlHasura", urlHasura);
-
 const httpLink = new HttpLink({
   uri: urlHasura,
   fetchOptions: { cache: "no-store" },

@@ -1,64 +1,140 @@
-import { Button } from './ui/button';
-import { Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
+import ButtonCommon from "@/common/button-common";
+import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#E11E31] text-white">
+    <footer className="bg-[#E11E31] text-white rounded-tl-4xl rounded-tr-4xl">
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-lg font-semibold mb-4">Về chúng tôi</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:underline">Giới thiệu</a></li>
-              <li><a href="#" className="hover:underline">Lịch sử phát triển</a></li>
-              <li><a href="#" className="hover:underline">Tầm nhìn & Sứ mệnh</a></li>
-              <li><a href="#" className="hover:underline">Cơ hội nghề nghiệp</a></li>
-              <li><a href="#" className="hover:underline">Liên hệ</a></li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Giới thiệu
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Lịch sử phát triển
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Tầm nhìn & Sứ mệnh
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Cơ hội nghề nghiệp
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Liên hệ
+                </a>
+              </li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold mb-4">Sản phẩm & Dịch vụ</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:underline">Vay tiền mặt</a></li>
-              <li><a href="#" className="hover:underline">Thẻ tín dụng</a></li>
-              <li><a href="#" className="hover:underline">Tài khoản trả sau</a></li>
-              <li><a href="#" className="hover:underline">Trả góp Điện máy</a></li>
-              <li><a href="#" className="hover:underline">Trả góp Xe máy</a></li>
-              <li><a href="#" className="hover:underline">Bảo hiểm</a></li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Vay tiền mặt
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Thẻ tín dụng
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Tài khoản trả sau
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Trả góp Điện máy
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Trả góp Xe máy
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Bảo hiểm
+                </a>
+              </li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold mb-4">Hỗ trợ khách hàng</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:underline">Câu hỏi thường gặp</a></li>
-              <li><a href="#" className="hover:underline">Hướng dẫn thanh toán</a></li>
-              <li><a href="#" className="hover:underline">Điểm giao dịch</a></li>
-              <li><a href="#" className="hover:underline">Chính sách bảo mật</a></li>
-              <li><a href="#" className="hover:underline">Điều khoản sử dụng</a></li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Câu hỏi thường gặp
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Hướng dẫn thanh toán
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Điểm giao dịch
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Chính sách bảo mật
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Điều khoản sử dụng
+                </a>
+              </li>
             </ul>
           </div>
-          
+
           <div>
-            <h3 className="text-lg font-semibold mb-4">Kết nối với chúng tôi</h3>
+            <h3 className="text-lg font-semibold mb-4">
+              Kết nối với chúng tôi
+            </h3>
             <div className="flex space-x-4 mb-4">
-              <a href="#" className="hover:text-gray-200"><Facebook /></a>
-              <a href="#" className="hover:text-gray-200"><Youtube /></a>
-              <a href="#" className="hover:text-gray-200"><Instagram /></a>
-              <a href="#" className="hover:text-gray-200"><Linkedin /></a>
+              <a href="#" className="hover:text-gray-200">
+                <Facebook />
+              </a>
+              <a href="#" className="hover:text-gray-200">
+                <Youtube />
+              </a>
+              <a href="#" className="hover:text-gray-200">
+                <Instagram />
+              </a>
+              <a href="#" className="hover:text-gray-200">
+                <Linkedin />
+              </a>
             </div>
             <p className="mb-4">Hotline: 1900 633 999</p>
-            <Button className="bg-white text-[#E11E31] hover:bg-gray-100 rounded-full">
+            <ButtonCommon color="error" sx={{ borderRadius: 10 }}>
               Tải ứng dụng
-            </Button>
+            </ButtonCommon>
           </div>
         </div>
-        
+
         <div className="border-t border-white/20 mt-8 pt-8 text-sm">
           <p>© 2023 Home Credit Vietnam. Tất cả các quyền được bảo lưu.</p>
           <p className="mt-2">
-            Công ty Tài chính TNHH MTV Home Credit Việt Nam - Giấy phép hoạt động số 95/GP-NHNN do Ngân hàng Nhà nước Việt Nam cấp ngày 28/09/2018.
+            Công ty Tài chính TNHH MTV Home Credit Việt Nam - Giấy phép hoạt
+            động số 95/GP-NHNN do Ngân hàng Nhà nước Việt Nam cấp ngày
+            28/09/2018.
           </p>
         </div>
       </div>

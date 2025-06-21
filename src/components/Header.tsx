@@ -4,15 +4,23 @@ import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PUBLIC_ROUTER } from "@/router/section";
 import { useRouter } from "@/hook";
-
+import ButtonCommon from "@/common/button-common";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useAuthen } from "@/hook/useAuthen";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
+import DropdownMenuMock from "./ProfileDropdown";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
+  const userInfo = useAuthen();
 
   const handleNavigate = () => {
     router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
     setIsMenuOpen(false);
   };
+
+  const [openProfile, setOpenProfile] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-lg">
@@ -28,7 +36,10 @@ const Header = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div
+          className="hidden md:flex items-center space-x-4"
+          onMouseLeave={() => setOpenProfile(false)}
+        >
           <div className="flex items-center space-x-4 text-lg font-bold">
             <a
               href="tel:1900633999"
@@ -41,12 +52,26 @@ const Header = () => {
             <span className="text-gray-600">Về chúng tôi</span>
           </div>
 
-          <Button
-            onClick={handleNavigate}
-            className="bg-[#E11E31] hover:bg-[#c01929] text-white font-bold rounded-full"
-          >
-            Đăng nhập
-          </Button>
+          {userInfo ? (
+            <>
+              <Stack spacing={1} alignItems="center" direction="row">
+                <AccountCircleIcon sx={{ fontSize: 40 }} />
+                <Typography>{userInfo.phone_number}</Typography>
+                <IconButton onMouseEnter={() => setOpenProfile(true)}>
+                  <KeyboardArrowDownIcon />
+                </IconButton>
+              </Stack>
+              {openProfile && <DropdownMenuMock />}
+            </>
+          ) : (
+            <ButtonCommon
+              onClick={handleNavigate}
+              color="error"
+              sx={{ borderRadius: 10 }}
+            >
+              Đăng nhập
+            </ButtonCommon>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
