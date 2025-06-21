@@ -12,6 +12,7 @@ import Careers from "./components/Careers";
 import { Button, Tooltip } from "@mui/material";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import ChatBox from "./components/ChatBox";
+import LoanCalculator from "./components/loans/SectionLoans";
 
 function App() {
   const [openChatBox, setOpenChatBox] = useState(false);
@@ -29,6 +30,7 @@ function App() {
     >
       <HeroCarousel />
       <ProductServices />
+      <LoanCalculator/>
       <AboutSection />
       <ServicesGrid />
       <ThreePoints />
