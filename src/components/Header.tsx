@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import { PUBLIC_ROUTER } from "@/router/section";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,13 +11,13 @@ const Header = () => {
     <header className="sticky top-0 z-50 bg-white shadow-lg">
       <div className="container mx-auto px-4 py-2 h-30 flex justify-between items-center">
         <div className="flex items-center">
-          <a href="/" className="mr-4">
+          <Link to={PUBLIC_ROUTER.HOME} className="mr-4">
             <img
               src="https://www.homecredit.vn/static/2de334676802a591f9444bb556bd334f/f30c4/Microsoft_Teams_image_30_1_1_394b27a905.webp"
               alt="HomeCredit Logo"
               className="h-10"
             />
-          </a>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
