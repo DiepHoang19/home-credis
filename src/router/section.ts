@@ -4,4 +4,5 @@ export const PUBLIC_ROUTER = {
     LOGIN: "/dang-nhap",
     REGISTER: "/dang-ky",
   },
+  LOANS: '/xac-nhan-khoan-vay'
 };

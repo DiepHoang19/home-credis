@@ -31,7 +31,7 @@ const authLink = new ApolloLink((operation, forward) => {
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: urlHasura.replace("http", "ws"),
+    url: urlHasura?.replace("http", "ws"),
     connectionParams: {
       headers: {
         "x-hasura-admin-secret": hasuraKey,

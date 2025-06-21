@@ -8,12 +8,14 @@ import HelpSection from "./components/HelpSection";
 import EventsSection from "./components/EventsSection";
 import Partners from "./components/Partners";
 import Careers from "./components/Careers";
+import LoanCalculator from "./components/loans/SectionLoans";
 
 function App() {
   return (
     <main>
       <HeroCarousel />
       <ProductServices />
+      <LoanCalculator/>
       <AboutSection />
       <ServicesGrid />
       <ThreePoints />
