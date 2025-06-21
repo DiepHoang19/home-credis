@@ -3,9 +3,16 @@ import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PUBLIC_ROUTER } from "@/router/section";
+import { useRouter } from "@/hook";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+
+  const handleNavigate = () => {
+    router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-lg">
@@ -34,7 +41,10 @@ const Header = () => {
             <span className="text-gray-600">Về chúng tôi</span>
           </div>
 
-          <Button className="bg-[#E11E31] hover:bg-[#c01929] text-white font-bold rounded-full">
+          <Button
+            onClick={handleNavigate}
+            className="bg-[#E11E31] hover:bg-[#c01929] text-white font-bold rounded-full"
+          >
             Đăng nhập
           </Button>
         </div>
@@ -52,14 +62,20 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white py-4 px-4 shadow-md">
           <div className="flex flex-col space-y-3">
-            <span className="text-gray-600 py-2 border-b">
+            <a
+              href="tel:1900633999"
+              className="text-blue-600 hover:underline cursor-pointer"
+            >
               Hotline: 1900 633 999
-            </span>
+            </a>
             <span className="text-gray-600 py-2 border-b">Tin tức</span>
             <span className="text-gray-600 py-2 border-b">Hỗ trợ</span>
             <span className="text-gray-600 py-2 border-b">Về chúng tôi</span>
 
-            <Button className="bg-[#E11E31] hover:bg-[#c01929] text-white rounded-full w-full">
+            <Button
+              onClick={handleNavigate}
+              className="bg-[#E11E31] hover:bg-[#c01929] text-white rounded-full w-full"
+            >
               Đăng nhập
             </Button>
           </div>
