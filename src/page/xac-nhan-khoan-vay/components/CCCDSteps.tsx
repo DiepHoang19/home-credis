@@ -1,4 +1,4 @@
-import { LOANS_STEPS } from "@/constants";
+import { CCCD_STEPS, LOANS_STEPS } from "@/constants";
 import {
   Stepper,
   Step,
@@ -18,7 +18,7 @@ const CustomConnector = styled(StepConnector)(({ theme }) => ({
   },
 }));
 
-export const LoansStepper = ({ activeStep }: { activeStep: number }) => {
+export const CCCDStepper = ({ activeStep }: { activeStep: number }) => {
   return (
     <div >
         <Stepper
@@ -28,7 +28,7 @@ export const LoansStepper = ({ activeStep }: { activeStep: number }) => {
       sx={{ mt: 2, mb: 4 }}
       
     >
-      {LOANS_STEPS.map((step, index) => (
+      {CCCD_STEPS.map((step, index) => (
         <Step key={step.key} >
           <StepLabel StepIconComponent={CustomStepIcon}>
             <Typography
