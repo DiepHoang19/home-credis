@@ -57,9 +57,13 @@
   }
 }
 
+.MuiContainer-root {
+  background-color: transparent !important;
+}
+
 @font-face {
-  font-family: 'Lexend';
-  src: url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
+  font-family: "Lexend";
+  src: url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap");
   font-weight: 400;
   font-style: normal;
 }
@@ -77,13 +81,13 @@
 }
 
 .app-promotion-bg {
-  background-image: url('https://www.homecredit.vn/static/desktop-home-app-bg-713923f48b127195af6b2bf26a65b9e3.png');
+  background-image: url("https://www.homecredit.vn/static/desktop-home-app-bg-713923f48b127195af6b2bf26a65b9e3.png");
   background-size: cover;
   background-position: center;
 }
 
 .main-background {
-  background-image: url('https://www.homecredit.vn/static/background-173b99034a8eb0e44bdb113920a4ddf4.webp');
+  background-image: url("https://www.homecredit.vn/static/background-173b99034a8eb0e44bdb113920a4ddf4.webp");
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;

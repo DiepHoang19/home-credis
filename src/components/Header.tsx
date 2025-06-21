@@ -4,10 +4,15 @@ import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PUBLIC_ROUTER } from "@/router/section";
 import { useRouter } from "@/hook";
+import ButtonCommon from "@/common/button-common";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useAuthen } from "@/hook/useAuthen";
+import { Box, Stack, Typography } from "@mui/material";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
+  const userInfo = useAuthen();
 
   const handleNavigate = () => {
     router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
@@ -41,12 +46,20 @@ const Header = () => {
             <span className="text-gray-600">Về chúng tôi</span>
           </div>
 
-          <Button
-            onClick={handleNavigate}
-            className="bg-[#E11E31] hover:bg-[#c01929] text-white font-bold rounded-full"
-          >
-            Đăng nhập
-          </Button>
+          {userInfo ? (
+            <Stack spacing={1} alignItems="center" direction="row">
+              <AccountCircleIcon sx={{ fontSize: 40 }} />
+              <Typography>{userInfo.phone_number}</Typography>
+            </Stack>
+          ) : (
+            <ButtonCommon
+              onClick={handleNavigate}
+              color="error"
+              sx={{ borderRadius: 10 }}
+            >
+              Đăng nhập
+            </ButtonCommon>
+          )}
         </div>
 
         {/* Mobile Menu Button */}

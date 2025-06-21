@@ -1,7 +1,6 @@
+import { useState } from "react";
 import type { Theme } from "@mui/material/styles";
-
-import { IconButton } from "@mui/material";
-import TextField from "@mui/material/TextField";
+import { IconButton, TextField, InputAdornment } from "@mui/material";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import { useTheme, createTheme, ThemeProvider } from "@mui/material/styles";
 import EyeClose from "./icon-svg/eye-close";
@@ -44,6 +43,10 @@ export default function InputCommon(props: Readonly<InputCommonProps>) {
     value,
     ...rest
   } = props;
+
+  const [showPassword, setShowPassword] = useState(false);
+  const isPasswordType =
+    inputPassowrd && (type === "password" || type === "text");
 
   const customTheme = (inputTheme: Theme) =>
     createTheme({
@@ -92,28 +95,26 @@ export default function InputCommon(props: Readonly<InputCommonProps>) {
         rows={rows}
         value={value}
         defaultValue={defaultValue}
-        type={type}
+        type={isPasswordType ? (showPassword ? "text" : "password") : type}
         InputProps={{
           startAdornment: clickStartIcon && (
             <IconButton onClick={clickStartIcon}>{startIcon}</IconButton>
           ),
-          endAdornment: (clickEndIcon || inputPassowrd) && (
-            <IconButton onClick={clickEndIcon}>
-              {type === "password" && inputPassowrd ? (
-                <EyeClose />
-              ) : inputPassowrd ? (
-                <EyeOpen />
-              ) : (
-                endIcon
-              )}
-            </IconButton>
+          endAdornment: (
+            <InputAdornment position="end">
+              {inputPassowrd ? (
+                <IconButton onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <EyeOpen /> : <EyeClose />}
+                </IconButton>
+              ) : endIcon ? (
+                <IconButton onClick={clickEndIcon}>{endIcon}</IconButton>
+              ) : null}
+            </InputAdornment>
           ),
         }}
         helperText={errors?.message}
-        error={errors}
-        {...register(name, {
-          required: true,
-        })}
+        error={!!errors}
+        {...register(name)}
         placeholder={placeholder}
         name={name}
         fullWidth
