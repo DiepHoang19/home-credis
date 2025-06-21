@@ -21,7 +21,12 @@ const Header = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-4">
           <div className="flex items-center space-x-4 text-lg font-bold">
-            <span className="text-gray-600">Hotline: 1900 633 999</span>
+            <a
+              href="tel:1900633999"
+              className="text-blue-600 hover:underline cursor-pointer"
+            >
+              Hotline: 1900 633 999
+            </a>
             <span className="text-gray-600">Tin tức</span>
             <span className="text-gray-600">Hỗ trợ</span>
             <span className="text-gray-600">Về chúng tôi</span>
