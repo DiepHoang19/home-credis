@@ -10,6 +10,7 @@ import { useRouter } from "@/hook";
 import { PUBLIC_ROUTER } from "@/router/section";
 import { useMutation } from "@apollo/client";
 import { mutationRegister } from "@/graphql/mutation";
+import { toast } from "sonner";
 
 interface PayloadRegister {
   phone_number: string;
@@ -17,6 +18,7 @@ interface PayloadRegister {
 }
 
 function Register() {
+  const router = useRouter();
   const schemaLogin = yup.object({
     phone_number: yup
       .string()
@@ -58,18 +60,25 @@ function Register() {
   const onSubmitForm = async (values: PayloadRegister) => {
     const { phone_number, password } = values;
     try {
-      const data = await registertMutation({
+      await registertMutation({
         variables: {
-          object: { phone_number, password },
+          object: { phone_number, password, role_id: 1 },
         },
       });
-      console.log("data", data);
+      router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
     } catch (error) {
-      console.log(error);
+      const pgMessage = error?.response?.data?.message || error.message;
+
+      if (
+        pgMessage?.includes("duplicate key value") &&
+        pgMessage?.includes("users_phone_key")
+      ) {
+        toast.warning("Số điện thoại đã được sử dụng");
+      } else {
+        toast.error("Đăng ký thất bại. Vui lòng thử lại!");
+      }
     }
   };
-
-  const router = useRouter();
 
   return (
     <Container maxWidth="md" sx={{ p: 10 }}>

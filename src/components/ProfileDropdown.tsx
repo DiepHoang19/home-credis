@@ -25,7 +25,7 @@ const menuItems = [
   { label: "Quan hệ Nhà Đầu Tư", icon: <Group /> },
   { label: "Liên hệ", icon: <Phone /> },
   { label: "Đối tác", icon: <Groups /> },
-  { label: "Cơ hội việc làm", icon: <Work /> },
+  { label: "Đăng xuất", icon: <Work /> },
 ];
 
 export default function DropdownMenuMock() {
