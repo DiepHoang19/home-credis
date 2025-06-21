@@ -8,8 +8,10 @@ import InputCommon from "@/common/input-common";
 import LoadingButtonCommon from "@/common/loading-button";
 import { useRouter } from "@/hook";
 import { PUBLIC_ROUTER } from "@/router/section";
+import { useMutation } from "@apollo/client";
+import { mutationRegister } from "@/graphql/mutation";
 
-interface PayloadLogin {
+interface PayloadRegister {
   phone_number: string;
   password: string;
 }
@@ -51,13 +53,23 @@ function Register() {
     register,
   } = methods;
 
-  const onSubmitForm = async (values: PayloadLogin) => {
-    console.log("🚀 ~ onSubmitForm ~ values:", values);
+  const [registertMutation] = useMutation(mutationRegister);
+
+  const onSubmitForm = async (values: PayloadRegister) => {
+    const { phone_number, password } = values;
+    try {
+      const data = await registertMutation({
+        variables: {
+          object: { phone_number, password },
+        },
+      });
+      console.log("data", data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const router = useRouter();
-
-  const [typePassword, setTypePassword] = useState<any>("password");
 
   return (
     <Container maxWidth="md" sx={{ p: 10 }}>
@@ -79,7 +91,7 @@ function Register() {
               errors={errors.password}
               register={register}
               name="password"
-              type={typePassword}
+              type="password"
               label="Mật khẩu"
             />
             <InputCommon
@@ -87,7 +99,7 @@ function Register() {
               errors={errors.confirm_password}
               register={register}
               name="confirm_password"
-              type={typePassword}
+              type="password"
               label="Xác nhận mật khẩu"
             />
             <LoadingButtonCommon

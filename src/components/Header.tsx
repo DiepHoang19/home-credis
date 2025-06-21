@@ -7,8 +7,9 @@ import { useRouter } from "@/hook";
 import ButtonCommon from "@/common/button-common";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useAuthen } from "@/hook/useAuthen";
-import { Box, Stack, Typography } from "@mui/material";
-
+import { Box, IconButton, Stack, Typography } from "@mui/material";
+import DropdownMenuMock from "./ProfileDropdown";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
@@ -18,6 +19,8 @@ const Header = () => {
     router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
     setIsMenuOpen(false);
   };
+
+  const [openProfile, setOpenProfile] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-lg">
@@ -33,7 +36,10 @@ const Header = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div
+          className="hidden md:flex items-center space-x-4"
+          onMouseLeave={() => setOpenProfile(false)}
+        >
           <div className="flex items-center space-x-4 text-lg font-bold">
             <a
               href="tel:1900633999"
@@ -47,10 +53,16 @@ const Header = () => {
           </div>
 
           {userInfo ? (
-            <Stack spacing={1} alignItems="center" direction="row">
-              <AccountCircleIcon sx={{ fontSize: 40 }} />
-              <Typography>{userInfo.phone_number}</Typography>
-            </Stack>
+            <>
+              <Stack spacing={1} alignItems="center" direction="row">
+                <AccountCircleIcon sx={{ fontSize: 40 }} />
+                <Typography>{userInfo.phone_number}</Typography>
+                <IconButton onMouseEnter={() => setOpenProfile(true)}>
+                  <KeyboardArrowDownIcon />
+                </IconButton>
+              </Stack>
+              {openProfile && <DropdownMenuMock />}
+            </>
           ) : (
             <ButtonCommon
               onClick={handleNavigate}
