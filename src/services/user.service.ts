@@ -1,5 +1,4 @@
 import apiClient from "./httpService";
-import { RequestUpdateUser } from "./model/user";
 
 const BASE_URL_API = process.env.NEXT_PUBLIC_BASE_URL_API;
 const API_ENDPOINT = {
@@ -14,7 +13,7 @@ export class UserService {
     );
   };
 
-  update = async (data: RequestUpdateUser) => {
+  update = async (data: any) => {
     return await apiClient.put(BASE_URL_API + API_ENDPOINT.UPDATE, data);
   };
 }

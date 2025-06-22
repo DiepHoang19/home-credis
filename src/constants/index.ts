@@ -18,6 +18,18 @@ export const LOANS_STEPS = [
   },
 ] as STEP_TYPE[];
 
+
+export const  INFO_BANK = ({
+    label: "Thông tin ngân hàng",
+    key: 4,
+  })
+
+
+  export const  SIGN_COMFIRM = ({
+    label: "Ký xác nhận",
+    key: 5,
+  })
+
 export const CCCD_STEPS = [
   {
     label: "CMND mặt trước",

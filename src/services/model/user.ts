@@ -3,7 +3,7 @@ export interface User {
   fullname: string;
   password: string;
   email?: string;
-  phone: string;
+  phone_number: string;
   date_of_birth?: string; // ISO date format: 'YYYY-MM-DD'
   gender?: boolean; // true = nam, false = nữ (nếu dùng kiểu boolean)
   identity_number?: string;
@@ -16,6 +16,10 @@ export interface User {
   status: 0 | 1; // 0 = không hoạt động, 1 = hoạt động
   createdAt: string; // ISO date-time
   updatedAt: string; // ISO date-time
+  income: number;
+  accountnumber: string;
+  accountname:string;
+  bankname: string
 }
 
 export interface Relative {

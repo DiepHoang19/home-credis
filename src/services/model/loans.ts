@@ -20,6 +20,7 @@ export interface Loan {
   updatedAt: string;        // ISO datetime string
   user: User,
   step: ENUM_STEP_LOAN //0: Chọn khoản vay 1: Xác minh tài khoản  2: Thông tin cá nhân  3: hoan tat
+  loan_code: string // mã code
 }
 
 

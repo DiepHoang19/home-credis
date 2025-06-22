@@ -21,7 +21,7 @@ import {
   Alert,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { LOANS_STEPS } from "@/constants";
+import { INFO_BANK, LOANS_STEPS, SIGN_COMFIRM } from "@/constants";
 import { LoansStepper } from "./components/LoansSteps";
 import { formatNumber, parseFormattedNumber, safeParseJSON } from "@/helpers";
 import DialogCommon from "@/common/dialog-common";
@@ -38,13 +38,15 @@ import {
 } from "@apollo/client";
 import { User } from "@/services/model/user";
 import Cookies from "js-cookie";
+import StepFour from "./components/StepFour";
+import StepFive from "./components/StepFive";
 
 const LoanCalculator = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [cccdStep, setCccdStep] = useState(0);
-    const userInfo = safeParseJSON(
-        (Cookies.get("user_info") || "") as string
-      ) as User;
+  const userInfo = safeParseJSON(
+    (Cookies.get("user_info") || "") as string
+  ) as User;
   const {
     data: dataLoanUser,
     refetch: refetchCurrentLoan,
@@ -53,11 +55,10 @@ const LoanCalculator = () => {
     refetch: (
       variables?: Partial<OperationVariables>
     ) => Promise<ApolloQueryResult<any>>;
-  } = useQuery(GET_LOAN_USER,{
-    variables:{
-      user_id: userInfo.id
+  } = useQuery(GET_LOAN_USER, {
+    variables: {
+      user_id: userInfo.id,
     },
-
   });
 
   const renderStep = () => {
@@ -82,7 +83,12 @@ const LoanCalculator = () => {
         );
 
       case 2:
-        return <StepThree />;
+        return <StepThree currentLoan={dataLoanUser?.loans?.[0]} setActiveStep={setActiveStep}/>;
+
+        case 3: 
+        return <StepFour currentLoan={dataLoanUser?.loans?.[0]} setActiveStep={setActiveStep} />
+        case 4:
+          return <StepFive />
       default:
         return "";
     }
@@ -98,6 +104,17 @@ const LoanCalculator = () => {
     }
   }, [dataLoanUser?.loans]);
 
+    const list = () =>{
+      if(activeStep < 2){
+        return LOANS_STEPS
+      } if(activeStep === 2){
+        return [...LOANS_STEPS,INFO_BANK]
+      }
+      if(activeStep === 4){
+         return [...LOANS_STEPS,INFO_BANK, SIGN_COMFIRM]
+      }
+    }
+    
   return (
     <Box
       p={4}
@@ -108,7 +125,7 @@ const LoanCalculator = () => {
     >
       <div className="w-full bg-[#e9f2f9] text-center py-10">
         <Typography variant="h4">
-          {LOANS_STEPS[activeStep].label.toUpperCase()}
+          {list()?.[activeStep]?.label?.toUpperCase()}
         </Typography>
       </div>
 

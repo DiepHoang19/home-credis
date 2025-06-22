@@ -1,5 +1,5 @@
 import DialogCommon from "@/common/dialog-common";
-import { formatNumber, parseFormattedNumber, safeParseJSON } from "@/helpers";
+import { formatNumber, generateCode, parseFormattedNumber, safeParseJSON } from "@/helpers";
 import { GET_LOANS_CONFIGS } from "@/services/graphql/loans-config-gql";
 import { CREATE_LOANS, GET_LOAN_USER } from "@/services/graphql/loans-gql";
 import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
@@ -111,6 +111,8 @@ export const StepOne = (props: Props) => {
         rate: INTEREST_RATE,
         user_id: userInfo.id,
         detail: getMonthlyDetails(),
+        step: 0,
+        loan_code: generateCode(userInfo.id)
       },
     ];
 

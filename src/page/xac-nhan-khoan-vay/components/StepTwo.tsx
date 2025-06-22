@@ -75,7 +75,6 @@ export default function StepTwo(props: Props) {
       });
     } catch (error) {}
 
-    setActiveStep(1);
     setLoadingUpload(false);
   };
 
@@ -109,11 +108,11 @@ export default function StepTwo(props: Props) {
           variables: {
             id: currentLoan.id, // ID khoản vay
             data: {
-              status: 1,
               updatedAt: new Date().toISOString(),
               identity_image_back: info.cccd_after,
               identity_image_front: info.cccd_before,
               portrait: info.avatar,
+              step: 1
             },
           },
         });

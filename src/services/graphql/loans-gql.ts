@@ -26,6 +26,9 @@ query MyQuery($user_id: Int!) {
     },
     order_by: { createdAt: desc }
   ) {
+    loan_code
+    step
+    id
     detail
     rate
     price
@@ -49,6 +52,7 @@ query MyQuery($user_id: Int!) {
       phone_number
       relatives
       status
+      income
     }
   }
 }
