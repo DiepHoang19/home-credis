@@ -6,6 +6,7 @@ export const queryLogin = gql`
       where: {
         phone_number: { _eq: $phone_number }
         password: { _eq: $password }
+        deletedAt: { _is_null: true }
       }
     ) {
       id

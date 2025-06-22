@@ -5,6 +5,7 @@ import Login from "@/page/login";
 import Register from "@/page/register";
 import { PUBLIC_ROUTER } from "./section";
 import NotFount from "@/page/not-found";
+import LoanCalculator from "@/page/xac-nhan-khoan-vay/page";
 
 const router = createBrowserRouter(
   [
@@ -27,6 +28,10 @@ const router = createBrowserRouter(
         {
           path: PUBLIC_ROUTER.ACCOUNT.REGISTER,
           element: <Register />,
+        },
+        {
+          path: PUBLIC_ROUTER.LOANS,
+          element: <LoanCalculator />,
         },
         {
           path: "*",

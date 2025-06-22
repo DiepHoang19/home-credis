@@ -63,7 +63,7 @@ function Login() {
         },
       });
       if (!data.data.users[0]) {
-        toast.warning("Tài khoản không tồn tại trên hệ thống");
+        toast.warning("Thông tin tài khoản không chính xác");
         return;
       }
       toast.success("Đăng nhập thành công");
