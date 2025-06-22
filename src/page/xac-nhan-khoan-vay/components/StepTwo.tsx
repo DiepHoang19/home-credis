@@ -13,15 +13,32 @@ import {
 import { PhotoCamera, Delete } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import uploadServices from "@/services/upload.service";
+import { UPDATE_LOANS } from "@/services/graphql/loans-gql";
+import {
+  ApolloQueryResult,
+  OperationVariables,
+  useMutation,
+} from "@apollo/client";
+import { Loan } from "@/services/model/loans";
 
 interface Props {
   setActiveStep: (value: number) => void;
   cccdStep: number;
   setCccdStep: (value: number) => void;
+  currentLoan: Loan;
+  refetchCurrentLoan: (
+    variables?: Partial<OperationVariables>
+  ) => Promise<ApolloQueryResult<any>>;
 }
 
 export default function StepTwo(props: Props) {
-  const { setActiveStep, cccdStep, setCccdStep } = props;
+  const {
+    setActiveStep,
+    cccdStep,
+    setCccdStep,
+    currentLoan,
+    refetchCurrentLoan,
+  } = props;
 
   const [info, setInfo] = useState({
     cccd_before: "",
@@ -30,6 +47,8 @@ export default function StepTwo(props: Props) {
   });
   const [loadingUpload, setLoadingUpload] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const [updateLoans, { data, loading }] = useMutation(UPDATE_LOANS);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -76,7 +95,7 @@ export default function StepTwo(props: Props) {
 
   const currentImage = info[getImageField() as keyof typeof info];
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (cccdStep === 0 && info.cccd_before) {
       setCccdStep(1);
     }
@@ -85,7 +104,24 @@ export default function StepTwo(props: Props) {
     }
 
     if (cccdStep === 2 && info.avatar) {
-      setActiveStep(2);
+      try {
+        await updateLoans({
+          variables: {
+            id: currentLoan.id, // ID khoản vay
+            data: {
+              status: 1,
+              updatedAt: new Date().toISOString(),
+              identity_image_back: info.cccd_after,
+              identity_image_front: info.cccd_before,
+              portrait: info.avatar,
+            },
+          },
+        });
+        refetchCurrentLoan();
+        setActiveStep(2);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 

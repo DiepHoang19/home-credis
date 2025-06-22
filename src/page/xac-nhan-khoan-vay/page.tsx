@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -23,32 +23,80 @@ import {
 import dayjs from "dayjs";
 import { LOANS_STEPS } from "@/constants";
 import { LoansStepper } from "./components/LoansSteps";
-import { formatNumber, parseFormattedNumber } from "@/helpers";
+import { formatNumber, parseFormattedNumber, safeParseJSON } from "@/helpers";
 import DialogCommon from "@/common/dialog-common";
 import { StepOne } from "./components/StepOne";
 import StepTwo from "./components/StepTwo";
 import { CCCDStepper } from "./components/CCCDSteps";
 import StepThree from "./components/StepThree";
+import { GET_LOAN_USER } from "@/services/graphql/loans-gql";
+import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
+import {
+  ApolloQueryResult,
+  OperationVariables,
+  useQuery,
+} from "@apollo/client";
+import { User } from "@/services/model/user";
+import Cookies from "js-cookie";
 
 const LoanCalculator = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [cccdStep, setCccdStep] = useState(0);
+    const userInfo = safeParseJSON(
+        (Cookies.get("user_info") || "") as string
+      ) as User;
+  const {
+    data: dataLoanUser,
+    refetch: refetchCurrentLoan,
+  }: {
+    data: { loans: Loan[] };
+    refetch: (
+      variables?: Partial<OperationVariables>
+    ) => Promise<ApolloQueryResult<any>>;
+  } = useQuery(GET_LOAN_USER,{
+    variables:{
+      user_id: userInfo.id
+    },
 
+  });
 
   const renderStep = () => {
     switch (activeStep) {
       case 0:
-        return <StepOne setActiveStep={setActiveStep} />;
+        return (
+          <StepOne
+            setActiveStep={setActiveStep}
+            refetchCurrentLoan={refetchCurrentLoan}
+          />
+        );
 
       case 1:
-       return  <StepTwo setActiveStep={setActiveStep} cccdStep={cccdStep} setCccdStep={setCccdStep} />;
+        return (
+          <StepTwo
+            setActiveStep={setActiveStep}
+            cccdStep={cccdStep}
+            setCccdStep={setCccdStep}
+            currentLoan={dataLoanUser?.loans?.[0]}
+            refetchCurrentLoan={refetchCurrentLoan}
+          />
+        );
 
-       case 2: 
-       return <StepThree />
+      case 2:
+        return <StepThree />;
       default:
-        return ""
+        return "";
     }
   };
+
+  useEffect(() => {
+    if (
+      dataLoanUser?.loans &&
+      dataLoanUser?.loans?.length > 0 &&
+      dataLoanUser?.loans[0].step !== ENUM_STEP_LOAN.DONE
+    ) {
+      setActiveStep((dataLoanUser?.loans[0].step || 0) + 1);
+    }
+  }, [dataLoanUser?.loans]);
 
   return (
     <Box
@@ -68,11 +116,13 @@ const LoanCalculator = () => {
         <LoansStepper activeStep={activeStep} />
       </div>
 
-       {activeStep === 1   && <div className="w-[60%]">
-        <CCCDStepper activeStep={cccdStep} />
-      </div>}
+      {activeStep === 1 && (
+        <div className="w-[60%]">
+          <CCCDStepper activeStep={cccdStep} />
+        </div>
+      )}
 
-{renderStep()}
+      {renderStep()}
       {/* 
       <Dialog
         open={open}
