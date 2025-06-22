@@ -47,7 +47,7 @@ function Login() {
   const {
     handleSubmit,
     formState: { errors, isSubmitting },
-    register,
+    control,
   } = methods;
 
   const [LoginMutation] = useLazyQuery(queryLogin);
@@ -84,19 +84,19 @@ function Login() {
         >
           <Stack spacing={3}>
             <InputCommon
+              control={control}
               errors={errors.phone_number}
-              register={register}
               name="phone_number"
               label="Số điện thoại"
               type="number"
             />
             <InputCommon
+              control={control}
               errors={errors.password}
-              register={register}
               name="password"
               type="password"
               label="Mật khẩu"
-              inputPassowrd
+              inputPassword
             />
             <LoadingButtonCommon
               loading={isSubmitting}
