@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Stack, Card, Container, Typography, Box } from "@mui/material";
+import { Stack, Container, Typography, Box, Paper } from "@mui/material";
 import FormProvider from "@/common/form-provider";
 import InputCommon from "@/common/input-common";
 import LoadingButtonCommon from "@/common/loading-button";
@@ -77,7 +77,7 @@ function Login() {
 
   return (
     <Container maxWidth="md" sx={{ p: 10 }}>
-      <Card sx={{ p: 10, borderRadius: 2 }}>
+      <Paper sx={{ p: 4, borderRadius: 4 }} elevation={2}>
         <FormProvider
           methods={methods}
           onSubmitForm={handleSubmit(onSubmitForm)}
@@ -103,6 +103,7 @@ function Login() {
               fullWidth
               title="Đăng nhập"
               type="submit"
+              size="large"
             />
           </Stack>
         </FormProvider>
@@ -128,7 +129,7 @@ function Login() {
             Đăng ký ngay
           </Typography>
         </Box>
-      </Card>
+      </Paper>
     </Container>
   );
 }
