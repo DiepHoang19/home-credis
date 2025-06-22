@@ -1,53 +1,50 @@
 import { useState } from "react";
-import type { Theme } from "@mui/material/styles";
-import { IconButton, TextField, InputAdornment } from "@mui/material";
+import { Controller, Control, FieldError } from "react-hook-form";
+import {
+  TextField,
+  IconButton,
+  InputAdornment,
+  TextFieldProps,
+} from "@mui/material";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import { useTheme, createTheme, ThemeProvider } from "@mui/material/styles";
+import type { Theme } from "@mui/material/styles";
+
 import EyeClose from "./icon-svg/eye-close";
 import EyeOpen from "./icon-svg/eye-open";
 
-interface InputCommonProps {
-  errors: any;
-  label?: string;
+import { TextFieldProps as MuiTextFieldProps } from "@mui/material/TextField";
+
+type InputCommonProps = MuiTextFieldProps & {
   name: string;
-  register: any;
-  startIcon?: any;
-  endIcon?: any;
-  placeholder?: string;
-  type?: "text" | "password" | "number" | "date";
-  defaultValue?: any;
-  multiline?: boolean;
-  rows?: number;
-  clickStartIcon?: any;
-  clickEndIcon?: any;
-  inputPassowrd?: boolean;
-  value?: any;
-}
+  control: Control<any>;
+  errors?: FieldError | undefined;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+  clickStartIcon?: () => void;
+  clickEndIcon?: () => void;
+  inputPassword?: boolean;
+};
 
 export default function InputCommon(props: Readonly<InputCommonProps>) {
   const {
-    label,
     name,
+    control,
     errors,
-    register,
+    label,
+    inputPassword,
     startIcon,
     endIcon,
-    inputPassowrd,
-    placeholder,
-    type = "text",
-    defaultValue,
-    multiline,
-    rows,
-    clickEndIcon,
     clickStartIcon,
-    value,
+    clickEndIcon,
     ...rest
   } = props;
 
   const [showPassword, setShowPassword] = useState(false);
   const isPasswordType =
-    inputPassowrd && (type === "password" || type === "text");
+    inputPassword && (props.type === "password" || props.type === "text");
 
+  const inputTheme = useTheme();
   const customTheme = (inputTheme: Theme) =>
     createTheme({
       palette: {
@@ -86,40 +83,56 @@ export default function InputCommon(props: Readonly<InputCommonProps>) {
       },
     });
 
-  const inputTheme = useTheme();
-
   return (
     <ThemeProvider theme={customTheme(inputTheme)}>
-      <TextField
-        multiline={multiline}
-        rows={rows}
-        value={value}
-        defaultValue={defaultValue}
-        type={isPasswordType ? (showPassword ? "text" : "password") : type}
-        InputProps={{
-          startAdornment: clickStartIcon && (
-            <IconButton onClick={clickStartIcon}>{startIcon}</IconButton>
-          ),
-          endAdornment: (
-            <InputAdornment position="end">
-              {inputPassowrd ? (
-                <IconButton onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <EyeOpen /> : <EyeClose />}
-                </IconButton>
-              ) : endIcon ? (
-                <IconButton onClick={clickEndIcon}>{endIcon}</IconButton>
-              ) : null}
-            </InputAdornment>
-          ),
-        }}
-        helperText={errors?.message}
-        error={!!errors}
-        {...register(name)}
-        placeholder={placeholder}
+      <Controller
         name={name}
-        fullWidth
-        label={label}
-        {...rest}
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            {...rest}
+            type={
+              isPasswordType
+                ? showPassword
+                  ? "text"
+                  : "password"
+                : props.type || "text"
+            }
+            label={label}
+            error={!!errors}
+            helperText={errors?.message}
+            fullWidth
+            InputProps={{
+              startAdornment:
+                startIcon &&
+                (clickStartIcon ? (
+                  <InputAdornment position="start">
+                    <IconButton onClick={clickStartIcon}>
+                      {startIcon}
+                    </IconButton>
+                  </InputAdornment>
+                ) : (
+                  <InputAdornment position="start">{startIcon}</InputAdornment>
+                )),
+              endAdornment: (
+                <InputAdornment position="end">
+                  {inputPassword ? (
+                    <IconButton onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <EyeOpen /> : <EyeClose />}
+                    </IconButton>
+                  ) : endIcon ? (
+                    clickEndIcon ? (
+                      <IconButton onClick={clickEndIcon}>{endIcon}</IconButton>
+                    ) : (
+                      endIcon
+                    )
+                  ) : null}
+                </InputAdornment>
+              ),
+            }}
+          />
+        )}
       />
     </ThemeProvider>
   );

@@ -1,19 +1,18 @@
-import { useForm, Controller } from "react-hook-form";
+import dayjs from "dayjs";
+import { Controller } from "react-hook-form";
 
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 interface DatePickerCommonProps {
+  control: any;
   errors: any;
-  register: any;
   name: string;
   label?: string;
 }
-
 function DatePickerCommon(props: Readonly<DatePickerCommonProps>) {
-  const { errors, name, label } = props;
-  const { control } = useForm();
+  const { errors, name, label, control } = props;
 
   return (
     <Controller
@@ -22,10 +21,13 @@ function DatePickerCommon(props: Readonly<DatePickerCommonProps>) {
       render={({ field: { onChange, value } }) => (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            value={value}
+            value={value ? dayjs(value) : null}
             onChange={onChange}
             onError={errors}
             label={label}
+            sx={{
+              borderRadius: 4,
+            }}
             slotProps={{
               textField: {
                 error: !!errors,
