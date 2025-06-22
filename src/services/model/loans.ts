@@ -28,6 +28,8 @@ export enum ENUM_STEP_LOAN {
     ONE= 0, 
     TW0= 1,
     THREE= 2,
-    DONE= 3,
+    FOUR= 3,
+    FIVE= 4,
+    DONE= 5,
 
 }

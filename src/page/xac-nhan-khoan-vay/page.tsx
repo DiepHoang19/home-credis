@@ -88,7 +88,7 @@ const LoanCalculator = () => {
         case 3: 
         return <StepFour currentLoan={dataLoanUser?.loans?.[0]} setActiveStep={setActiveStep} />
         case 4:
-          return <StepFive />
+          return <StepFive currentLoan={dataLoanUser?.loans?.[0]} />
       default:
         return "";
     }

@@ -22,10 +22,10 @@ export const LoansStepper = ({ activeStep }: { activeStep: number }) => {
   const list = () =>{
     if(activeStep < 2){
       return LOANS_STEPS
-    } if(activeStep === 2){
+    } if(activeStep === 3){
       return [...LOANS_STEPS,INFO_BANK]
     }
-    if(activeStep === 3){
+    if(activeStep === 4){
        return [...LOANS_STEPS,INFO_BANK, SIGN_COMFIRM]
     }
   }
@@ -38,7 +38,7 @@ export const LoansStepper = ({ activeStep }: { activeStep: number }) => {
       sx={{ mt: 2, mb: 4 }}
       
     >
-      {list().map((step, index) => (
+      {list()?.map((step, index) => (
         <Step key={step.key} >
           <StepLabel StepIconComponent={CustomStepIcon}>
             <Typography

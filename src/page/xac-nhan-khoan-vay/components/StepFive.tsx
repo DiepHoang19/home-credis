@@ -4,13 +4,61 @@ import {
   Checkbox,
   FormControlLabel,
   Paper,
-  Typography,
+  Typography,Divider
 } from "@mui/material";
 import SignatureCanvas from "react-signature-canvas";
 import { useRef, useState } from "react";
 import dayjs from "dayjs";
+import { Loan } from "@/services/model/loans";
+import { formatNumber } from "@/helpers";
+interface Props {
+  currentLoan: Loan;
+}
 
-export default function StepFive() {
+const Row = ({
+  label,
+  value,
+  highlight = false,
+}: {
+  label: string;
+  value: string;
+  highlight?: boolean;
+}) => (
+  <Box display="flex" justifyContent="space-between" py={0.75}>
+    <Typography fontWeight={500}>{label}</Typography>
+    <Typography
+      fontWeight={highlight ? "bold" : 400}
+      color={highlight ? "primary" : "text.primary"}
+    >
+      {value}
+    </Typography>
+  </Box>
+);
+
+const LoanDetailSection = ({currentLoan}: Props) => {
+  return (
+    <Paper
+      elevation={1}
+      sx={{ p: 3, mb:2, borderRadius: 1 }}
+    >
+      <Typography variant="h6" fontWeight="bold" gutterBottom>
+        Chi tiết khoản vay của bạn
+      </Typography>
+      <Divider sx={{ mb: 2 }} />
+
+      <Row label="Mã khoản vay:" value={currentLoan.loan_code} highlight />
+      <Row label="Khoản vay:" value="Tiền mặt" />
+      <Row label="Số tiền vay:" value={formatNumber(currentLoan.price)} />
+      <Row label="Thời hạn vay:" value={`${currentLoan.num_months} tháng`} />
+      <Row label="Lãi suất tháng:" value={`${currentLoan.rate}%/ tháng`}/>
+      <Row label="Ngày đăng ký:" value={dayjs(currentLoan.createdAt).format('DD/MM/YYYY')} />
+      <Row label="Giới tính:" value={!!currentLoan.user?.gender ? "Nam": 'Nữ'} />
+    </Paper>
+  );
+};
+
+
+export default function StepFive({currentLoan}: Props) {
   const [isAgree, setIsAgree] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -53,6 +101,7 @@ export default function StepFive() {
         p: 2,
       }}
     >
+        <LoanDetailSection currentLoan={currentLoan}/>
       <Paper variant="outlined" sx={{ p: 3 }}>
         <Typography fontWeight="bold" mb={2}>
           🖋️ Ký xác nhận khoản vay
