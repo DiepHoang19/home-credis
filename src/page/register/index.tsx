@@ -52,7 +52,7 @@ function Register() {
   const {
     handleSubmit,
     formState: { errors, isSubmitting },
-    register,
+    control,
   } = methods;
 
   const [registertMutation] = useMutation(mutationRegister);
@@ -90,23 +90,23 @@ function Register() {
           <Stack spacing={3}>
             <InputCommon
               errors={errors.phone_number}
-              register={register}
+              control={control}
               name="phone_number"
               label="Số điện thoại"
               type="number"
             />
             <InputCommon
-              inputPassowrd
+              inputPassword
               errors={errors.password}
-              register={register}
+              control={control}
               name="password"
               type="password"
               label="Mật khẩu"
             />
             <InputCommon
-              inputPassowrd
+              inputPassword
               errors={errors.confirm_password}
-              register={register}
+              control={control}
               name="confirm_password"
               type="password"
               label="Xác nhận mật khẩu"
