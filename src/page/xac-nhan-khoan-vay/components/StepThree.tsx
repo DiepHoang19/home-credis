@@ -81,7 +81,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
   } = useForm<StepThreeForm>({
     resolver: yupResolver(schema),
     defaultValues: {
-      fullname: currentLoan.user?.fullname || "",
+      fullname: currentLoan.user?.full_name || "",
       cccd: currentLoan.user?.identity_number || "",
       phone: currentLoan?.user?.phone_number || "",
       dob: currentLoan?.user?.date_of_birth
@@ -105,6 +105,8 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
   const userInfo = safeParseJSON(
     (Cookies.get("user_info") || "") as string
   ) as User;
+
+  const allowedit = !currentLoan.user?.full_name;
   const onSubmit = async (data: StepThreeForm) => {
     const relatives = [
       {
@@ -117,7 +119,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
       },
     ];
     const dataUpdateUser = {
-      fullname: data.fullname || "",
+      full_name: data.fullname || "",
       identity_number: data.cccd || "",
       phone_number: data.phone || "",
       date_of_birth: data.dob,
@@ -127,24 +129,26 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
       address: data.address || "",
       relatives,
     };
-    await Promise.all([
-      updateLoans({
-        variables: {
-          id: currentLoan.id, // ID khoản vay
-          data: {
-            purpose: data.purpose,
-            step: 2,
-          },
+    await updateLoans({
+      variables: {
+        id: currentLoan.id, // ID khoản vay
+        data: {
+          purpose: data.purpose,
+          step: 2,
         },
-      }),
+      },
+    });
+
+    if (allowedit) {
       updateUser({
         variables: {
           id: userInfo.id,
           data: dataUpdateUser,
         },
-      }),
-    ]);
-    setActiveStep(3)
+      });
+    }
+
+    setActiveStep(3);
   };
 
   const renderError = (message?: string) =>
@@ -219,6 +223,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   helperText={errors.fullname?.message}
                 />
               )}
+              disabled={!allowedit}
             />
             <Controller
               name="cccd"
@@ -232,6 +237,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   helperText={errors.cccd?.message}
                 />
               )}
+              disabled={!allowedit}
             />
           </Box>
           <Box display="flex" gap={2} mb={2}>
@@ -247,6 +253,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   helperText={errors.phone?.message}
                 />
               )}
+              disabled={!allowedit}
             />
             <Controller
               name="dob"
@@ -257,9 +264,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                     label="Ngày sinh*"
                     value={field.value ? dayjs(field.value) : null}
                     onChange={(date) =>
-                      field.onChange(
-                        date ? dayjs(date).format("YYYY-MM-DD") : ""
-                      )
+                      field.onChange(date ? dayjs(date).toDate() : "")
                     }
                     slotProps={{
                       textField: {
@@ -271,6 +276,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   />
                 </LocalizationProvider>
               )}
+              disabled={!allowedit}
             />
           </Box>
           <Controller
@@ -282,11 +288,11 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                 <Select {...field} label="Giới tính*">
                   <MenuItem value="male">Nam</MenuItem>
                   <MenuItem value="female">Nữ</MenuItem>
-                  <MenuItem value="other">Khác</MenuItem>
                 </Select>
                 {renderError(errors.gender?.message)}
               </FormControl>
             )}
+            disabled={!allowedit}
           />
         </Paper>
 
@@ -314,6 +320,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   helperText={errors.job?.message}
                 />
               )}
+              disabled={!allowedit}
             />
             <Controller
               name="income"
@@ -327,6 +334,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   helperText={errors.income?.message}
                 />
               )}
+              disabled={!allowedit}
             />
           </Box>
           <Box display="flex" gap={2}>
@@ -355,6 +363,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   helperText={errors.address?.message}
                 />
               )}
+              disabled={!allowedit}
             />
           </Box>
         </Paper>
@@ -383,6 +392,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   helperText={errors.relativePhone1?.message}
                 />
               )}
+              disabled={!allowedit}
             />
             <Controller
               name="relativeRelation1"
