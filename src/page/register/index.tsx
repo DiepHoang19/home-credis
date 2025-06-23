@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,9 +8,8 @@ import InputCommon from "@/common/input-common";
 import LoadingButtonCommon from "@/common/loading-button";
 import { useRouter } from "@/hook";
 import { PUBLIC_ROUTER } from "@/router/section";
-import { useMutation } from "@apollo/client";
-import { mutationRegister } from "@/graphql/mutation";
 import { toast } from "sonner";
+import authenService from "@/service/auth.service";
 
 interface PayloadRegister {
   phone_number: string;
@@ -55,28 +54,19 @@ function Register() {
     control,
   } = methods;
 
-  const [registertMutation] = useMutation(mutationRegister);
-
   const onSubmitForm = async (values: PayloadRegister) => {
     const { phone_number, password } = values;
+    const dataRegister = {
+      phone_number,
+      password,
+    };
     try {
-      await registertMutation({
-        variables: {
-          object: { phone_number, password, role_id: 1 },
-        },
-      });
+      await authenService.onRegister(dataRegister);
+      toast.success("Đăng ký tài khoản thành công");
       router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
     } catch (error) {
-      const pgMessage = error?.response?.data?.message || error.message;
-
-      if (
-        pgMessage?.includes("duplicate key value") &&
-        pgMessage?.includes("users_phone_key")
-      ) {
-        toast.warning("Số điện thoại đã được sử dụng");
-      } else {
-        toast.error("Đăng ký thất bại. Vui lòng thử lại!");
-      }
+      console.log("🚀 ~ onSubmitForm ~ error:", error);
+      toast.success("Đăng ký tài khoản thất bại");
     }
   };
 

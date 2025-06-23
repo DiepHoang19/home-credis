@@ -8,11 +8,10 @@ import InputCommon from "@/common/input-common";
 import LoadingButtonCommon from "@/common/loading-button";
 import { useRouter } from "@/hook";
 import { PUBLIC_ROUTER } from "@/router/section";
-import { useLazyQuery } from "@apollo/client";
-import { queryLogin } from "@/graphql/query";
 import { toast } from "sonner";
 import cookies from "js-cookie";
 import { USER_INFO } from "@/contants/contants";
+import authenService from "@/service/auth.service";
 
 interface PayloadLogin {
   phone_number: string;
@@ -50,25 +49,20 @@ function Login() {
     control,
   } = methods;
 
-  const [LoginMutation] = useLazyQuery(queryLogin);
   const router = useRouter();
 
   const onSubmitForm = async (values: PayloadLogin) => {
     const { phone_number, password } = values;
+    const dataLogin = {
+      phone_number,
+      password,
+    };
     try {
-      const data = await LoginMutation({
-        variables: {
-          phone_number,
-          password,
-        },
-      });
-      if (!data.data.users[0]) {
-        toast.warning("Thông tin tài khoản không chính xác");
-        return;
-      }
+      const data = await authenService.onLogin(dataLogin);
       toast.success("Đăng nhập thành công");
-      cookies.set(USER_INFO, JSON.stringify(data.data.users[0]));
-      router.push(PUBLIC_ROUTER.HOME);
+      cookies.set(USER_INFO, JSON.stringify(data.data.data.user));
+      cookies.set("access_token", data.data.data.access_token);
+      window.location.replace(PUBLIC_ROUTER.HOME);
     } catch (error) {
       console.log("err", error);
       toast.error("Đã có lỗi xảy ra,vui lòng thử lại sau");

@@ -25,6 +25,14 @@ interface DialogCommonProps extends DialogProps {
   submitForm?: boolean;
   methods?: any;
   onSubmitForm?: any;
+  color?:
+    | "DEFAULT"
+    | "PRIMARY"
+    | "SECONDARY"
+    | "INFO"
+    | "SUCCESS"
+    | "WARNING"
+    | "ERROR";
 }
 
 function DialogCommon(props: Readonly<DialogCommonProps>) {
@@ -42,6 +50,7 @@ function DialogCommon(props: Readonly<DialogCommonProps>) {
     methods,
     onSubmitForm,
     open,
+    color,
   } = props;
 
   const generateId = useId();
@@ -129,7 +138,7 @@ function DialogCommon(props: Readonly<DialogCommonProps>) {
               {submitText && (
                 <LoadingButtonCommon
                   title={submitText}
-                  color="DEFAULT"
+                  color={color}
                   loading={isLoading}
                   onClick={onSubmit}
                 />
