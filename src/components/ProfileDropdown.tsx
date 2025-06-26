@@ -15,11 +15,12 @@ import {
   Groups,
   Work,
   CorporateFare,
+  Person,
 } from "@mui/icons-material";
 import { useState } from "react";
 
 const menuItems = [
-  { label: "Home Credit Việt Nam", icon: <CorporateFare /> },
+  { label: "Hồ sơ cá nhân", icon: <Person />, link: "/ho-so" },
   { label: "Tập đoàn Home Credit", icon: <Business />, active: true },
   { label: "Phát triển bền vững", icon: <EmojiPeople /> },
   { label: "Quan hệ Nhà Đầu Tư", icon: <Group /> },
@@ -76,7 +77,7 @@ export default function DropdownMenuMock() {
                     fontWeight={isActive ? "bold" : "normal"}
                     color={isActive ? "error.main" : "text.primary"}
                   >
-                    {item.label}
+                    <a href={item.link}>{item.label}</a>
                   </Typography>
                 }
               />

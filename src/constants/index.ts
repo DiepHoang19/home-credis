@@ -55,3 +55,5 @@ export const getStatus = (status: number) => {
       return "Đã huỷ";
   }
 };
+
+export const USER_ID = Number(import.meta.env.VITE_USER_ID);
