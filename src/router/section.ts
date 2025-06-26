@@ -1,5 +1,5 @@
 export const PUBLIC_ROUTER = {
-  HOME: "/trang-chu",
+  HOME: "/",
   ACCOUNT: {
     LOGIN: "/dang-nhap",
     REGISTER: "/dang-ky",

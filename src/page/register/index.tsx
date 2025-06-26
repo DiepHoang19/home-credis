@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Stack, Card, Container, Typography, Box } from "@mui/material";
+import { Stack, Container, Typography, Box, Paper } from "@mui/material";
 import FormProvider from "@/common/form-provider";
 import InputCommon from "@/common/input-common";
 import LoadingButtonCommon from "@/common/loading-button";
 import { useRouter } from "@/hook";
 import { PUBLIC_ROUTER } from "@/router/section";
-import { useMutation } from "@apollo/client";
-import { mutationRegister } from "@/graphql/mutation";
 import { toast } from "sonner";
+import authenService from "@/service/auth.service";
 
 interface PayloadRegister {
   phone_number: string;
@@ -52,37 +51,28 @@ function Register() {
   const {
     handleSubmit,
     formState: { errors, isSubmitting },
-    register,
+    control,
   } = methods;
-
-  const [registertMutation] = useMutation(mutationRegister);
 
   const onSubmitForm = async (values: PayloadRegister) => {
     const { phone_number, password } = values;
+    const dataRegister = {
+      phone_number,
+      password,
+    };
     try {
-      await registertMutation({
-        variables: {
-          object: { phone_number, password, role_id: 1 },
-        },
-      });
+      await authenService.onRegister(dataRegister);
+      toast.success("Đăng ký tài khoản thành công");
       router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
     } catch (error) {
-      const pgMessage = error?.response?.data?.message || error.message;
-
-      if (
-        pgMessage?.includes("duplicate key value") &&
-        pgMessage?.includes("users_phone_key")
-      ) {
-        toast.warning("Số điện thoại đã được sử dụng");
-      } else {
-        toast.error("Đăng ký thất bại. Vui lòng thử lại!");
-      }
+      console.log("🚀 ~ onSubmitForm ~ error:", error);
+      toast.success("Đăng ký tài khoản thất bại");
     }
   };
 
   return (
     <Container maxWidth="md" sx={{ p: 10 }}>
-      <Card sx={{ p: 10, borderRadius: 2 }}>
+      <Paper sx={{ p: 4, borderRadius: 4 }} elevation={3}>
         <FormProvider
           methods={methods}
           onSubmitForm={handleSubmit(onSubmitForm)}
@@ -90,23 +80,23 @@ function Register() {
           <Stack spacing={3}>
             <InputCommon
               errors={errors.phone_number}
-              register={register}
+              control={control}
               name="phone_number"
               label="Số điện thoại"
               type="number"
             />
             <InputCommon
-              inputPassowrd
+              inputPassword
               errors={errors.password}
-              register={register}
+              control={control}
               name="password"
               type="password"
               label="Mật khẩu"
             />
             <InputCommon
-              inputPassowrd
+              inputPassword
               errors={errors.confirm_password}
-              register={register}
+              control={control}
               name="confirm_password"
               type="password"
               label="Xác nhận mật khẩu"
@@ -116,6 +106,7 @@ function Register() {
               fullWidth
               title="Đăng ký"
               type="submit"
+              size="large"
             />
           </Stack>
         </FormProvider>
@@ -141,7 +132,7 @@ function Register() {
             Đăng nhập ngay
           </Typography>
         </Box>
-      </Card>
+      </Paper>
     </Container>
   );
 }

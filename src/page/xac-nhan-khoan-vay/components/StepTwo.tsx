@@ -62,8 +62,7 @@ export default function StepTwo(props: Props) {
       if (!file) return;
 
       const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "ml_default");
+      formData.append("image", file);
 
       const res = await uploadServices.uploadImage(formData);
 
@@ -74,7 +73,7 @@ export default function StepTwo(props: Props) {
 
       setInfo({
         ...info,
-        [field]: res.data.url,
+        [field]: res.data.imageUrl,
       });
     } catch (error) {}
 

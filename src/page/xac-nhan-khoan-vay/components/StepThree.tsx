@@ -1,28 +1,20 @@
 import { formatNumber, safeParseJSON } from "@/helpers";
 import { Loan } from "@/services/model/loans";
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useForm, Controller } from "react-hook-form";
+import { Box, Container, Grid, Paper, Typography } from "@mui/material";
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs, { Dayjs } from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 import { UPDATE_USER } from "@/services/graphql/user-gql";
 import { UPDATE_LOANS } from "@/services/graphql/loans-gql";
 import { useMutation } from "@apollo/client";
 import { User } from "@/services/model/user";
 import Cookies from "js-cookie";
+import ButtonCommon from "@/common/button-common";
+import FormProvider from "@/common/form-provider";
+import InputCommon from "@/common/input-common";
+import DatePickerCommon from "@/common/date-picker";
+import SelectCommon from "@/common/select-common";
 
 interface Props {
   currentLoan: Loan;
@@ -74,34 +66,42 @@ const schema = yup.object().shape({
 });
 
 export default function StepThree({ currentLoan, setActiveStep }: Props) {
+  console.log("currentLoan?.user?.gender", currentLoan?.user);
+  const defaultValues = {
+    fullname: currentLoan.user?.full_name || "",
+    cccd: currentLoan.user?.identity_number || "",
+    phone: currentLoan?.user?.phone_number || "",
+    dob: currentLoan?.user?.date_of_birth
+      ? dayjs(currentLoan?.user?.date_of_birth).toDate()
+      : null,
+    gender: currentLoan?.user?.gender ? "male" : "female",
+    job: currentLoan?.user?.job || "",
+    income: currentLoan?.user?.income || 0,
+    purpose: "",
+    address: currentLoan?.user?.address || "",
+    relativePhone1: currentLoan?.user?.relatives?.[0]?.phone || "",
+    relativeRelation1: currentLoan?.user?.relatives?.[0]?.relationship || "",
+    relativePhone2: currentLoan?.user?.relatives?.[1]?.phone || "",
+    relativeRelation2: currentLoan?.user?.relatives?.[1]?.relationship || "",
+  };
+
+  const methods = useForm({
+    resolver: yupResolver(schema),
+    defaultValues,
+  });
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<StepThreeForm>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      fullname: currentLoan.user?.full_name || "",
-      cccd: currentLoan.user?.identity_number || "",
-      phone: currentLoan?.user?.phone_number || "",
-      dob: currentLoan?.user?.date_of_birth
-        ? dayjs(currentLoan?.user?.date_of_birth).toDate()
-        : null,
-      gender: currentLoan?.user?.gender ? "male" : "female",
-      job: currentLoan?.user?.job || "",
-      income: currentLoan?.user?.income || 0,
-      purpose: "",
-      address: currentLoan?.user?.address || "",
-      relativePhone1: currentLoan?.user?.relatives?.[0]?.phone || "",
-      relativeRelation1: currentLoan?.user?.relatives?.[0]?.relationship || "",
-      relativePhone2: currentLoan?.user?.relatives?.[1]?.phone || "",
-      relativeRelation2: currentLoan?.user?.relatives?.[1]?.relationship || "",
-    },
-  });
+    register,
+  } = methods;
 
   const [updateLoans, { loading: loadingUpdateLoan }] =
     useMutation(UPDATE_LOANS);
+
   const [updateUser, { loading }] = useMutation(UPDATE_USER);
+
   const userInfo = safeParseJSON(
     (Cookies.get("user_info") || "") as string
   ) as User;
@@ -151,44 +151,41 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
     setActiveStep(3);
   };
 
-  const renderError = (message?: string) =>
-    message ? (
-      <Typography color="error" fontSize={12}>
-        {message}
-      </Typography>
-    ) : null;
+  const optionGender = [
+    {
+      id: 1,
+      label: "Nam",
+      value: 0,
+    },
+    {
+      id: 2,
+      label: "Nữ",
+      value: 1,
+    },
+  ];
 
   return (
-    <Box
-      sx={{
-        display: "block",
-        width: "700px",
-        mx: "auto",
-        my: 4,
-        p: 3,
-        backgroundColor: "#fff",
-      }}
-    >
+    <Container maxWidth="md">
       <Paper
-        elevation={1}
-        sx={{ p: 2, mb: 3, borderLeft: "4px solid #0066b3" }}
+        elevation={2}
+        sx={{ p: 2, mb: 3, borderLeft: "4px solid #0066b3", borderRadius: 2 }}
       >
         <Typography fontWeight="bold" mb={1} color="#0066b3">
           Thông tin khoản vay đã chọn
         </Typography>
-        <div className="flex justify-between ">
+        <div className="flex justify-between">
           <div className="w-[250px]">
             <Typography variant="body2" className="flex justify-between">
               Sản phẩm: <strong>Tiền mặt</strong>
             </Typography>
             <Typography variant="body2" className="flex justify-between">
-              Số tiền vay:{" "}
+              Số tiền vay:
               <strong>{formatNumber(currentLoan?.price || 0)} VND</strong>
             </Typography>
           </div>
           <div className="w-[250px]">
             <Typography variant="body2" className="flex justify-between">
-              Thời hạn vay:{" "}
+              Thời hạn vay:
               <strong>{currentLoan?.num_months || 0} tháng</strong>
             </Typography>
             <Typography variant="body2" className="flex justify-between">
@@ -198,9 +195,9 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
         </div>
       </Paper>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods} onSubmitForm={handleSubmit(onSubmit)}>
         {/* Thông tin cơ bản */}
-        <Paper elevation={1} sx={{ p: 2, mb: 3 }}>
+        <Paper elevation={2} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
           <Typography
             fontWeight="bold"
             mb={3}
@@ -210,94 +207,54 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
           >
             Thông tin cơ bản
           </Typography>
-          <Box display="flex" gap={2} mb={2}>
-            <Controller
-              name="fullname"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="Họ và tên*"
-                  error={!!errors.fullname}
-                  helperText={errors.fullname?.message}
-                />
-              )}
-              disabled={!allowedit}
-            />
-            <Controller
-              name="cccd"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="Số CMND / CCCD*"
-                  error={!!errors.cccd}
-                  helperText={errors.cccd?.message}
-                />
-              )}
-              disabled={!allowedit}
-            />
-          </Box>
-          <Box display="flex" gap={2} mb={2}>
-            <Controller
-              name="phone"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="Điện thoại di động*"
-                  error={!!errors.phone}
-                  helperText={errors.phone?.message}
-                />
-              )}
-              disabled={!allowedit}
-            />
-            <Controller
-              name="dob"
-              control={control}
-              render={({ field }) => (
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Ngày sinh*"
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) =>
-                      field.onChange(date ? dayjs(date).toDate() : "")
-                    }
-                    slotProps={{
-                      textField: {
-                        fullWidth: true,
-                        error: !!errors.dob,
-                        helperText: errors.dob?.message,
-                      },
-                    }}
-                  />
-                </LocalizationProvider>
-              )}
-              disabled={!allowedit}
-            />
-          </Box>
-          <Controller
-            name="gender"
-            control={control}
-            render={({ field }) => (
-              <FormControl fullWidth error={!!errors.gender}>
-                <InputLabel>Giới tính</InputLabel>
-                <Select {...field} label="Giới tính*">
-                  <MenuItem value="male">Nam</MenuItem>
-                  <MenuItem value="female">Nữ</MenuItem>
-                </Select>
-                {renderError(errors.gender?.message)}
-              </FormControl>
-            )}
-            disabled={!allowedit}
-          />
+          <Grid container size={12} spacing={3} mb={4}>
+            <Grid size={{ md: 6, xs: 12 }}>
+              <InputCommon
+                control={control}
+                name="full_name"
+                label="Họ và tên*"
+                errors={errors.fullname}
+              />
+            </Grid>
+            <Grid size={{ md: 6, xs: 12 }}>
+              <InputCommon
+                control={control}
+                name="cccd"
+                label="Số CMND / CCCD*"
+                errors={errors.cccd}
+                type="number"
+              />
+            </Grid>
+            <Grid size={{ md: 6, xs: 12 }}>
+              <InputCommon
+                control={control}
+                name="phone"
+                label="Điện thoại di động*"
+                errors={errors.phone}
+                type="number"
+              />
+            </Grid>
+            <Grid size={{ md: 6, xs: 12 }}>
+              <DatePickerCommon
+                name="dob"
+                errors={errors.dob}
+                control={control}
+              />
+            </Grid>
+            <Grid size={12}>
+              <SelectCommon
+                errors={errors.gender}
+                name="gender"
+                label="Giới tính"
+                control={control}
+                optionSelect={optionGender}
+              />
+            </Grid>
+          </Grid>
         </Paper>
 
         {/* Thông tin nghề nghiệp */}
-        <Paper elevation={1} sx={{ p: 2, mb: 3 }}>
+        <Paper elevation={2} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
           <Typography
             fontWeight="bold"
             mb={3}
@@ -307,69 +264,49 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
           >
             Thông tin nghề nghiệp
           </Typography>
-          <Box display="flex" gap={2} mb={2}>
-            <Controller
-              name="job"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="Nghề nghiệp*"
-                  error={!!errors.job}
-                  helperText={errors.job?.message}
-                />
-              )}
-              disabled={!allowedit}
-            />
-            <Controller
-              name="income"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="Khoản thu nhập*"
-                  error={!!errors.income}
-                  helperText={errors.income?.message}
-                />
-              )}
-              disabled={!allowedit}
-            />
-          </Box>
-          <Box display="flex" gap={2}>
-            <Controller
-              name="purpose"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="Mục đích vay*"
-                  error={!!errors.purpose}
-                  helperText={errors.purpose?.message}
-                />
-              )}
-            />
-            <Controller
-              name="address"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="Địa chỉ*"
-                  error={!!errors.address}
-                  helperText={errors.address?.message}
-                />
-              )}
-              disabled={!allowedit}
-            />
-          </Box>
+          <Grid container size={12} spacing={3} mb={4}>
+            <Grid size={{ md: 6, xs: 12 }}>
+              <InputCommon
+                name="job"
+                errors={errors.job}
+                label="Nghề nghiệp"
+                control={control}
+              />
+            </Grid>
+            <Grid size={{ md: 6, xs: 12 }}>
+              <InputCommon
+                name="income"
+                errors={errors.income}
+                label="Khoản thu nhập*"
+                control={control}
+                type="number"
+              />
+            </Grid>
+            <Grid size={{ md: 6, xs: 12 }}>
+              <InputCommon
+                multiline
+                rows={5}
+                name="purpose"
+                errors={errors.purpose}
+                label="Mục đích vay*"
+                control={control}
+              />
+            </Grid>
+            <Grid size={{ md: 6, xs: 12 }}>
+              <InputCommon
+                multiline
+                rows={5}
+                name="address"
+                label="Địa chỉ*"
+                errors={errors.purpose}
+                control={control}
+              />
+            </Grid>
+          </Grid>
         </Paper>
 
         {/* Thông tin người thân */}
-        <Paper elevation={1} sx={{ p: 2 }}>
+        <Paper elevation={2} sx={{ p: 2, borderRadius: 2 }}>
           <Typography
             fontWeight="bold"
             mb={3}
@@ -379,63 +316,51 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
           >
             Thông tin người thân
           </Typography>
-          <Box display="flex" gap={2} mb={2}>
-            <Controller
-              name="relativePhone1"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
+          <Grid container size={12}>
+            <Grid container size={12} spacing={3} mb={4}>
+              <Grid size={{ md: 6, xs: 12 }}>
+                <InputCommon
+                  name="relativePhone1"
+                  errors={errors.relativePhone1}
                   label="SDT người thân 1*"
-                  error={!!errors.relativePhone1}
-                  helperText={errors.relativePhone1?.message}
+                  control={control}
                 />
-              )}
-              disabled={!allowedit}
-            />
-            <Controller
-              name="relativeRelation1"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
+              </Grid>
+              <Grid size={{ md: 6, xs: 12 }}>
+                <InputCommon
+                  name="relativeRelation1"
+                  errors={errors.relativeRelation1}
                   label="Mối quan hệ người thân 1*"
-                  error={!!errors.relativeRelation1}
-                  helperText={errors.relativeRelation1?.message}
+                  control={control}
+                  type="number"
                 />
-              )}
-            />
-          </Box>
-          <Box display="flex" gap={2}>
-            <Controller
-              name="relativePhone2"
-              control={control}
-              render={({ field }) => (
-                <TextField {...field} fullWidth label="SDT người thân 2" />
-              )}
-            />
-            <Controller
-              name="relativeRelation2"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
+              </Grid>
+              <Grid size={{ md: 6, xs: 12 }}>
+                <InputCommon
+                  name="relativePhone2"
+                  errors={errors.relativeRelation1}
+                  label="SDT người thân 2"
+                  control={control}
+                  type="number"
+                />
+              </Grid>
+              <Grid size={{ md: 6, xs: 12 }}>
+                <InputCommon
+                  name="relativeRelation2"
+                  errors={errors.relativeRelation1}
                   label="Mối quan hệ người thân 2"
+                  control={control}
+                  type="number"
                 />
-              )}
-            />
-          </Box>
+              </Grid>
+            </Grid>
+          </Grid>
         </Paper>
 
         <Box textAlign="center" mt={4}>
-          <Button variant="contained" size="large" type="submit">
-            HOÀN TẤT ĐĂNG KÝ VAY
-          </Button>
+          <ButtonCommon type="submit" title="HOÀN TẤT ĐĂNG KÝ VAY" />
         </Box>
-      </form>
-    </Box>
+      </FormProvider>
+    </Container>
   );
 }

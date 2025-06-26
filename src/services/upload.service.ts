@@ -4,21 +4,22 @@
 import axios from "axios";
 
 const API_ENDPOINT = {
-  CREATE: "/image/upload",
+  CREATE: "/upload/image",
   CREATE_AUDIO: "/video/upload",
-
 };
 
 const BASE_URL_SERVER_UPLOAD = import.meta.env.VITE_BASE_URL_UPLOAD;
 
 class UploadServices {
   uploadImage = async (data: any) => {
-    console.log("data", data);
     return await axios.post(BASE_URL_SERVER_UPLOAD + API_ENDPOINT.CREATE, data);
   };
-    uploadAudio = async (data: any) => {
+  uploadAudio = async (data: any) => {
     console.log("data", data);
-    return await axios.post(BASE_URL_SERVER_UPLOAD + API_ENDPOINT.CREATE_AUDIO, data);
+    return await axios.post(
+      BASE_URL_SERVER_UPLOAD + API_ENDPOINT.CREATE_AUDIO,
+      data
+    );
   };
 }
 
