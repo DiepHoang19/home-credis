@@ -71,6 +71,9 @@ function Login() {
 
   return (
     <Container maxWidth="md" sx={{ p: 10 }}>
+      <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
+        Đăng nhập tài khoản
+      </h2>
       <Paper sx={{ p: 4, borderRadius: 4 }} elevation={2}>
         <FormProvider
           methods={methods}
