@@ -64,8 +64,9 @@ function Login() {
       cookies.set("access_token", data.data.data.access_token);
       window.location.replace(PUBLIC_ROUTER.HOME);
     } catch (error) {
-      console.log("err", error);
-      toast.error("Đã có lỗi xảy ra,vui lòng thử lại sau");
+      toast.error(
+        error.response.data.message || "Đã có lỗi xảy ra,vui lòng thử lại sau"
+      );
     }
   };
 

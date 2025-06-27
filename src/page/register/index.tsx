@@ -65,8 +65,7 @@ function Register() {
       toast.success("Đăng ký tài khoản thành công");
       router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
     } catch (error) {
-      console.log("🚀 ~ onSubmitForm ~ error:", error);
-      toast.error("Đăng ký tài khoản thất bại");
+      toast.error(error.response.data.message || "Đăng ký tài khoản thất bại");
     }
   };
 
