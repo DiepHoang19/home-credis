@@ -64,13 +64,17 @@ function Login() {
       cookies.set("access_token", data.data.data.access_token);
       window.location.replace(PUBLIC_ROUTER.HOME);
     } catch (error) {
-      console.log("err", error);
-      toast.error("Đã có lỗi xảy ra,vui lòng thử lại sau");
+      toast.error(
+        error.response.data.message || "Đã có lỗi xảy ra,vui lòng thử lại sau"
+      );
     }
   };
 
   return (
     <Container maxWidth="md" sx={{ p: 10 }}>
+      <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
+        Đăng nhập tài khoản
+      </h2>
       <Paper sx={{ p: 4, borderRadius: 4 }} elevation={2}>
         <FormProvider
           methods={methods}

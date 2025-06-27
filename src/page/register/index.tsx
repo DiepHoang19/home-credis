@@ -65,13 +65,15 @@ function Register() {
       toast.success("Đăng ký tài khoản thành công");
       router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
     } catch (error) {
-      console.log("🚀 ~ onSubmitForm ~ error:", error);
-      toast.success("Đăng ký tài khoản thất bại");
+      toast.error(error.response.data.message || "Đăng ký tài khoản thất bại");
     }
   };
 
   return (
     <Container maxWidth="md" sx={{ p: 10 }}>
+      <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
+        Đăng ký tài khoản
+      </h2>
       <Paper sx={{ p: 4, borderRadius: 4 }} elevation={3}>
         <FormProvider
           methods={methods}
