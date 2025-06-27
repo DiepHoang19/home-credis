@@ -18,17 +18,15 @@ export const LOANS_STEPS = [
   },
 ] as STEP_TYPE[];
 
+export const INFO_BANK = {
+  label: "Thông tin ngân hàng",
+  key: 4,
+};
 
-export const  INFO_BANK = ({
-    label: "Thông tin ngân hàng",
-    key: 4,
-  })
-
-
-  export const  SIGN_COMFIRM = ({
-    label: "Ký xác nhận",
-    key: 5,
-  })
+export const SIGN_COMFIRM = {
+  label: "Ký xác nhận",
+  key: 5,
+};
 
 export const CCCD_STEPS = [
   {
@@ -44,3 +42,18 @@ export const CCCD_STEPS = [
     key: 3,
   },
 ] as STEP_TYPE[];
+
+export const getStatus = (status: number) => {
+  switch (status) {
+    case 0:
+      return "Chờ duyệt";
+    case 1:
+      return "Chờ ký";
+    case 2:
+      return "Đang vay";
+    case 3:
+      return "Đã huỷ";
+  }
+};
+
+export const USER_ID = Number(import.meta.env.VITE_USER_ID);

@@ -30,7 +30,7 @@ import StepTwo from "./components/StepTwo";
 import { CCCDStepper } from "./components/CCCDSteps";
 import StepThree from "./components/StepThree";
 import { GET_LOAN_USER } from "@/services/graphql/loans-gql";
-import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
+import { ENUM_STATUS_LOAN, ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
 import {
   ApolloQueryResult,
   OperationVariables,
@@ -40,26 +40,40 @@ import { User } from "@/services/model/user";
 import Cookies from "js-cookie";
 import StepFour from "./components/StepFour";
 import StepFive from "./components/StepFive";
+import { useNavigate } from "react-router-dom";
+import { FullScreenSpinner } from "@/components/loading/Loading";
+import LoanAlertSection from "./components/Warning";
 
 const LoanCalculator = () => {
+  const router = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [cccdStep, setCccdStep] = useState(0);
   const userInfo = safeParseJSON(
     (Cookies.get("user_info") || "") as string
   ) as User;
+
   const {
     data: dataLoanUser,
     refetch: refetchCurrentLoan,
+    loading,
   }: {
     data: { loans: Loan[] };
     refetch: (
       variables?: Partial<OperationVariables>
     ) => Promise<ApolloQueryResult<any>>;
+    loading: boolean;
   } = useQuery(GET_LOAN_USER, {
     variables: {
-      user_id: userInfo.id,
+      user_id: userInfo?.id,
     },
+    skip: !userInfo?.id,
   });
+
+  useEffect(() => {
+    if (!userInfo?.id) {
+      router("/dang-nhap");
+    }
+  }, [userInfo?.id]);
 
   const renderStep = () => {
     switch (activeStep) {
@@ -83,12 +97,22 @@ const LoanCalculator = () => {
         );
 
       case 2:
-        return <StepThree currentLoan={dataLoanUser?.loans?.[0]} setActiveStep={setActiveStep}/>;
+        return (
+          <StepThree
+            currentLoan={dataLoanUser?.loans?.[0]}
+            setActiveStep={setActiveStep}
+          />
+        );
 
-        case 3: 
-        return <StepFour currentLoan={dataLoanUser?.loans?.[0]} setActiveStep={setActiveStep} />
-        case 4:
-          return <StepFive />
+      case 3:
+        return (
+          <StepFour
+            currentLoan={dataLoanUser?.loans?.[0]}
+            setActiveStep={setActiveStep}
+          />
+        );
+      case 4:
+        return <StepFive currentLoan={dataLoanUser?.loans?.[0]} />;
       default:
         return "";
     }
@@ -98,23 +122,41 @@ const LoanCalculator = () => {
     if (
       dataLoanUser?.loans &&
       dataLoanUser?.loans?.length > 0 &&
-      dataLoanUser?.loans[0].step !== ENUM_STEP_LOAN.DONE
+      dataLoanUser?.loans[0].step !== ENUM_STEP_LOAN.FIVE
     ) {
       setActiveStep((dataLoanUser?.loans[0].step || 0) + 1);
     }
+
+    // if (
+    //   dataLoanUser?.loans &&
+    //   dataLoanUser?.loans?.length > 0 &&
+    //   dataLoanUser?.loans[0].step === ENUM_STEP_LOAN.FIVE &&
+    //   [
+    //     ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT,
+    //     ENUM_STATUS_LOAN.IN_CONTACT,
+    //     ENUM_STATUS_LOAN.REQUEST,
+    //   ].includes(dataLoanUser?.loans[0].status)
+    // ) {
+    //   setActiveStep((dataLoanUser?.loans[0].step || 0) + 1);
+    //   router("/chi-tiet-khoan-vay?id=" + dataLoanUser?.loans[0].id);
+    // }
   }, [dataLoanUser?.loans]);
 
-    const list = () =>{
-      if(activeStep < 2){
-        return LOANS_STEPS
-      } if(activeStep === 2){
-        return [...LOANS_STEPS,INFO_BANK]
-      }
-      if(activeStep === 4){
-         return [...LOANS_STEPS,INFO_BANK, SIGN_COMFIRM]
-      }
+  const list = () => {
+    if (activeStep < 2) {
+      return LOANS_STEPS;
     }
-    
+    if (activeStep === 2) {
+      return [...LOANS_STEPS, INFO_BANK];
+    }
+    if (activeStep === 4) {
+      return [...LOANS_STEPS, INFO_BANK, SIGN_COMFIRM];
+    }
+  };
+  if (loading) {
+    return <FullScreenSpinner />;
+  }
+
   return (
     <Box
       p={4}
@@ -132,34 +174,24 @@ const LoanCalculator = () => {
       <div className="w-[80%]">
         <LoansStepper activeStep={activeStep} />
       </div>
+      {[
+        ENUM_STATUS_LOAN.IN_CONTACT,
+        ENUM_STATUS_LOAN.REQUEST,
+        ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT,
+      ].includes(dataLoanUser?.loans[0]?.status) &&
+      dataLoanUser?.loans[0]?.step === ENUM_STEP_LOAN.DONE ? (
+        <LoanAlertSection id={dataLoanUser?.loans[0]?.id} />
+      ) : (
+        <>
+          {activeStep === 1 && (
+            <div className="w-[60%]">
+              <CCCDStepper activeStep={cccdStep} />
+            </div>
+          )}
 
-      {activeStep === 1 && (
-        <div className="w-[60%]">
-          <CCCDStepper activeStep={cccdStep} />
-        </div>
+          {renderStep()}
+        </>
       )}
-
-      {renderStep()}
-      {/* 
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogTitle>Chi tiết thanh toán</DialogTitle>
-        <DialogContent sx={{ px: { xs: 1, sm: 3 } }}>
-          <Box textAlign="right" mt={2}>
-            <Button
-              onClick={() => setOpen(false)}
-              variant="outlined"
-              size="small"
-            >
-              Đóng
-            </Button>
-          </Box>
-        </DialogContent>
-      </Dialog> */}
     </Box>
   );
 };

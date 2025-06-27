@@ -229,8 +229,8 @@ export const StepOne = (props: Props) => {
             p={2}
             sx={{
               width: {
-                xs: "100%", // mobile
-                sm: 600, // từ breakpoint "sm" (≥600px) trở lên
+                xs: "100%",
+                sm: 600,
               },
             }}
           >

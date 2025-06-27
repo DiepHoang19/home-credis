@@ -22,6 +22,9 @@ import {
 import { Loan } from "@/services/model/loans";
 import ButtonCommon from "@/common/button-common";
 import { toast } from "sonner";
+import { ENUM_STEP_LOAN } from "@/services/model/loans";
+import { UPDATE_USER } from "@/services/graphql/user-gql";
+import { userInfo } from "os";
 
 interface Props {
   setActiveStep: (value: number) => void;
@@ -51,6 +54,7 @@ export default function StepTwo(props: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [updateLoans, { data, loading }] = useMutation(UPDATE_LOANS);
+  const [updateUser, { loading: loadingUpdateUser }] = useMutation(UPDATE_USER);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -117,10 +121,22 @@ export default function StepTwo(props: Props) {
               identity_image_back: info.cccd_after,
               identity_image_front: info.cccd_before,
               portrait: info.avatar,
-              step: 1,
+              step: ENUM_STEP_LOAN.TW0,
             },
           },
         });
+
+        if (!currentLoan?.user?.identity_image_back) {
+          updateUser({
+            variables: {
+              id: currentLoan?.user?.id,
+              data: {
+                identity_image_front: info.cccd_before,
+                identity_image_back: info.cccd_after,
+              },
+            },
+          });
+        }
         refetchCurrentLoan();
         setActiveStep(2);
       } catch (error) {
@@ -272,9 +288,9 @@ export default function StepTwo(props: Props) {
         mb={2}
         textAlign="center"
       >
-        {cccdStep === 0 && "UPLOAD CMND/CCCD MẶT TRƯỚC"}
-        {cccdStep === 1 && "UPLOAD CMND/CCCD MẶT SAU"}
-        {cccdStep === 2 && "UPLOAD ẢNH CHÂN DUNG"}
+        {cccdStep === 0 && "TẢI CMND/CCCD MẶT TRƯỚC"}
+        {cccdStep === 1 && "TẢI CMND/CCCD MẶT SAU"}
+        {cccdStep === 2 && "TẢI ẢNH CHÂN DUNG"}
       </Typography>
       {currentImage ? (
         <Box display="flex" justifyContent="center">

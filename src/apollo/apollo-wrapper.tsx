@@ -9,6 +9,9 @@ import {
   InMemoryCache,
   ApolloProvider,
 } from "@apollo/client";
+import ChatMessage from "@/chat";
+import store from "@/redux/store";
+import { Provider } from "react-redux";
 
 const urlHasura = import.meta.env.VITE_HASURA_LINK;
 const hasuraKey = import.meta.env.VITE_HASURA_KEY;
@@ -55,5 +58,13 @@ const client = new ApolloClient({
 });
 
 export function ApolloWrapper({ children }: { children: React.ReactNode }) {
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+  return (
+    <Provider store={store}>
+      <ApolloProvider client={client}>
+        {children}
+
+        <ChatMessage />
+      </ApolloProvider>
+    </Provider>
+  );
 }

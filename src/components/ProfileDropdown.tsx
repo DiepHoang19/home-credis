@@ -14,7 +14,12 @@ import { USER_INFO } from "@/contants/contants";
 import { useRouter } from "@/hook";
 
 const menuItems = [
-  { label: "Thông tin cá nhân", icon: <CorporateFare />, key: "profile" },
+  {
+    label: "Thông tin cá nhân",
+    icon: <CorporateFare />,
+    key: "ho-so",
+    link: "/ho-so",
+  },
   { label: "Đăng xuất", icon: <EmojiPeople />, key: "logout" },
 ];
 
@@ -80,6 +85,7 @@ export default function DropdownMenuMock() {
                       {item.label}
                     </Typography>
                   }
+                  onClick={() => !!item.link && router.push(item.link)}
                 />
               </ListItemButton>
             );
