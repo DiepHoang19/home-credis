@@ -20,6 +20,8 @@ import {
   useMutation,
 } from "@apollo/client";
 import { Loan } from "@/services/model/loans";
+import ButtonCommon from "@/common/button-common";
+import { toast } from "sonner";
 
 interface Props {
   setActiveStep: (value: number) => void;
@@ -94,6 +96,10 @@ export default function StepTwo(props: Props) {
   const currentImage = info[getImageField() as keyof typeof info];
 
   const onSubmit = async () => {
+    if (!info.cccd_before || !info.cccd_after) {
+      toast.warning("Vui lòng tải lên đầy đủ ảnh căn cước công dân");
+      return;
+    }
     if (cccdStep === 0 && info.cccd_before) {
       setCccdStep(1);
     }
@@ -303,9 +309,7 @@ export default function StepTwo(props: Props) {
         renderInputUpload()
       )}
       <Box textAlign="center" mt={3}>
-        <Button variant="contained" size="large" onClick={onSubmit}>
-          TIẾP TỤC
-        </Button>
+        <ButtonCommon onClick={onSubmit}>TIẾP TỤC</ButtonCommon>
       </Box>
     </Box>
   );

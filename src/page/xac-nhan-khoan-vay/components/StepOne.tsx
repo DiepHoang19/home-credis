@@ -1,11 +1,22 @@
+import ButtonCommon from "@/common/button-common";
 import DialogCommon from "@/common/dialog-common";
-import { formatNumber, generateCode, parseFormattedNumber, safeParseJSON } from "@/helpers";
+import {
+  formatNumber,
+  generateCode,
+  parseFormattedNumber,
+  safeParseJSON,
+} from "@/helpers";
 import { GET_LOANS_CONFIGS } from "@/services/graphql/loans-config-gql";
 import { CREATE_LOANS, GET_LOAN_USER } from "@/services/graphql/loans-gql";
 import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
 import { LoansConfig } from "@/services/model/loansconfig";
 import { User } from "@/services/model/user";
-import { ApolloQueryResult, OperationVariables, useMutation, useQuery } from "@apollo/client";
+import {
+  ApolloQueryResult,
+  OperationVariables,
+  useMutation,
+  useQuery,
+} from "@apollo/client";
 import {
   Alert,
   TextField,
@@ -19,6 +30,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Container,
 } from "@mui/material";
 import dayjs from "dayjs";
 import Cookies from "js-cookie";
@@ -26,7 +38,9 @@ import { useEffect, useState } from "react";
 
 interface Props {
   setActiveStep: (value: number) => void;
-  refetchCurrentLoan: (variables?: Partial<OperationVariables>) => Promise<ApolloQueryResult<any>>
+  refetchCurrentLoan: (
+    variables?: Partial<OperationVariables>
+  ) => Promise<ApolloQueryResult<any>>;
 }
 export const StepOne = (props: Props) => {
   const { setActiveStep, refetchCurrentLoan } = props;
@@ -112,7 +126,7 @@ export const StepOne = (props: Props) => {
         user_id: userInfo.id,
         detail: getMonthlyDetails(),
         step: 0,
-        loan_code: generateCode(userInfo.id)
+        loan_code: generateCode(userInfo.id),
       },
     ];
 
@@ -122,7 +136,7 @@ export const StepOne = (props: Props) => {
           data: inputData,
         },
       });
-      refetchCurrentLoan()
+      refetchCurrentLoan();
       console.log("Số dòng được thêm:", result.data.insert_loans.affected_rows);
     } catch (err) {
       console.error("Lỗi khi tạo loan:", err);
@@ -141,10 +155,9 @@ export const StepOne = (props: Props) => {
     }
   }, [data?.loans_config]);
 
-
   return (
-    <>
-      <div className="md:w-[70vw] border py-10 px-2 md:px-0">
+    <Container>
+      <div className="border py-10 px-2 md:px-0">
         {!!message && (
           <div className="w-full flex justify-center mb-5">
             <div className="w-full md:!w-[600px]">
@@ -153,7 +166,7 @@ export const StepOne = (props: Props) => {
           </div>
         )}
 
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center rounded-lg">
           <div className="md:!w-[600px]">
             <Box display="flex" flexDirection="column" gap={2}>
               <Box>
@@ -262,7 +275,7 @@ export const StepOne = (props: Props) => {
               },
             }}
           >
-            <Button
+            {/* <Button
               variant="contained"
               color="primary"
               size="large"
@@ -270,7 +283,10 @@ export const StepOne = (props: Props) => {
               onClick={onSubmit}
             >
               TIẾP TỤC
-            </Button>
+            </Button> */}
+            <ButtonCommon fullWidth onClick={onSubmit}>
+              TIẾP TỤC
+            </ButtonCommon>
           </Box>
         </div>
       </div>
@@ -281,34 +297,56 @@ export const StepOne = (props: Props) => {
         title="Thông tin vay chi tiết"
         closeText="Đóng"
         footerAction
+        fullWidth
+        maxWidth="md"
       >
         <Box sx={{ overflowX: "auto" }}>
           <Table size="small">
             <TableHead>
               <TableRow>
-                <TableCell>Kỳ</TableCell>
-                <TableCell>Ngày trả nợ</TableCell>
-                <TableCell>Dư nợ đầu kỳ</TableCell>
-                <TableCell>Gốc phải trả</TableCell>
-                <TableCell>Lãi phải trả</TableCell>
-                <TableCell>Tổng phải trả</TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap" }}>Kỳ</TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap" }}>Ngày trả nợ</TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap" }}>
+                  Dư nợ đầu kỳ
+                </TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap" }}>
+                  Gốc phải trả
+                </TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap" }}>
+                  Lãi phải trả
+                </TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap" }}>
+                  Tổng phải trả
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {getMonthlyDetails().map((row, i) => (
                 <TableRow key={i}>
-                  <TableCell>{row.month}</TableCell>
-                  <TableCell>{row.due_date}</TableCell>
-                  <TableCell>{format(row.opening_balance)}</TableCell>
-                  <TableCell>{format(row.principal)}</TableCell>
-                  <TableCell>{format(row.interest)}</TableCell>
-                  <TableCell>{format(row.total_payment)}</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    {row.month}
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    {row.due_date}
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    {format(row.opening_balance)}
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    {format(row.principal)}
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    {format(row.interest)}
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    {format(row.total_payment)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </Box>
       </DialogCommon>
-    </>
+    </Container>
   );
 };

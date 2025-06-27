@@ -51,6 +51,7 @@ function DialogCommon(props: Readonly<DialogCommonProps>) {
     onSubmitForm,
     open,
     color,
+    ...rest
   } = props;
 
   const generateId = useId();
@@ -59,7 +60,7 @@ function DialogCommon(props: Readonly<DialogCommonProps>) {
     <Dialog
       sx={{
         "& .MuiDialog-paper": {
-          borderRadius: 2,
+          borderRadius: 4,
           bgcolor: "background.paper",
           backgroundImage: "none",
           color: "text.primary",
@@ -78,6 +79,7 @@ function DialogCommon(props: Readonly<DialogCommonProps>) {
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      {...rest}
     >
       <DialogTitle
         id={`alert-dialog-title${generateId}`}
