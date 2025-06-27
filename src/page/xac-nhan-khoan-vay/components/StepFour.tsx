@@ -1,4 +1,4 @@
-import { Loan } from "@/services/model/loans";
+import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
 import {
   Box,
   Button,
@@ -42,7 +42,7 @@ const schema = yup.object({
   bankname: yup.string().required("Bắt buộc"),
 });
 
-const StepFour = ({ currentLoan,setActiveStep }: Props) => {
+const StepFour = ({ currentLoan, setActiveStep }: Props) => {
   const {
     control,
     handleSubmit,
@@ -65,16 +65,16 @@ const StepFour = ({ currentLoan,setActiveStep }: Props) => {
     ? values.accountnumber.replace(/\d(?=\d{4})/g, "*")
     : "**** **** **** ****";
 
-  const onSubmit = async(data: BankForm) => {
-      const userInfo = safeParseJSON(
-    (Cookies.get("user_info") || "") as string
-  ) as User;
-      await Promise.all([
+  const onSubmit = async (data: BankForm) => {
+    const userInfo = safeParseJSON(
+      (Cookies.get("user_info") || "") as string
+    ) as User;
+    await Promise.all([
       updateLoans({
         variables: {
           id: currentLoan.id, // ID khoản vay
           data: {
-            step: 3,
+            step: ENUM_STEP_LOAN.FOUR,
           },
         },
       }),
@@ -85,7 +85,7 @@ const StepFour = ({ currentLoan,setActiveStep }: Props) => {
         },
       }),
     ]);
-    setActiveStep(4)
+    setActiveStep(4);
   };
 
   return (
@@ -119,14 +119,23 @@ const StepFour = ({ currentLoan,setActiveStep }: Props) => {
         <Typography variant="h6" sx={{ letterSpacing: 2, mt: 2 }}>
           {maskedAccount}
         </Typography>
-        <Typography sx={{ mt: 4, textTransform: "uppercase", fontWeight: "bold" }}>
+        <Typography
+          sx={{ mt: 4, textTransform: "uppercase", fontWeight: "bold" }}
+        >
           CHỦ THẺ
         </Typography>
-        <Typography variant="subtitle1">{values.accountname || "NGUYEN VAN A"}</Typography>
+        <Typography variant="subtitle1">
+          {values.accountname || "NGUYEN VAN A"}
+        </Typography>
         <Typography sx={{ mt: 2 }}>HIỆU LỰC: 12/28</Typography>
       </Paper>
 
-      <Typography variant="body2" textAlign="center" color="text.secondary" mb={3}>
+      <Typography
+        variant="body2"
+        textAlign="center"
+        color="text.secondary"
+        mb={3}
+      >
         Thông tin bạn nhập sẽ hiển thị trên thẻ
       </Typography>
 
@@ -143,7 +152,8 @@ const StepFour = ({ currentLoan,setActiveStep }: Props) => {
 
       {/* Alert */}
       <Alert severity="info" sx={{ mb: 3 }}>
-        Thông tin ngân hàng của bạn được sử dụng để giải ngân khoản vay sau khi được duyệt.
+        Thông tin ngân hàng của bạn được sử dụng để giải ngân khoản vay sau khi
+        được duyệt.
       </Alert>
 
       {/* Form */}

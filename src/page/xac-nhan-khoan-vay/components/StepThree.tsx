@@ -1,5 +1,5 @@
 import { formatNumber, safeParseJSON } from "@/helpers";
-import { Loan } from "@/services/model/loans";
+import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
 import { Box, Container, Grid, Paper, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -68,7 +68,7 @@ const schema = yup.object().shape({
 export default function StepThree({ currentLoan, setActiveStep }: Props) {
   console.log("currentLoan?.user?.gender", currentLoan?.user);
   const defaultValues = {
-    fullname: currentLoan.user?.fullname || "",
+    fullname: currentLoan.user?.full_name || "",
     cccd: currentLoan.user?.identity_number || "",
     phone: currentLoan?.user?.phone_number || "",
     dob: currentLoan?.user?.date_of_birth
@@ -106,6 +106,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
     (Cookies.get("user_info") || "") as string
   ) as User;
 
+  const allowedit = !currentLoan.user?.full_name;
   const onSubmit = async (data: StepThreeForm) => {
     const relatives = [
       {
@@ -118,7 +119,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
       },
     ];
     const dataUpdateUser = {
-      fullname: data.fullname || "",
+      full_name: data.fullname || "",
       identity_number: data.cccd || "",
       phone_number: data.phone || "",
       date_of_birth: data.dob,
@@ -128,23 +129,25 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
       address: data.address || "",
       relatives,
     };
-    await Promise.all([
-      updateLoans({
-        variables: {
-          id: currentLoan.id, // ID khoản vay
-          data: {
-            purpose: data.purpose,
-            step: 2,
-          },
+    await updateLoans({
+      variables: {
+        id: currentLoan.id, // ID khoản vay
+        data: {
+          purpose: data.purpose,
+          step: ENUM_STEP_LOAN.THREE,
         },
-      }),
+      },
+    });
+
+    if (allowedit) {
       updateUser({
         variables: {
           id: userInfo.id,
           data: dataUpdateUser,
         },
-      }),
-    ]);
+      });
+    }
+
     setActiveStep(3);
   };
 
@@ -329,7 +332,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   errors={errors.relativeRelation1}
                   label="Mối quan hệ người thân 1*"
                   control={control}
-                  type="number"
+                  type="text"
                 />
               </Grid>
               <Grid size={{ md: 6, xs: 12 }}>
@@ -338,7 +341,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   errors={errors.relativeRelation1}
                   label="SDT người thân 2"
                   control={control}
-                  type="number"
+                  type="text"
                 />
               </Grid>
               <Grid size={{ md: 6, xs: 12 }}>
@@ -347,7 +350,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   errors={errors.relativeRelation1}
                   label="Mối quan hệ người thân 2"
                   control={control}
-                  type="number"
+                  type="text"
                 />
               </Grid>
             </Grid>

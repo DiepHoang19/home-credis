@@ -1,6 +1,6 @@
 export interface User {
   id: number;
-  fullname: string;
+  full_name: string;
   password: string;
   email?: string;
   phone_number: string;
@@ -18,8 +18,8 @@ export interface User {
   updatedAt: string; // ISO date-time
   income: number;
   accountnumber: string;
-  accountname:string;
-  bankname: string
+  accountname: string;
+  bankname: string;
 }
 
 export interface Relative {

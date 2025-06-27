@@ -1,11 +1,21 @@
 import DialogCommon from "@/common/dialog-common";
-import { formatNumber, generateCode, parseFormattedNumber, safeParseJSON } from "@/helpers";
+import {
+  formatNumber,
+  generateCode,
+  parseFormattedNumber,
+  safeParseJSON,
+} from "@/helpers";
 import { GET_LOANS_CONFIGS } from "@/services/graphql/loans-config-gql";
 import { CREATE_LOANS, GET_LOAN_USER } from "@/services/graphql/loans-gql";
 import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
 import { LoansConfig } from "@/services/model/loansconfig";
 import { User } from "@/services/model/user";
-import { ApolloQueryResult, OperationVariables, useMutation, useQuery } from "@apollo/client";
+import {
+  ApolloQueryResult,
+  OperationVariables,
+  useMutation,
+  useQuery,
+} from "@apollo/client";
 import {
   Alert,
   TextField,
@@ -26,7 +36,9 @@ import { useEffect, useState } from "react";
 
 interface Props {
   setActiveStep: (value: number) => void;
-  refetchCurrentLoan: (variables?: Partial<OperationVariables>) => Promise<ApolloQueryResult<any>>
+  refetchCurrentLoan: (
+    variables?: Partial<OperationVariables>
+  ) => Promise<ApolloQueryResult<any>>;
 }
 export const StepOne = (props: Props) => {
   const { setActiveStep, refetchCurrentLoan } = props;
@@ -112,7 +124,7 @@ export const StepOne = (props: Props) => {
         user_id: userInfo.id,
         detail: getMonthlyDetails(),
         step: 0,
-        loan_code: generateCode(userInfo.id)
+        loan_code: generateCode(userInfo.id),
       },
     ];
 
@@ -122,7 +134,7 @@ export const StepOne = (props: Props) => {
           data: inputData,
         },
       });
-      refetchCurrentLoan()
+      refetchCurrentLoan();
       console.log("Số dòng được thêm:", result.data.insert_loans.affected_rows);
     } catch (err) {
       console.error("Lỗi khi tạo loan:", err);
@@ -140,7 +152,6 @@ export const StepOne = (props: Props) => {
       setInterestRate(config.interest_rate_fixed);
     }
   }, [data?.loans_config]);
-
 
   return (
     <>
@@ -216,8 +227,8 @@ export const StepOne = (props: Props) => {
             p={2}
             sx={{
               width: {
-                xs: "100%", // mobile
-                sm: 600, // từ breakpoint "sm" (≥600px) trở lên
+                xs: "100%",
+                sm: 600,
               },
             }}
           >

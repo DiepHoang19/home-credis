@@ -6,6 +6,8 @@ import Register from "@/page/register";
 import { PUBLIC_ROUTER } from "./section";
 import NotFount from "@/page/not-found";
 import LoanCalculator from "@/page/xac-nhan-khoan-vay/page";
+import LoanDetailCard from "@/page/loan-detail/page";
+import UserProfileLayout from "@/page/ho-so/page";
 
 const router = createBrowserRouter(
   [
@@ -32,6 +34,14 @@ const router = createBrowserRouter(
         {
           path: PUBLIC_ROUTER.LOANS,
           element: <LoanCalculator />,
+        },
+        {
+          path: PUBLIC_ROUTER.LOAN_DETAIL,
+          element: <LoanDetailCard />,
+        },
+        {
+          path: PUBLIC_ROUTER.PROFILE,
+          element: <UserProfileLayout />,
         },
         {
           path: "*",
