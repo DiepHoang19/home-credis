@@ -1,5 +1,5 @@
 import { formatNumber, safeParseJSON } from "@/helpers";
-import { Loan } from "@/services/model/loans";
+import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
 import { Box, Container, Grid, Paper, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -134,7 +134,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
         id: currentLoan.id, // ID khoản vay
         data: {
           purpose: data.purpose,
-          step: 2,
+          step: ENUM_STEP_LOAN.THREE,
         },
       },
     });
@@ -332,7 +332,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   errors={errors.relativeRelation1}
                   label="Mối quan hệ người thân 1*"
                   control={control}
-                  type="number"
+                  type="text"
                 />
               </Grid>
               <Grid size={{ md: 6, xs: 12 }}>
@@ -341,7 +341,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   errors={errors.relativeRelation1}
                   label="SDT người thân 2"
                   control={control}
-                  type="number"
+                  type="text"
                 />
               </Grid>
               <Grid size={{ md: 6, xs: 12 }}>
@@ -350,7 +350,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                   errors={errors.relativeRelation1}
                   label="Mối quan hệ người thân 2"
                   control={control}
-                  type="number"
+                  type="text"
                 />
               </Grid>
             </Grid>

@@ -42,6 +42,7 @@ import StepFour from "./components/StepFour";
 import StepFive from "./components/StepFive";
 import { useNavigate } from "react-router-dom";
 import { FullScreenSpinner } from "@/components/loading/Loading";
+import LoanAlertSection from "./components/Warning";
 
 const LoanCalculator = () => {
   const router = useNavigate();
@@ -126,19 +127,19 @@ const LoanCalculator = () => {
       setActiveStep((dataLoanUser?.loans[0].step || 0) + 1);
     }
 
-    if (
-      dataLoanUser?.loans &&
-      dataLoanUser?.loans?.length > 0 &&
-      dataLoanUser?.loans[0].step === ENUM_STEP_LOAN.FIVE &&
-      [
-        ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT,
-        ENUM_STATUS_LOAN.IN_CONTACT,
-        ENUM_STATUS_LOAN.REQUEST,
-      ].includes(dataLoanUser?.loans[0].status)
-    ) {
-      setActiveStep((dataLoanUser?.loans[0].step || 0) + 1);
-      router("/chi-tiet-khoan-vay?id=" + dataLoanUser?.loans[0].id);
-    }
+    // if (
+    //   dataLoanUser?.loans &&
+    //   dataLoanUser?.loans?.length > 0 &&
+    //   dataLoanUser?.loans[0].step === ENUM_STEP_LOAN.FIVE &&
+    //   [
+    //     ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT,
+    //     ENUM_STATUS_LOAN.IN_CONTACT,
+    //     ENUM_STATUS_LOAN.REQUEST,
+    //   ].includes(dataLoanUser?.loans[0].status)
+    // ) {
+    //   setActiveStep((dataLoanUser?.loans[0].step || 0) + 1);
+    //   router("/chi-tiet-khoan-vay?id=" + dataLoanUser?.loans[0].id);
+    // }
   }, [dataLoanUser?.loans]);
 
   const list = () => {
@@ -155,6 +156,7 @@ const LoanCalculator = () => {
   if (loading) {
     return <FullScreenSpinner />;
   }
+
   return (
     <Box
       p={4}
@@ -172,14 +174,24 @@ const LoanCalculator = () => {
       <div className="w-[80%]">
         <LoansStepper activeStep={activeStep} />
       </div>
+      {[
+        ENUM_STATUS_LOAN.IN_CONTACT,
+        ENUM_STATUS_LOAN.REQUEST,
+        ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT,
+      ].includes(dataLoanUser?.loans[0]?.status) &&
+      dataLoanUser?.loans[0]?.step === ENUM_STEP_LOAN.DONE ? (
+        <LoanAlertSection id={dataLoanUser?.loans[0]?.id} />
+      ) : (
+        <>
+          {activeStep === 1 && (
+            <div className="w-[60%]">
+              <CCCDStepper activeStep={cccdStep} />
+            </div>
+          )}
 
-      {activeStep === 1 && (
-        <div className="w-[60%]">
-          <CCCDStepper activeStep={cccdStep} />
-        </div>
+          {renderStep()}
+        </>
       )}
-
-      {renderStep()}
     </Box>
   );
 };

@@ -19,7 +19,7 @@ import {
   OperationVariables,
   useMutation,
 } from "@apollo/client";
-import { Loan } from "@/services/model/loans";
+import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
 import { UPDATE_USER } from "@/services/graphql/user-gql";
 import { userInfo } from "os";
 
@@ -114,7 +114,7 @@ export default function StepTwo(props: Props) {
               identity_image_back: info.cccd_after,
               identity_image_front: info.cccd_before,
               portrait: info.avatar,
-              step: 1,
+              step: ENUM_STEP_LOAN.TW0,
             },
           },
         });
@@ -281,9 +281,9 @@ export default function StepTwo(props: Props) {
         mb={2}
         textAlign="center"
       >
-        {cccdStep === 0 && "UPLOAD CMND/CCCD MẶT TRƯỚC"}
-        {cccdStep === 1 && "UPLOAD CMND/CCCD MẶT SAU"}
-        {cccdStep === 2 && "UPLOAD ẢNH CHÂN DUNG"}
+        {cccdStep === 0 && "TẢI CMND/CCCD MẶT TRƯỚC"}
+        {cccdStep === 1 && "TẢI CMND/CCCD MẶT SAU"}
+        {cccdStep === 2 && "TẢI ẢNH CHÂN DUNG"}
       </Typography>
       {currentImage ? (
         <Box display="flex" justifyContent="center">

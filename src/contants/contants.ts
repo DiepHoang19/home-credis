@@ -62,3 +62,10 @@ export const BUTTON_BORDER_COLOR = {
 };
 
 export const USER_INFO = "user_info";
+
+export const COLOR_STATUS = {
+  0: "bg-gray-400 text-white ",
+  2: "bg-green-400 text-white ",
+  1: "bg-yellow-400 text-white ",
+  3: "bg-red-400 text-white ",
+};

@@ -10,7 +10,7 @@ import {
 import SignatureCanvas from "react-signature-canvas";
 import { useRef, useState } from "react";
 import dayjs from "dayjs";
-import { Loan } from "@/services/model/loans";
+import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
 import { formatNumber } from "@/helpers";
 import uploadServices from "@/services/upload.service";
 import { UPDATE_LOANS } from "@/services/graphql/loans-gql";
@@ -106,7 +106,7 @@ export default function StepFive({ currentLoan }: Props) {
           data: {
             updatedAt: new Date().toISOString(),
             signature,
-            step: 4,
+            step: ENUM_STEP_LOAN.DONE,
           },
         },
       });

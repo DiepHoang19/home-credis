@@ -29,12 +29,14 @@ import { useSearchParams } from "react-router-dom";
 import LoanDetailSkeleton from "./LoanSkeleton";
 import { getStatus } from "@/constants";
 import { ArrowBack } from "@mui/icons-material";
+import { useRouter } from "@/hook";
 
 export default function LoanDetailCard() {
   const [open, setOpen] = useState(false);
   const userInfo = safeParseJSON(
     (Cookies.get("user_info") || "") as string
   ) as User;
+  const router = useRouter();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const {
@@ -53,6 +55,7 @@ export default function LoanDetailCard() {
     },
     skip: !Number(id),
   });
+
   const [updateLoans, { data, loading: loadingUpdateLoan }] =
     useMutation(UPDATE_LOANS);
 
@@ -89,7 +92,7 @@ export default function LoanDetailCard() {
         <img
           src="/file-not-found.jpg"
           alt="file-not-found.jpg"
-          className="w-[70%]"
+          className="w-[300px]"
         />
         <Typography fontWeight="bold" mb={10}>
           Không tìm thấy hợp đồng vay nào
@@ -118,65 +121,6 @@ export default function LoanDetailCard() {
         }}
       >
         {/* Left Sidebar */}
-        <Box
-          sx={{
-            width: 250,
-            backgroundColor: "#f9f9f9",
-            textAlign: "center",
-            py: 3,
-            borderRight: "1px solid #e0e0e0",
-          }}
-        >
-          <Box
-            sx={{
-              width: 80,
-              height: 80,
-              borderRadius: "50%",
-              backgroundColor: "#2e3b55",
-              mx: "auto",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontSize: 40,
-              mb: 1,
-            }}
-          >
-            <User2 />
-          </Box>
-          <Typography fontWeight="bold">
-            {dataLoanUser?.loans?.[0]?.user?.full_name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {dataLoanUser?.loans?.[0]?.user?.phone_number}
-          </Typography>
-          <Box mt={4}>
-            <Box
-              px={2}
-              py={1}
-              bgcolor="#dc3545"
-              color="white"
-              fontWeight="bold"
-              sx={{
-                display: "flex",
-                justifyContent: "start",
-                alignItems: "center",
-              }}
-            >
-              <CircleDollarSignIcon className="mr-2" /> Khoản vay của tôi
-            </Box>
-          </Box>
-          <Button
-            sx={{
-              display: "flex",
-              justifyContent: "start",
-              alignItems: "center",
-            }}
-            fullWidth
-          >
-            <Settings className="mr-2 ml-2" /> Đăng xuất
-          </Button>
-        </Box>
 
         {/* Right content */}
         <Box sx={{ flex: 1, p: 3 }}>
@@ -272,7 +216,11 @@ export default function LoanDetailCard() {
           </Paper>
 
           <Box textAlign="center" mt={3}>
-            <Button variant="outlined" color="error">
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => router.push("/ho-so?type=2")}
+            >
               <ArrowBack /> Quay lại danh sách khoản vay
             </Button>
           </Box>
