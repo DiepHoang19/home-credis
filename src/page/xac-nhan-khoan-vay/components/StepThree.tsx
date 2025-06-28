@@ -66,7 +66,6 @@ const schema = yup.object().shape({
 });
 
 export default function StepThree({ currentLoan, setActiveStep }: Props) {
-  console.log("currentLoan?.user?.gender", currentLoan?.user);
   const defaultValues = {
     fullname: currentLoan.user?.full_name || "",
     cccd: currentLoan.user?.identity_number || "",
@@ -211,7 +210,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
             <Grid size={{ md: 6, xs: 12 }}>
               <InputCommon
                 control={control}
-                name="full_name"
+                name="fullname"
                 label="Họ và tên*"
                 errors={errors.fullname}
               />
