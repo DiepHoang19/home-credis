@@ -1,15 +1,12 @@
-import { getStatus } from "@/constants";
 import { formatNumber } from "@/helpers";
-import { ENUM_STATUS_LOAN } from "@/services/model/loans";
 import { User } from "@/services/model/user";
-import { ArrowBack, Person } from "@mui/icons-material";
-import { Paper, Typography, Button, Box, Modal } from "@mui/material";
+import { Person } from "@mui/icons-material";
+import { Paper, Typography, Button, Box } from "@mui/material";
 import dayjs from "dayjs";
-import { Handshake, Eye } from "lucide-react";
 
 export const InfoUser = ({ user }: { user: User }) => {
   return (
-    <Box className="flex-1 max-w-4xl space-y-4 ">
+    <Box className="flex-1 max-w-4xl space-y-4">
       {/* Personal Info */}
       <Paper className="p-4 shadow-md !rounded-[10px]">
         <Typography

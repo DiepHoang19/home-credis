@@ -22,6 +22,7 @@ import { useRouter } from "@/hook";
 
 export default function LoanListSection({ list }: { list: Loan[] }) {
   const router = useRouter();
+
   return (
     <Paper className="shadow-md !rounded-[10px] overflow-hidden">
       {/* Header */}

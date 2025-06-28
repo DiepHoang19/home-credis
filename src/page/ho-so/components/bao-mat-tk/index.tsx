@@ -147,7 +147,7 @@ export default function ChangePasswordAndLoginHistory() {
   }
 
   return (
-    <Box className="space-y-6">
+    <Box className="space-y-6 max-w-4xl">
       {/* Đổi mật khẩu */}
       <Paper className=" !rounded-[10px] overflow-hidden">
         <Box className="bg-[#2c3763] text-white px-4 py-2 flex items-center gap-2">

@@ -37,8 +37,10 @@ import ChangePasswordAndLoginHistory from "./components/bao-mat-tk";
 import { GET_LOAN_USER } from "@/services/graphql/loans-gql";
 import { Loan } from "@/services/model/loans";
 import { useSearchParams } from "react-router-dom";
+import { useRouter } from "@/hook";
 
 export default function UserProfileLayout() {
+  const router = useRouter();
   const [selected, setSelected] = useState(1);
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type");
@@ -94,7 +96,6 @@ export default function UserProfileLayout() {
         key: 3,
       });
     }
-    data.push({ label: "Đăng xuất", icon: <Logout />, key: 5 });
     return data;
   }, [user, dataLoanUser?.loans?.[0]?.id]);
 
@@ -108,7 +109,6 @@ export default function UserProfileLayout() {
         return <BankAccountInfoSection user={user} />;
       case 4:
         return <ChangePasswordAndLoginHistory />;
-
       default:
         break;
     }
@@ -136,7 +136,7 @@ export default function UserProfileLayout() {
       </Typography>
       <Box className="flex justify-center gap-6">
         {/* Sidebar */}
-        <Paper elevation={1} className="w-72 p-4 !rounded-[10px]">
+        <Paper elevation={1} className="w-xs p-4 !rounded-[10px]">
           <Box className="flex flex-col items-center gap-1 mb-4">
             <Box className="w-16 h-16 rounded-full bg-gray-300">
               <img src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid&w=740" />{" "}
@@ -148,42 +148,49 @@ export default function UserProfileLayout() {
           </Box>
           <List>
             {menuItems.map((item) => (
-              <ListItem
-                key={item.label}
-                // button
-                onClick={() => setSelected(item.key)}
-                className={clsx(
-                  "rounded-lg mb-1 cursor-pointer",
-                  selected === item.key
-                    ? "bg-red-600 text-white"
-                    : "hover:bg-gray-100"
-                )}
-              >
-                <ListItemIcon
-                  className={clsx(selected === item.key && "text-white")}
+              <>
+                <ListItem
+                  key={item.label}
+                  // button
+                  onClick={() => setSelected(item.key)}
+                  className={clsx(
+                    "rounded-lg mb-1 cursor-pointer",
+                    selected === item.key
+                      ? "bg-red-600 text-white"
+                      : "hover:bg-gray-100"
+                  )}
                 >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItem>
+                  <ListItemIcon
+                    className={clsx(selected === item.key && "text-white")}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.label} />
+                </ListItem>
+              </>
             ))}
+            <ListItem
+              // button
+              className={clsx("rounded-lg mb-1 cursor-pointer")}
+            >
+              <ListItemIcon className={clsx("text-white")}>
+                <Logout />
+              </ListItemIcon>
+              <ListItemText
+                primary="Đăng xuất"
+                onClick={() => {
+                  Cookies.remove("user_info");
+                  Cookies.remove("access_token");
+                  router.push("/");
+                }}
+              />
+            </ListItem>
           </List>
         </Paper>
 
         {/* Content */}
         {renderContent()}
       </Box>
-    </Box>
-  );
-}
-
-function Field({ label, value }: { label: string; value: string }) {
-  return (
-    <Box>
-      <Typography variant="body2" color="textSecondary">
-        {label}
-      </Typography>
-      <Typography fontWeight="500">{value}</Typography>
     </Box>
   );
 }
