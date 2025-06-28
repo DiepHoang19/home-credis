@@ -12,7 +12,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
             background: "linear-gradient(135deg, #004e92, #000428)",
           }}
         >
-          <Typography fontSize={22} fontWeight="bold" letterSpacing={2}>
+          <Typography fontSize={22} fontWeight="bold" letterSpacing={2} pt={3}>
             {user.accountnumber}
           </Typography>
 

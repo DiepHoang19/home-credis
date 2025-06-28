@@ -11,7 +11,7 @@ import SignatureCanvas from "react-signature-canvas";
 import { useRef, useState } from "react";
 import dayjs from "dayjs";
 import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
-import { formatNumber } from "@/helpers";
+import { dataURLtoBlob, formatNumber } from "@/helpers";
 import uploadServices from "@/services/upload.service";
 import { UPDATE_LOANS } from "@/services/graphql/loans-gql";
 import { useMutation } from "@apollo/client";
@@ -93,12 +93,12 @@ export default function StepFive({ currentLoan }: Props) {
       // ?.getTrimmedCanvas()
       .toDataURL("image/png");
     const formData = new FormData();
-    formData.append("file", signatureImage);
+    formData.append("image", dataURLtoBlob(signatureImage));
     formData.append("upload_preset", "ml_default");
 
     const res = await uploadServices.uploadImage(formData);
 
-    const signature = res.data.url;
+    const signature = res.data.imageUrl;
     if (!!signature) {
       await updateLoans({
         variables: {
@@ -110,7 +110,7 @@ export default function StepFive({ currentLoan }: Props) {
           },
         },
       });
-      router("/chi-tiet-khoan-vay");
+      router("/chi-tiet-khoan-vay?id=" + currentLoan.id);
     }
   };
 

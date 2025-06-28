@@ -68,4 +68,5 @@ export const COLOR_STATUS = {
   2: "bg-green-400 text-white ",
   1: "bg-yellow-400 text-white ",
   3: "bg-red-400 text-white ",
+  4: "bg-green-400 text-white ",
 };

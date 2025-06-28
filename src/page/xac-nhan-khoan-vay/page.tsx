@@ -122,7 +122,8 @@ const LoanCalculator = () => {
     if (
       dataLoanUser?.loans &&
       dataLoanUser?.loans?.length > 0 &&
-      dataLoanUser?.loans[0].step !== ENUM_STEP_LOAN.FIVE
+      dataLoanUser?.loans[0].step !== ENUM_STEP_LOAN.FIVE &&
+      dataLoanUser?.loans[0].status !== ENUM_STATUS_LOAN.DONE
     ) {
       setActiveStep((dataLoanUser?.loans[0].step || 0) + 1);
     }
