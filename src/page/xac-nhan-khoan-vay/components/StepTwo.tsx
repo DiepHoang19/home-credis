@@ -100,10 +100,10 @@ export default function StepTwo(props: Props) {
   const currentImage = info[getImageField() as keyof typeof info];
 
   const onSubmit = async () => {
-    if (!info.cccd_before || !info.cccd_after) {
-      toast.warning("Vui lòng tải lên đầy đủ ảnh căn cước công dân");
-      return;
-    }
+    // if (!info.cccd_before || !info.cccd_after) {
+    //   toast.warning("Vui lòng tải lên đầy đủ ảnh căn cước công dân");
+    //   return;
+    // }
     if (cccdStep === 0 && info.cccd_before) {
       setCccdStep(1);
     }
