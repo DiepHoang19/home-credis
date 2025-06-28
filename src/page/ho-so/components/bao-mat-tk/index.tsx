@@ -29,6 +29,7 @@ import {
 } from "@apollo/client";
 import dayjs from "dayjs";
 import { changePassword } from "@/services/auth";
+import { toast } from "sonner";
 
 // 👇 Yup schema
 const schema = yup.object({
@@ -87,14 +88,21 @@ export default function ChangePasswordAndLoginHistory() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    console.log("Submit password change: ", data);
-    const rs = await changePassword({
-      new_password: data.newPassword,
-      old_password: data.currentPassword,
-      id: userInfo?.id,
-    });
+    try {
+      const res = await changePassword({
+        new_password: data.newPassword,
+        old_password: data.currentPassword,
+        id: userInfo?.id,
+      });
 
-    // if(rs.)
+      if (res.status === 200) {
+        toast.success(res.data.message);
+      } else {
+        toast.warning(res.data.message);
+      }
+    } catch (error) {
+      toast.warning("Quá trình đổi mật khẩu thất bại");
+    }
   };
 
   function getDeviceAndBrowserInfo(userAgent: string) {
