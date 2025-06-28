@@ -7,4 +7,5 @@ export const PUBLIC_ROUTER = {
   LOANS: "/xac-nhan-khoan-vay",
   LOAN_DETAIL: "chi-tiet-khoan-vay",
   PROFILE: "ho-so",
+  THANH_TOAN: "thanh-toan",
 };

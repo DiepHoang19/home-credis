@@ -30,7 +30,7 @@ function App() {
     >
       <HeroCarousel />
       <ProductServices />
-      <LoanCalculator/>
+      <LoanCalculator />
       <AboutSection />
       <ServicesGrid />
       <ThreePoints />
@@ -39,27 +39,6 @@ function App() {
       <EventsSection />
       <Partners />
       <Careers />
-      <Tooltip title="Hỗ trợ trực tuyến">
-        <Button
-          onClick={() => setOpenChatBox(!openChatBox)}
-          variant="contained"
-          sx={{
-            position: "fixed",
-            bottom: 20,
-            right: 20,
-            zIndex: 999,
-            width: 56,
-            height: 56,
-            borderRadius: "50%",
-            minWidth: "unset",
-            padding: 0,
-          }}
-        >
-          <ChatOutlinedIcon />
-        </Button>
-      </Tooltip>
-
-      <ChatBox open={openChatBox} setOpen={setOpenChatBox} />
     </main>
   );
 }

@@ -9,6 +9,7 @@ export const GET_LOANS_CONFIGS = gql`
       min_loan_months
       interest_rate_fixed
       signature
+      url_qr_admin
     }
   }
 `;

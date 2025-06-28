@@ -1,11 +1,17 @@
 import { User } from "./user";
 
+export enum ENUM_STATUS_LOAN_DETAIL {
+  UNPAID = 0, // CHƯA THANH TOÁN
+  COMFIRM = 1, // CHỜ XÁC NHẬN TỪ ADMIN
+  PAID = 2, // ĐÃ THANH TOÁN
+}
 export interface LoanDetail {
   due_date: string; // Ngày đến hạn (ISO date string: 'YYYY-MM-DD')
   principal: number; // Số tiền gốc cần trả kỳ này
   interest: number; // Tiền lãi kỳ này
   total_payment: number; // Tổng số tiền phải trả kỳ này (gốc + lãi)
   opening_balance: number; // Dư nợ đầu kỳ
+  status: ENUM_STATUS_LOAN_DETAIL;
 }
 
 export interface Loan {
