@@ -85,7 +85,7 @@ export default function DebtList() {
 
   const onPay = async (item: LoanDetail) => {
     const newDetail = dataLoanByID?.loans?.[0].detail.map((i) => {
-      if (i.due_date === i.due_date) {
+      if (i.due_date === item.due_date) {
         return {
           ...i,
           status: ENUM_STATUS_LOAN_DETAIL.COMFIRM,

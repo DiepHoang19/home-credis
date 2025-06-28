@@ -12,7 +12,7 @@ import axios from "axios";
 import { ControllerRenderProps } from "react-hook-form";
 import { BankForm } from "@/page/xac-nhan-khoan-vay/components/StepFour";
 
-interface Bank {
+export interface Bank {
   id: number;
   code: string;
   shortName: string;
@@ -54,9 +54,7 @@ export default function BankSelect({ field }: Props) {
       {...field}
       //   displayEmpty
       renderValue={(selected) => {
-        const bank = banks.find(
-          (b) => `${b.shortName} - ${b.name}` === selected
-        );
+        const bank = banks.find((b) => b.shortName === selected);
         return bank ? (
           <Box className="flex items-center gap-2">
             <img
@@ -74,7 +72,7 @@ export default function BankSelect({ field }: Props) {
         <Typography color="textSecondary">Chưa chọn ngân hàng</Typography>
       </MenuItem>
       {banks.map((b) => (
-        <MenuItem key={b.id} value={`${b.shortName} - ${b.name}`}>
+        <MenuItem key={b.id} value={b.shortName}>
           <Box className="flex items-center gap-2">
             <img
               src={b.logo}

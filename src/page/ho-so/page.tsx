@@ -138,7 +138,9 @@ export default function UserProfileLayout() {
         {/* Sidebar */}
         <Paper elevation={1} className="w-72 p-4 !rounded-[10px]">
           <Box className="flex flex-col items-center gap-1 mb-4">
-            <Box className="w-16 h-16 rounded-full bg-gray-300" />
+            <Box className="w-16 h-16 rounded-full bg-gray-300">
+              <img src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid&w=740" />{" "}
+            </Box>
             <Typography fontWeight="bold">{user?.full_name || ""}</Typography>
             <Typography variant="body2" color="textSecondary">
               {user?.phone_number || ""}

@@ -1,7 +1,34 @@
+import { Bank } from "@/components/bank/SelectBank";
 import { User } from "@/services/model/user";
 import { Box, Typography, Paper, TextField, Alert } from "@mui/material";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 export default function BankAccountInfoSection({ user }: { user: User }) {
+  const [banks, setBanks] = useState<Bank[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [myBank, setMyBank] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get("https://api.vietqr.io/v2/banks");
+        if (res.data?.data) {
+          // setBanks(res.data.data);
+          const data = (res.data?.data as Bank[]).find(
+            (i) => i.shortName === user?.bankname
+          );
+          setMyBank(data.shortName + " - " + data.name);
+        }
+      } catch (err) {
+        console.error("Fetch banks failed", err);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
   return (
     <Paper className="shadow-md  !rounded-[10px] p-4 space-y-6">
       {/* Bank Card */}
@@ -71,7 +98,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
         />
         <TextField
           label="Ngân hàng"
-          value={user.bankname}
+          value={myBank || user.bankname}
           InputProps={{ readOnly: true }}
           fullWidth
         />
