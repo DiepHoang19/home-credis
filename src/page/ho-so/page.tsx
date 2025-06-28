@@ -51,8 +51,8 @@ export default function UserProfileLayout() {
     data: dataUser,
     loading: loadingGetUser,
   }: { data: { users: User[] }; loading: boolean } = useQuery(GET_USER, {
-    variables: { id: userInfo.id },
-    skip: !userInfo.id,
+    variables: { id: userInfo?.id },
+    skip: !userInfo?.id,
   });
 
   const user = dataUser?.users?.[0];
