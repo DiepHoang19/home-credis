@@ -11,11 +11,11 @@ const HelpSection = () => {
       <div className="grid md:grid-cols-2 gap-8">
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="md:flex">
-            <div className="md:w-1/3 bg-gray-100 flex items-center justify-center p-4">
+            <div className="md:w-1/3 bg-gray-100  flex items-center justify-center p-2">
               <img
-                src="https://picsum.photos/id/1/200/200"
+                src="http://api-auction.site/uploads/images/cd_1_791d839154-1751142092031.webp"
                 alt="Home Credit App"
-                className="w-32 h-32 object-contain"
+                className="object-contain rounded-xl"
               />
             </div>
             <div className="p-6 md:w-2/3">
@@ -35,11 +35,11 @@ const HelpSection = () => {
 
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="md:flex">
-            <div className="md:w-1/3 bg-gray-100 flex items-center justify-center p-4">
+            <div className="md:w-1/3 bg-gray-100 flex items-center justify-center p-2">
               <img
-                src="https://picsum.photos/id/2/200/200"
+                src="http://api-auction.site/uploads/images/cd_1_791d839154-1751142092031.webp"
                 alt="Home Credit Support"
-                className="w-32 h-32 object-contain"
+                className=" object-contain rounded-xl"
               />
             </div>
             <div className="p-6 md:w-2/3">

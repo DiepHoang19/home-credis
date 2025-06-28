@@ -130,7 +130,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white/20 mt-8 pt-8 text-sm">
-          <p>© 2023 Home Credit Vietnam. Tất cả các quyền được bảo lưu.</p>
+          <p>© 2025 Home Credit Vietnam.</p>
           <p className="mt-2">
             Công ty Tài chính TNHH MTV Home Credit Việt Nam - Giấy phép hoạt
             động số 95/GP-NHNN do Ngân hàng Nhà nước Việt Nam cấp ngày

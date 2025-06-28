@@ -3,12 +3,12 @@ import { Button } from "./ui/button";
 
 const Careers = () => {
   return (
-    <div className="container mx-auto px-4 py-12 bg-gray-50 rounded-3xl">
+    <div className="container mx-auto px-4 py-12 bg-gray-50 rounded-3xl mb-4">
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
         Khám phá sự nghiệp cùng Home Credit
       </h2>
 
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="md:flex">
           <div className="md:w-1/3">
             <img

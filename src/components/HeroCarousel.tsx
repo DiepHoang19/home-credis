@@ -1,27 +1,17 @@
 import { useState, useEffect } from "react";
-import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   {
     id: 1,
     image:
-      "https://www.homecredit.vn/static/b22fc1561a5821fa6745e558a104d838/0f57a/Web_banner_desktop_7a8bb72a4e.webp",
-    title: "Vươn hơn. Tiện lợi hơn. Bảo mật hơn.",
+      "https://api-auction.site/uploads/images/02E771BE-5B7F-4CCE-B7AA-3BACAE16258D-1751141787872.png",
     buttonText: "Tìm hiểu thêm",
   },
   {
     id: 2,
     image:
-      "https://www.homecredit.vn/static/c7304e29bfc68cc53910dbb5086fafc4/7bb03/web_banner_desktop_4_265dca3494.webp",
-    title: "Vươn hơn. Tiện lợi hơn. Bảo mật hơn.",
-    buttonText: "Tìm hiểu thêm",
-  },
-  {
-    id: 3,
-    image:
-      "https://www.homecredit.vn/static/71f1b39ec94290fe2465ddf5e35cb80f/0f57a/web_banner_desktop_payment_cc412ca321.webp",
-    title: "Vươn hơn. Tiện lợi hơn. Bảo mật hơn.",
+      "https://api-auction.site/uploads/images/web_banner_desktop_6_960ccea116-1751141787873.webp",
     buttonText: "Tìm hiểu thêm",
   },
 ];
@@ -58,17 +48,9 @@ const HeroCarousel = () => {
           <div key={slide.id} className="min-w-full relative">
             <img
               src={slide.image}
-              alt={slide.title}
+              alt={slide.image}
               className="w-full h-auto object-cover"
             />
-            <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4">
-              <h2 className="text-2xl md:text-4xl font-bold text-white mb-4">
-                {slide.title}
-              </h2>
-              <Button className="bg-[#E11E31] hover:bg-[#c01929] text-white rounded-full">
-                {slide.buttonText}
-              </Button>
-            </div>
           </div>
         ))}
       </div>
