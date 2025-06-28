@@ -16,7 +16,7 @@ import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsShow } from "@/redux/slices/toggleBoxChat";
 import { IChatMessage } from "@/services/model/chat";
-import { USER_ID } from "@/constants";
+import { GET_ADMIN_BY_CODE_ROLE } from "@/services/graphql/user-gql";
 
 export function convertToHourMinute(datetime: string): string {
   const date = new Date(datetime); // đã tự động về local time (UTC+7 nếu bạn ở VN)
@@ -42,7 +42,10 @@ export const ChatMessage: React.FC = () => {
       skip: !userInfo?.id,
     }
   );
-  console.log("dataRoom?.room_chat?.[0]?.id", dataRoom?.room_chat?.[0]?.id);
+
+  const { data: dataAdmins } = useQuery<{ users: { id: number }[] }>(
+    GET_ADMIN_BY_CODE_ROLE
+  );
 
   const { data: dataChat } = useSubscription<{ message_chat: IChatMessage[] }>(
     GET_CHAT,
@@ -76,7 +79,7 @@ export const ChatMessage: React.FC = () => {
         const rs = await createRoom({
           variables: {
             user_id: userInfo?.id,
-            admin_id: USER_ID,
+            admin_id: dataAdmins?.users?.[0].id,
           },
         });
         room_chat_id = rs.data.insert_room_chat.returning?.[0]?.id;
@@ -97,7 +100,7 @@ export const ChatMessage: React.FC = () => {
           send_id: userInfo?.id,
           message: message,
           room_chat_id: room_chat_id,
-          reply_id: USER_ID,
+          reply_id: dataAdmins?.users?.[0].id,
         },
       });
     } catch (error) {

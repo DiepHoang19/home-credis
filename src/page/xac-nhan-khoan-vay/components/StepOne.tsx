@@ -8,7 +8,11 @@ import {
 } from "@/helpers";
 import { GET_LOANS_CONFIGS } from "@/services/graphql/loans-config-gql";
 import { CREATE_LOANS, GET_LOAN_USER } from "@/services/graphql/loans-gql";
-import { ENUM_STEP_LOAN, Loan } from "@/services/model/loans";
+import {
+  ENUM_STATUS_LOAN_DETAIL,
+  ENUM_STEP_LOAN,
+  Loan,
+} from "@/services/model/loans";
 import { LoansConfig } from "@/services/model/loansconfig";
 import { User } from "@/services/model/user";
 import {
@@ -81,6 +85,7 @@ export const StepOne = (props: Props) => {
         principal: roundedPrincipal,
         interest,
         total_payment: total,
+        status: ENUM_STATUS_LOAN_DETAIL.UNPAID,
       });
 
       remaining -= roundedPrincipal;

@@ -174,6 +174,21 @@ export default function LoanDetailCard() {
                   </span>
                 )}
               </Typography>
+
+              <Typography> </Typography>
+              <Typography fontWeight="bold" color="orange" textAlign="end">
+                <Button
+                  // startIcon={<Handshake size={18} />}
+                  variant="outlined"
+                  onClick={() =>
+                    router.push(
+                      "/thanh-toan?id=" + dataLoanUser?.loans?.[0]?.id
+                    )
+                  }
+                >
+                  Đi đến thanh toán
+                </Button>
+              </Typography>
             </Box>
             <Box textAlign="center" mt={3}>
               <Button

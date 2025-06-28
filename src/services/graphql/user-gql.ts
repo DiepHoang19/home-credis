@@ -33,3 +33,13 @@ export const GET_USER = gql`
     }
   }
 `;
+
+export const GET_ADMIN_BY_CODE_ROLE = gql`
+  query MyQuery {
+    users(
+      where: { deletedAt: { _is_null: true }, role: { code: { _eq: "admin" } } }
+    ) {
+      id
+    }
+  }
+`;

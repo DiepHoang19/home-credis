@@ -5,4 +5,5 @@ export interface LoansConfig {
   min_loan_months: number; // Số tháng vay tối thiểu
   interest_rate_fixed: number; // Lãi suất cố định (% hoặc số thập phân)
   signature: string;
+  url_qr_admin: string;
 }

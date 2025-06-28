@@ -20,8 +20,9 @@ import { safeParseJSON } from "@/helpers";
 import Cookies from "js-cookie";
 import { User } from "@/services/model/user";
 import { UPDATE_LOANS } from "@/services/graphql/loans-gql";
+import BankSelect from "@/components/bank/SelectBank";
 
-interface BankForm {
+export interface BankForm {
   accountnumber: string;
   accountname: string;
   bankname: string;
@@ -197,13 +198,7 @@ const StepFour = ({ currentLoan, setActiveStep }: Props) => {
           render={({ field }) => (
             <FormControl fullWidth error={!!errors.bankname} sx={{ mb: 3 }}>
               <InputLabel>Ngân hàng *</InputLabel>
-              <Select {...field} label="Ngân hàng *">
-                <MenuItem value="vietcombank">Vietcombank</MenuItem>
-                <MenuItem value="techcombank">Techcombank</MenuItem>
-                <MenuItem value="vpbank">VPBank</MenuItem>
-                <MenuItem value="mbbank">MB Bank</MenuItem>
-                <MenuItem value="agribank">Agribank</MenuItem>
-              </Select>
+              <BankSelect field={field} />
               <Typography variant="caption" color="error">
                 {errors.bankname?.message}
               </Typography>
