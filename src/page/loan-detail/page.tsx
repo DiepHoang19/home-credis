@@ -30,6 +30,7 @@ import LoanDetailSkeleton from "./LoanSkeleton";
 import { getStatus } from "@/constants";
 import { ArrowBack } from "@mui/icons-material";
 import { useRouter } from "@/hook";
+import { COLOR_STATUS } from "@/contants/contants";
 
 export default function LoanDetailCard() {
   const [open, setOpen] = useState(false);
@@ -81,6 +82,7 @@ export default function LoanDetailCard() {
         },
       },
     });
+    refetchCurrentLoan();
   };
   if (loading || loadingUpdateLoan) {
     return <LoanDetailSkeleton />;
@@ -163,7 +165,13 @@ export default function LoanDetailCard() {
                     Chấp nhận hợp đồng vay ngay
                   </Button>
                 ) : (
-                  getStatus(dataLoanUser?.loans?.[0]?.status)
+                  <span
+                    className={`${
+                      COLOR_STATUS[dataLoanUser?.loans?.[0]?.status]
+                    } p-2 rounded-[8px]`}
+                  >
+                    {getStatus(dataLoanUser?.loans?.[0]?.status)}
+                  </span>
                 )}
               </Typography>
             </Box>

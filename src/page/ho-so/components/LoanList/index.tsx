@@ -23,7 +23,7 @@ import { useRouter } from "@/hook";
 export default function LoanListSection({ list }: { list: Loan[] }) {
   const router = useRouter();
   return (
-    <Paper className="shadow-md rounded-xl overflow-hidden">
+    <Paper className="shadow-md !rounded-[10px] overflow-hidden">
       {/* Header */}
       <Box className="bg-[#2c3763] text-white flex justify-between items-center px-4 py-3">
         <Typography fontWeight="bold">Danh Sách Khoản Vay</Typography>

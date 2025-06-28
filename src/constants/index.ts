@@ -53,6 +53,8 @@ export const getStatus = (status: number) => {
       return "Đang vay";
     case 3:
       return "Đã huỷ";
+    case 4:
+      return "Đã hoàn thành khoản vay";
   }
 };
 
