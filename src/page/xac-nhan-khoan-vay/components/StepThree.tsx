@@ -122,7 +122,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
       identity_number: data.cccd || "",
       phone_number: data.phone || "",
       date_of_birth: data.dob,
-      gender: Number(data.gender) === 0,
+      gender: data.gender || 0,
       job: data.job || "",
       income: data.income || 0,
       address: data.address || "",

@@ -63,7 +63,7 @@ export default function LoanListSection({ list }: { list: Loan[] }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {list.map((loan) => (
+            {list?.map((loan) => (
               <TableRow>
                 <TableCell>{loan?.loan_code || ""}</TableCell>
                 <TableCell>Tiền mặt</TableCell>

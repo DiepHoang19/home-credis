@@ -7,7 +7,7 @@ import axios, {
 } from "axios";
 import Cookies from "js-cookie";
 
-const BASE_URL_API = "https://authen-auction-api.vercel.app";
+const BASE_URL_API = import.meta.env.VITE_BASE_URL_SERVER;
 
 const ACCESS_TOKEN = "accessToken";
 const REFESH_TOKEN = "refreshToken";
