@@ -30,6 +30,9 @@ import {
 import dayjs from "dayjs";
 import { changePassword } from "@/services/auth";
 import { toast } from "sonner";
+import authenService from "@/service/auth.service";
+import { useRouter } from "@/hook";
+import { USER_INFO } from "@/contants/contants";
 
 // 👇 Yup schema
 const schema = yup.object({
@@ -87,9 +90,10 @@ export default function ChangePasswordAndLoginHistory() {
     skip: !userInfo?.id,
   });
 
+  const router = useRouter();
   const onSubmit = async (data: FormValues) => {
     try {
-      const res = await changePassword({
+      const res = await authenService.onChangePassword({
         new_password: data.newPassword,
         old_password: data.currentPassword,
         id: userInfo?.id,
@@ -97,6 +101,10 @@ export default function ChangePasswordAndLoginHistory() {
 
       if (res.status === 200) {
         toast.success(res.data.message);
+        Cookies.remove(USER_INFO);
+        Cookies.remove("access_token");
+        router.push("/dang-nhap");
+        router.refresh();
       } else {
         toast.warning(res.data.message);
       }

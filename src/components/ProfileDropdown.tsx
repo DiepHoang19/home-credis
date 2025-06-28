@@ -31,6 +31,7 @@ export default function DropdownMenuMock() {
   const onLogout = () => {
     Cookies.remove(USER_INFO);
     Cookies.remove("access_token");
+    router.push("/dang-nhap");
     router.refresh();
   };
 
