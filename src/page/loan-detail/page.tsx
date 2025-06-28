@@ -102,6 +102,33 @@ export default function LoanDetailCard() {
       </div>
     );
   }
+
+  const renderButtonPay = () => {
+    console.log(
+      "dataLoanUser?.loans?.[0]?.status",
+      dataLoanUser?.loans?.[0]?.status
+    );
+
+    if (dataLoanUser?.loans?.[0]?.status === ENUM_STATUS_LOAN.IN_CONTACT) {
+      return (
+        <>
+          <Typography> </Typography>
+          <Typography fontWeight="bold" color="orange" textAlign="end">
+            <Button
+              // startIcon={<Handshake size={18} />}
+              variant="outlined"
+              onClick={() =>
+                router.push("/thanh-toan?id=" + dataLoanUser?.loans?.[0]?.id)
+              }
+            >
+              Đi đến thanh toán
+            </Button>
+          </Typography>
+        </>
+      );
+    }
+    return "";
+  };
   return (
     <div>
       <div className="w-full bg-[#e9f2f9] text-center py-10">
@@ -175,20 +202,7 @@ export default function LoanDetailCard() {
                 )}
               </Typography>
 
-              <Typography> </Typography>
-              <Typography fontWeight="bold" color="orange" textAlign="end">
-                <Button
-                  // startIcon={<Handshake size={18} />}
-                  variant="outlined"
-                  onClick={() =>
-                    router.push(
-                      "/thanh-toan?id=" + dataLoanUser?.loans?.[0]?.id
-                    )
-                  }
-                >
-                  Đi đến thanh toán
-                </Button>
-              </Typography>
+              {renderButtonPay()}
             </Box>
             <Box textAlign="center" mt={3}>
               <Button
