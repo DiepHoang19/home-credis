@@ -65,7 +65,11 @@ function Register() {
       toast.success("Đăng ký tài khoản thành công");
       router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
     } catch (error) {
-      toast.error(error.response.data.message || "Đăng ký tài khoản thất bại");
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Đã có lỗi xảy ra, vui lòng thử lại sau";
+      toast.error(message);
     }
   };
 

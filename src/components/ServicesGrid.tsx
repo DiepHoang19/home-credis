@@ -1,27 +1,52 @@
 import ButtonCommon from "@/common/button-common";
-import { Button } from "./ui/button";
-import { ArrowRight } from "lucide-react";
 
 const services = [
   {
     id: 1,
     title: "Vay tiền mặt",
     description: "Giải ngân nhanh chóng, thủ tục đơn giản",
-    image: "https://picsum.photos/id/1/300/200",
+    image:
+      "http://api-auction.site/uploads/images/cc1_1_6663544a3a-1751142092030.webp",
     buttonText: "Tìm hiểu thêm",
   },
   {
     id: 2,
     title: "Thẻ tín dụng",
     description: "Thanh toán linh hoạt, nhiều ưu đãi hấp dẫn",
-    image: "https://picsum.photos/id/2/300/200",
+    image:
+      "http://api-auction.site/uploads/images/cd_1_791d839154-1751142092031.webp",
     buttonText: "Tìm hiểu thêm",
   },
   {
     id: 3,
     title: "Tài khoản trả sau",
     description: "Mua trước, trả sau dễ dàng",
-    image: "https://picsum.photos/id/3/300/200",
+    image:
+      "http://api-auction.site/uploads/images/CL_1_69f62e6b8a-1751142092032.webp",
+    buttonText: "Tìm hiểu thêm",
+  },
+  {
+    id: 4,
+    title: "Tài khoản trả sau",
+    description: "Mua trước, trả sau dễ dàng",
+    image:
+      "http://api-auction.site/uploads/images/HPL_41ef204406-1751142092033.webp",
+    buttonText: "Tìm hiểu thêm",
+  },
+  {
+    id: 5,
+    title: "Tài khoản trả sau",
+    description: "Mua trước, trả sau dễ dàng",
+    image:
+      "http://api-auction.site/uploads/images/VAS_1_c606e6597c-1751142092034.webp",
+    buttonText: "Tìm hiểu thêm",
+  },
+  {
+    id: 6,
+    title: "Tài khoản trả sau",
+    description: "Mua trước, trả sau dễ dàng",
+    image:
+      "http://api-auction.site/uploads/images/web_banner_desktop_6_960ccea116-1751142092035.webp",
     buttonText: "Tìm hiểu thêm",
   },
 ];
@@ -55,77 +80,11 @@ const ServicesGrid = () => {
         ))}
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6 mt-8">
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h3 className="text-xl font-semibold mb-4">Điện máy</h3>
-          <ul className="space-y-2 mb-4">
-            <li className="flex items-center">
-              <ArrowRight className="h-4 w-4 text-[#E11E31] mr-2" />
-              <span>Mua sắm trả góp 0%</span>
-            </li>
-            <li className="flex items-center">
-              <ArrowRight className="h-4 w-4 text-[#E11E31] mr-2" />
-              <span>Thủ tục đơn giản</span>
-            </li>
-            <li className="flex items-center">
-              <ArrowRight className="h-4 w-4 text-[#E11E31] mr-2" />
-              <span>Duyệt hồ sơ nhanh chóng</span>
-            </li>
-          </ul>
-          <ButtonCommon sx={{ borderRadius: 10 }} color="error">
-            Tìm hiểu thêm
-          </ButtonCommon>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h3 className="text-xl font-semibold mb-4">Xe máy</h3>
-          <ul className="space-y-2 mb-4">
-            <li className="flex items-center">
-              <ArrowRight className="h-4 w-4 text-[#E11E31] mr-2" />
-              <span>Sở hữu xe máy dễ dàng</span>
-            </li>
-            <li className="flex items-center">
-              <ArrowRight className="h-4 w-4 text-[#E11E31] mr-2" />
-              <span>Lãi suất ưu đãi</span>
-            </li>
-            <li className="flex items-center">
-              <ArrowRight className="h-4 w-4 text-[#E11E31] mr-2" />
-              <span>Thời gian vay linh hoạt</span>
-            </li>
-          </ul>
-
-          <ButtonCommon sx={{ borderRadius: 10 }} color="error">
-            Tìm hiểu thêm
-          </ButtonCommon>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h3 className="text-xl font-semibold mb-4">Bảo hiểm</h3>
-          <ul className="space-y-2 mb-4">
-            <li className="flex items-center">
-              <ArrowRight className="h-4 w-4 text-[#E11E31] mr-2" />
-              <span>Bảo vệ toàn diện</span>
-            </li>
-            <li className="flex items-center">
-              <ArrowRight className="h-4 w-4 text-[#E11E31] mr-2" />
-              <span>Chi phí hợp lý</span>
-            </li>
-            <li className="flex items-center">
-              <ArrowRight className="h-4 w-4 text-[#E11E31] mr-2" />
-              <span>Quy trình bồi thường đơn giản</span>
-            </li>
-          </ul>
-          <ButtonCommon sx={{ borderRadius: 10 }} color="error">
-            Tìm hiểu thêm
-          </ButtonCommon>
-        </div>
-      </div>
-
       <div className="mt-12 bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="md:flex">
           <div className="md:w-1/3">
             <img
-              src="https://picsum.photos/id/20/300/300"
+              src="http://api-auction.site/uploads/images/20-300x300-1751142622512.jpg"
               alt="Trợ giúp dịch vụ"
               className="w-full h-full object-cover"
             />

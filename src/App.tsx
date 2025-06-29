@@ -9,20 +9,15 @@ import HelpSection from "./components/HelpSection";
 import EventsSection from "./components/EventsSection";
 import Partners from "./components/Partners";
 import Careers from "./components/Careers";
-import { Button, Tooltip } from "@mui/material";
-import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import ChatBox from "./components/ChatBox";
 import LoanCalculator from "./components/loans/SectionLoans";
 
 function App() {
-  const [openChatBox, setOpenChatBox] = useState(false);
-
   return (
     <main
       style={{
         minHeight: "100vh",
         backgroundImage:
-          'url("https://www.homecredit.vn/static/background-173b99034a8eb0e44bdb113920a4ddf4.webp")',
+          'url("https://api-auction.site/uploads/images/background-173b99034a8eb0e44bdb113920a4ddf4-1751142371348.webp")',
         backgroundSize: "cover",
         backgroundPosition: "left center",
         backgroundRepeat: "no-repeat",

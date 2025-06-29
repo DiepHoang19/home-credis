@@ -28,7 +28,7 @@ const LoanCalculator = () => {
   const router = useRouter();
 
   return (
-    <Container sx={{ p: 4 }}>
+    <Container maxWidth="xl" sx={{ p: 4 }}>
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
         Nhu cầu của bạn
       </h2>
