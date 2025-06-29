@@ -180,8 +180,13 @@ export const StepOne = (props: Props) => {
                   fullWidth
                   type="number"
                   label="Số tiền cần vay"
-                  value={Number(amount)}
-                  onChange={(e) => setAmount(Number(e.target.value))}
+                  value={amount || ""}
+                  onChange={(e) => {
+                    const raw = e.target.value;
+                    const cleaned = raw.replace(/^0+/, "");
+                    const numeric = Number(cleaned);
+                    setAmount(numeric || 0);
+                  }}
                   inputProps={{
                     min: MIN_AMOUNT,
                     max: MAX_AMOUNT,

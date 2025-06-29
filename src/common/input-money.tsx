@@ -49,7 +49,7 @@ export default function NumberInput({
           // kiểm tra min max nếu cần
           if (min && values.floatValue < min) return;
           if (max && values.floatValue > max) return;
-          onChange(values.floatValue);
+          onChange(values.floatValue * 1);
         } else {
           onChange(0); // fallback khi xóa input
         }
