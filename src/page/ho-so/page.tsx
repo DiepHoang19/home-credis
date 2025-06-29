@@ -223,7 +223,7 @@ export default function UserProfileLayout() {
                 onClick={() => {
                   Cookies.remove("user_info");
                   Cookies.remove("access_token");
-                  router.push("/");
+                  router.push("/dang-nhap");
                 }}
               />
             </ListItem>
