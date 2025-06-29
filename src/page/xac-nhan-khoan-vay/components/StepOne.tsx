@@ -1,5 +1,6 @@
 import ButtonCommon from "@/common/button-common";
 import DialogCommon from "@/common/dialog-common";
+import NumberInput from "@/common/input-money";
 import {
   formatNumber,
   generateCode,
@@ -175,32 +176,15 @@ export const StepOne = (props: Props) => {
           <div className="md:!w-[600px]">
             <Box display="flex" flexDirection="column" gap={2}>
               <Box>
-                <TextField
+                <NumberInput
                   label="Số tiền cần vay"
-                  fullWidth
-                  type="text"
-                  value={formatNumber(amount)}
-                  onChange={(e) =>
-                    setAmount(parseFormattedNumber(e.target.value))
-                  }
+                  value={amount}
+                  onChange={setAmount}
+                  min={MIN_AMOUNT}
+                  max={MAX_AMOUNT}
                   helperText={`Số tiền cho vay từ ${formatNumber(
                     MIN_AMOUNT
                   )} đến ${formatNumber(MAX_AMOUNT)} VND`}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Typography
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            height: "100%",
-                          }}
-                        >
-                          VND
-                        </Typography>
-                      </InputAdornment>
-                    ),
-                  }}
                 />
               </Box>
 
