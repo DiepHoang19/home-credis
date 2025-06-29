@@ -176,15 +176,34 @@ export const StepOne = (props: Props) => {
           <div className="md:!w-[600px]">
             <Box display="flex" flexDirection="column" gap={2}>
               <Box>
-                <NumberInput
+                <TextField
+                  fullWidth
+                  type="number"
                   label="Số tiền cần vay"
-                  value={amount}
-                  onChange={setAmount}
-                  min={MIN_AMOUNT}
-                  max={MAX_AMOUNT}
+                  value={Number(amount)}
+                  onChange={(e) => setAmount(Number(e.target.value))}
+                  inputProps={{
+                    min: MIN_AMOUNT,
+                    max: MAX_AMOUNT,
+                  }}
                   helperText={`Số tiền cho vay từ ${formatNumber(
                     MIN_AMOUNT
                   )} đến ${formatNumber(MAX_AMOUNT)} VND`}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Typography
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            height: "100%",
+                          }}
+                        >
+                          VND
+                        </Typography>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Box>
 
