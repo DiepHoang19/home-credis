@@ -130,8 +130,8 @@ export default function LoanDetailCard() {
     return "";
   };
   return (
-    <div>
-      <div className="w-full bg-[#e9f2f9] text-center py-10">
+    <div className="pb-10">
+      <div className="w-full bg-[#e9f2f9] text-center py-10 ">
         <Typography variant="h4">CHI TIẾT KHOẢN VAY</Typography>
       </div>
 
@@ -458,6 +458,9 @@ export default function LoanDetailCard() {
                   {dataCompanyInfo?.company_info?.[0]?.name}
                 </Typography>
               </div>
+            </div>
+            <div className="flex justify-end">
+              <Button onClick={() => setOpen(false)}>Đóng</Button>
             </div>
           </Box>
         </Modal>

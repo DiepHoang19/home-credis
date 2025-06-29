@@ -19,6 +19,7 @@ import { formatNumber } from "@/helpers";
 import dayjs from "dayjs";
 import { COLOR_STATUS } from "@/contants/contants";
 import { useRouter } from "@/hook";
+import { PUBLIC_ROUTER } from "@/router/section";
 
 export default function LoanListSection({ list }: { list: Loan[] }) {
   const router = useRouter();
@@ -37,6 +38,7 @@ export default function LoanListSection({ list }: { list: Loan[] }) {
             size="small"
             startIcon={<Add />}
             className="!normal-case"
+            onClick={() => router.push(PUBLIC_ROUTER.LOANS)}
           >
             Đăng ký khoản vay mới
           </Button>

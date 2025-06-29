@@ -1,30 +1,74 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  Check,
+  DollarSign,
+  GavelIcon,
+  HomeIcon,
+  Menu,
+  Package,
+  SendIcon,
+  View,
+  X,
+} from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
 import { PUBLIC_ROUTER } from "@/router/section";
 import { useRouter } from "@/hook";
 import ButtonCommon from "@/common/button-common";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useAuthen } from "@/hook/useAuthen";
-import { Box, IconButton, Stack, Typography } from "@mui/material";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Box,
+  IconButton,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import DropdownMenuMock from "./ProfileDropdown";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { stringify } from "querystring";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const router = useRouter();
   const userInfo = useAuthen();
 
   const handleNavigate = () => {
     router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
     setIsMenuOpen(false);
   };
-
+  const router = useRouter();
+  const pathname = router.pathname;
   const [openProfile, setOpenProfile] = useState(false);
+  const [value, setValue] = useState(0);
 
+  useEffect(() => {
+    if (pathname === PUBLIC_ROUTER.HOME) setValue(0);
+    else if (pathname === PUBLIC_ROUTER.LOANS) setValue(1);
+    else if (pathname === PUBLIC_ROUTER.THANH_TOAN) setValue(2);
+    else if (pathname === PUBLIC_ROUTER.PROFILE) setValue(3);
+  }, [JSON.stringify(pathname)]);
+
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+    switch (newValue) {
+      case 0:
+        router.push(PUBLIC_ROUTER.HOME);
+        break;
+      case 1:
+        router.push(PUBLIC_ROUTER.LOANS);
+        break;
+      case 2:
+        router.push(PUBLIC_ROUTER.THANH_TOAN);
+        break;
+      case 3:
+        router.push(PUBLIC_ROUTER.PROFILE);
+        break;
+    }
+  };
   return (
     <header className="sticky top-0 z-50 bg-white shadow-lg">
-      <div className="container mx-auto px-4 py-2 h-30 flex justify-between items-center">
+      <div className="container mx-auto px-4 py-2 h-30 md:flex justify-between items-center hidden ">
         <div className="flex items-center">
           <Link to={PUBLIC_ROUTER.HOME} className="mr-4">
             <img
@@ -82,6 +126,31 @@ const Header = () => {
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
+
+      <Paper
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 999,
+          backgroundColor: "white",
+          padding: "5px 0px",
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        }}
+        className="md:hidden"
+      >
+        <BottomNavigation value={value} onChange={handleChange} showLabels>
+          <BottomNavigationAction label="Trang chủ" icon={<HomeIcon />} />
+          <BottomNavigationAction label="Vay tiền" icon={<DollarSign />} />
+          <BottomNavigationAction label="Thanh toán" icon={<Package />} />
+          <BottomNavigationAction
+            label="Cá nhân"
+            icon={<AccountCircleIcon />}
+          />
+        </BottomNavigation>
+      </Paper>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
