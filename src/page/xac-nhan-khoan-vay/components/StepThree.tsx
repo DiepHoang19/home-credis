@@ -297,7 +297,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
                 rows={5}
                 name="address"
                 label="Địa chỉ*"
-                errors={errors.purpose}
+                errors={errors.address}
                 control={control}
               />
             </Grid>

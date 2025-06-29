@@ -208,7 +208,7 @@ const StepFour = ({ currentLoan, setActiveStep }: Props) => {
 
         <Box textAlign="center">
           <Button variant="contained" size="large" type="submit">
-            HOÀN TẤT ĐĂNG KÝ VAY
+            TIẾP TỤC
           </Button>
         </Box>
       </form>

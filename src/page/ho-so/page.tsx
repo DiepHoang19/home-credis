@@ -8,6 +8,8 @@ import {
   ListItemText,
   Paper,
   Button,
+  BottomNavigation,
+  BottomNavigationAction,
 } from "@mui/material";
 import {
   Person,
@@ -29,7 +31,7 @@ import Cookies from "js-cookie";
 import { GET_USER } from "@/services/graphql/user-gql";
 import dayjs from "dayjs";
 import PersonalInfoPanelSkeleton from "./components/SkeletonProfile";
-import { Lock, User2Icon } from "lucide-react";
+import { DollarSign, HomeIcon, Lock, Package, User2Icon } from "lucide-react";
 import { InfoUser } from "./components/info";
 import LoanListSection from "./components/LoanList";
 import BankAccountInfoSection from "./components/BankAccount";
@@ -37,11 +39,14 @@ import ChangePasswordAndLoginHistory from "./components/bao-mat-tk";
 import { GET_LOAN_USER } from "@/services/graphql/loans-gql";
 import { Loan } from "@/services/model/loans";
 import { useSearchParams } from "react-router-dom";
+import { PUBLIC_ROUTER } from "@/router/section";
+import { useRouter } from "@/hook";
 
 export default function UserProfileLayout() {
   const [selected, setSelected] = useState(1);
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type");
+  const router = useRouter();
 
   const userInfo = safeParseJSON(
     (Cookies.get("user_info") || "") as string
@@ -98,10 +103,33 @@ export default function UserProfileLayout() {
     return data;
   }, [user, dataLoanUser?.loans?.[0]?.id]);
 
+  const menuItemsMobile = useMemo(() => {
+    const showInfoBank =
+      !!user?.accountname && !!user?.accountnumber && !!user?.bankname;
+    const showLoanList = !!dataLoanUser?.loans?.[0]?.id;
+
+    const data = [{ label: "Thông tin", icon: <Person />, key: 1 }];
+
+    if (showLoanList) {
+      data.push({ label: "Hợp đồng", icon: <CreditCard />, key: 2 });
+    }
+
+    if (showInfoBank) {
+      data.push({
+        label: "Thẻ",
+        icon: <AccountBalance />,
+        key: 3,
+      });
+    }
+    data.push({ label: "Bảo mật", icon: <Lock />, key: 4 });
+    data.push({ label: "Đăng xuất", icon: <Logout />, key: 5 });
+    return data;
+  }, [user, dataLoanUser?.loans?.[0]?.id]);
+
   const renderContent = () => {
     switch (selected) {
       case 1:
-        return <InfoUser user={user} />;
+        return <InfoUser user={user} setSelected={setSelected} />;
       case 2:
         return <LoanListSection list={dataLoanUser?.loans} />;
       case 3:
@@ -113,7 +141,20 @@ export default function UserProfileLayout() {
         break;
     }
   };
+  const pathname = router.pathname;
 
+  const [openProfile, setOpenProfile] = useState(false);
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (type === "2") setValue(2);
+  }, [JSON.stringify(pathname)]);
+
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    console.log(newValue);
+
+    setSelected(newValue + 1);
+  };
   useEffect(() => {
     const num = Number(type);
     if (num) {
@@ -136,7 +177,10 @@ export default function UserProfileLayout() {
       </Typography>
       <Box className="flex justify-center gap-6">
         {/* Sidebar */}
-        <Paper elevation={1} className="w-72 p-4 !rounded-[10px]">
+        <Paper
+          elevation={1}
+          className="w-72 p-4 !rounded-[10px] hidden md:block"
+        >
           <Box className="flex flex-col items-center gap-1 mb-4">
             <Box className="w-16 h-16 rounded-full bg-gray-300">
               <img src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid&w=740" />{" "}
@@ -170,6 +214,34 @@ export default function UserProfileLayout() {
           </List>
         </Paper>
 
+        <Paper
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 999,
+            backgroundColor: "white",
+            padding: "5px 0px",
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+          }}
+          className="md:hidden"
+        >
+          <BottomNavigation
+            value={selected - 1}
+            onChange={handleChange}
+            showLabels
+          >
+            {menuItemsMobile.map((i) => (
+              <BottomNavigationAction
+                label={i.label}
+                icon={i.icon}
+                className="!w-fit"
+              />
+            ))}
+          </BottomNavigation>
+        </Paper>
         {/* Content */}
         {renderContent()}
       </Box>

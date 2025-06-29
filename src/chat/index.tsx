@@ -453,7 +453,9 @@ export const ChatMessage: React.FC = () => {
       <div className="min-w-full md:max-w-4xl mx-auto md:!w-[400px] !w-[100vw]">
         <div className="rounded-xl shadow bg-white">
           <div className="flex justify-between items-center px-6 py-4 border-b border-b-gray-100">
-            <h2 className="text-xl font-semibold text-black">Chat support</h2>
+            <h2 className="text-xl font-semibold text-black">
+              Hỗ trợ trực tuyến
+            </h2>
             <button
               className=" text-black p-2 rounded-full text-sm hover:bg-gray-100 cursor-pointer"
               onClick={() => dispatch(setIsShow(false))}

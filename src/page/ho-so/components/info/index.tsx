@@ -1,5 +1,7 @@
 import { getStatus } from "@/constants";
 import { formatNumber } from "@/helpers";
+import { useRouter } from "@/hook";
+import { PUBLIC_ROUTER } from "@/router/section";
 import { ENUM_STATUS_LOAN } from "@/services/model/loans";
 import { User } from "@/services/model/user";
 import { ArrowBack, Person } from "@mui/icons-material";
@@ -7,7 +9,14 @@ import { Paper, Typography, Button, Box, Modal } from "@mui/material";
 import dayjs from "dayjs";
 import { Handshake, Eye } from "lucide-react";
 
-export const InfoUser = ({ user }: { user: User }) => {
+export const InfoUser = ({
+  user,
+  setSelected,
+}: {
+  user: User;
+  setSelected: (value: number) => void;
+}) => {
+  const router = useRouter();
   return (
     <Box className="flex-1 max-w-4xl space-y-4 ">
       {/* Personal Info */}
@@ -97,7 +106,12 @@ export const InfoUser = ({ user }: { user: User }) => {
             {
               label: "Quản lý bảo mật",
               value: (
-                <Button size="small" variant="text" color="primary">
+                <Button
+                  size="small"
+                  variant="text"
+                  color="primary"
+                  onClick={() => setSelected(4)}
+                >
                   Thay đổi mật khẩu & Cài đặt bảo mật
                 </Button>
               ),

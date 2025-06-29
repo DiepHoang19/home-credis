@@ -136,8 +136,11 @@ export default function DebtList() {
   };
   return (
     <Paper className="rounded-xl overflow-hidden mx-5 my-10">
-      <Box>
+      <Box padding="3px 0px">
         <img src={dataLoanConfigs?.loans_config?.[0]?.url_qr_admin} alt="" />
+        <Typography className="text-center">
+          Mã QR thanh toán cho hệ thống
+        </Typography>
       </Box>
       {renderMessage()}
       <Box className="bg-[#2c3763] text-white px-4 py-2">

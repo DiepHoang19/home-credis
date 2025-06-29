@@ -54,7 +54,7 @@ export const getStatus = (status: number) => {
     case 3:
       return "Đã huỷ";
     case 4:
-      return "Đã hoàn thành khoản vay";
+      return "Đã thanh toán";
   }
 };
 

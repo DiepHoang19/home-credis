@@ -293,7 +293,18 @@ export default function StepTwo(props: Props) {
         {cccdStep === 2 && "TẢI ẢNH CHÂN DUNG"}
       </Typography>
       {currentImage ? (
-        <Box display="flex" justifyContent="center">
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems={{
+            sm: "unset",
+            xs: "center",
+          }}
+          flexDirection={{
+            xs: "column",
+            sm: "unset",
+          }}
+        >
           <img
             src={currentImage}
             alt="preview"
@@ -302,6 +313,7 @@ export default function StepTwo(props: Props) {
               maxWidth: "300px",
               borderRadius: 8,
               border: "1px solid #ccc",
+              marginBottom: 5,
             }}
           />
           <Button

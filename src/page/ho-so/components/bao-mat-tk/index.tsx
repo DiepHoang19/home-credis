@@ -60,6 +60,8 @@ export default function ChangePasswordAndLoginHistory() {
     confirm: false,
   });
 
+  const [loading, setLoading] = useState(false);
+
   const toggleShow = (key: keyof typeof showPassword) =>
     setShowPassword((prev) => ({ ...prev, [key]: !prev[key] }));
 
@@ -93,6 +95,7 @@ export default function ChangePasswordAndLoginHistory() {
   const router = useRouter();
   const onSubmit = async (data: FormValues) => {
     try {
+      setLoading(true);
       const res = await authenService.onChangePassword({
         new_password: data.newPassword,
         old_password: data.currentPassword,
@@ -111,6 +114,7 @@ export default function ChangePasswordAndLoginHistory() {
     } catch (error) {
       toast.warning("Quá trình đổi mật khẩu thất bại");
     }
+    setLoading(false);
   };
 
   function getDeviceAndBrowserInfo(userAgent: string) {
@@ -249,6 +253,7 @@ export default function ChangePasswordAndLoginHistory() {
             type="submit"
             variant="contained"
             color="error"
+            loading={loading}
             sx={{ mt: 2, textTransform: "none", fontWeight: "bold" }}
           >
             Cập nhật mật khẩu

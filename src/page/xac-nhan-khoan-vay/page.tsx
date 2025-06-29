@@ -147,7 +147,7 @@ const LoanCalculator = () => {
     if (activeStep < 2) {
       return LOANS_STEPS;
     }
-    if (activeStep === 2) {
+    if (activeStep <= 3) {
       return [...LOANS_STEPS, INFO_BANK];
     }
     if (activeStep === 4) {
@@ -157,6 +157,7 @@ const LoanCalculator = () => {
   if (loading) {
     return <FullScreenSpinner />;
   }
+  console.log("list()?.[activeStep]?.label?.toUpperCase()", activeStep);
 
   return (
     <Box
