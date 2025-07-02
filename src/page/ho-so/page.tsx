@@ -150,7 +150,7 @@ export default function UserProfileLayout() {
       case 4:
         return <ChangePasswordAndLoginHistory />;
       case 5:
-        return <AccountHistorySection />;
+        return <AccountHistorySection user={user} />;
       default:
         break;
     }

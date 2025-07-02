@@ -22,7 +22,7 @@ import {
 import Cookies from "js-cookie";
 import { useState } from "react";
 
-export default function AccountHistorySection() {
+export default function AccountHistorySection({ user }: { user: User }) {
   const [filter, setFilter] = useState("all");
   const userInfo = safeParseJSON(
     (Cookies.get(USER_INFO) || "") as string
@@ -33,7 +33,7 @@ export default function AccountHistorySection() {
     GET_NOTIFICATION_BY_USER,
     {
       variables: {
-        user_id: userInfo?.id, // Thay đổi theo ID người dùng hiện tại
+        phone_number: user?.phone_number, // Thay đổi theo ID người dùng hiện tại
       },
       fetchPolicy: "network-only",
     }
