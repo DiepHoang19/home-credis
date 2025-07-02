@@ -3,6 +3,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import {
   CircleDollarSignIcon,
+  Clock,
   Eye,
   Handshake,
   Settings,
@@ -27,13 +28,15 @@ import { CompanyInfo } from "@/services/model/info-company";
 import { useSearchParams } from "react-router-dom";
 
 import LoanDetailSkeleton from "./LoanSkeleton";
-import { getStatus } from "@/constants";
+import { getStatus, getStatusOTP } from "@/constants";
 import { ArrowBack } from "@mui/icons-material";
 import { useRouter } from "@/hook";
 import { COLOR_STATUS } from "@/contants/contants";
+import OTPDialog from "./DialogOTP";
 
 export default function LoanDetailCard() {
   const [open, setOpen] = useState(false);
+  const [openDialogOTP, setOpenDialogOTP] = useState(false);
   const userInfo = safeParseJSON(
     (Cookies.get("user_info") || "") as string
   ) as User;
@@ -72,6 +75,9 @@ export default function LoanDetailCard() {
       minimumFractionDigits: 0,
     });
 
+  const handleOTP = async () => {
+    setOpenDialogOTP(true);
+  };
   const handleConfirmContact = async () => {
     await updateLoans({
       variables: {
@@ -216,9 +222,25 @@ export default function LoanDetailCard() {
           </Paper>
 
           <Paper variant="outlined" sx={{ p: 2 }}>
-            <Typography fontWeight="bold" mb={2}>
-              Tình trạng giải ngân:
-            </Typography>
+            {[
+              ENUM_STATUS_LOAN.REQUEST,
+              ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT,
+            ].includes(dataLoanUser?.loans?.[0]?.status) && (
+              <Box display="flex" justifyContent="space-between" rowGap={2}>
+                <Typography fontWeight="bold" mb={2}>
+                  Tình trạng giải ngân:
+                </Typography>
+                <Button
+                  startIcon={<Clock size={18} />}
+                  variant="contained"
+                  onClick={handleConfirmContact}
+                  color="warning"
+                  className="w-[200px]"
+                >
+                  {getStatusOTP(dataLoanUser?.loans?.[0]?.status)}
+                </Button>
+              </Box>
+            )}
             <Box display="flex" gap={2}>
               <Box
                 sx={{
@@ -464,6 +486,7 @@ export default function LoanDetailCard() {
             </div>
           </Box>
         </Modal>
+        <OTPDialog open={openDialogOTP} setOpen={setOpenDialogOTP} />
       </Box>
     </div>
   );
