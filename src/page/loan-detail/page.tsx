@@ -191,7 +191,7 @@ export default function LoanDetailCard() {
 
               <Typography>Tình trạng:</Typography>
               <Typography fontWeight="bold" color="orange" textAlign="end">
-                {dataLoanUser?.loans?.[0]?.status ===
+                {/* {dataLoanUser?.loans?.[0]?.status ===
                 ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT ? (
                   <Button
                     startIcon={<Handshake size={18} />}
@@ -208,7 +208,14 @@ export default function LoanDetailCard() {
                   >
                     {getStatus(dataLoanUser?.loans?.[0]?.status)}
                   </span>
-                )}
+                )} */}
+                <span
+                  className={`${
+                    COLOR_STATUS[dataLoanUser?.loans?.[0]?.status]
+                  } p-2 rounded-[8px]`}
+                >
+                  {getStatus(dataLoanUser?.loans?.[0]?.status)}
+                </span>
               </Typography>
 
               {renderButtonPay()}
