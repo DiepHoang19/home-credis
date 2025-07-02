@@ -1,9 +1,8 @@
 import { USER_INFO } from "@/contants/contants";
 import { safeParseJSON } from "@/helpers";
-import { GET_NOTIFICATION_BY_USER } from "@/services/graphql/notification-gql";
-import { Notification } from "@/services/model/notification";
+import { queryGetListNotification } from "@/services/graphql/notification-gql";
 import { User } from "@/services/model/user";
-import { useQuery } from "@apollo/client";
+import { useSubscription } from "@apollo/client";
 import {
   Box,
   Typography,
@@ -26,20 +25,14 @@ export default function AccountHistorySection({ user }: { user: User }) {
     (Cookies.get(USER_INFO) || "") as string
   ) as User;
 
-  const {
-    data: dataNotification,
-  }: { data: { notifications: Notification[] } } = useQuery(
-    GET_NOTIFICATION_BY_USER,
-    {
-      variables: {
-        phone_number: user?.phone_number,
-      },
-      fetchPolicy: "network-only",
-    }
-  );
+  const { data: listNotification } = useSubscription(queryGetListNotification, {
+    variables: {
+      user_id: userInfo.id,
+    },
+  });
 
   return (
-    <Box className="space-y-6">
+    <Box className="space-y-6 ">
       <Paper className="!rounded-[10px] overflow-hidden">
         <Box className="bg-[#2c3763] text-white px-4 py-2 flex justify-between items-center">
           <Typography fontWeight="bold">Thông báo</Typography>
@@ -54,8 +47,8 @@ export default function AccountHistorySection({ user }: { user: User }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataNotification?.notifications.length > 0 ? (
-              dataNotification.notifications.map((notification) => (
+            {listNotification?.notifications.length > 0 ? (
+              listNotification?.notifications.map((notification) => (
                 <TableRow key={notification.id}>
                   <TableCell>
                     {notification.notifications_notification_config.title}:{" "}
@@ -68,7 +61,7 @@ export default function AccountHistorySection({ user }: { user: User }) {
                       year: "numeric",
                       hour: "2-digit",
                       minute: "2-digit",
-                      hour12: false, // bỏ AM/PM
+                      hour12: false,
                     })}
                   </TableCell>
                 </TableRow>

@@ -1,23 +1,16 @@
 import { gql } from "@apollo/client";
 
-export const GET_NOTIFICATION_BY_USER = gql`
-  query GET_NOTIFICATION_BY_USER($phone_number: String!) {
+export const queryGetListNotification = gql`
+  subscription MySubscription($user_id: Int!) {
     notifications(
-      where: {
-        phone_number: { _eq: $phone_number }
-        deletedAt: { _is_null: true }
-      }
-      order_by: { createdAt: desc }
+      where: { deletedAt: { _is_null: true }, user_id: { _eq: $user_id } }
     ) {
-      content
       id
+      createdAt
+      content
       notifications_notification_config {
-        code
         title
       }
-      phone_number
-      createdAt
-      isseen
     }
   }
 `;

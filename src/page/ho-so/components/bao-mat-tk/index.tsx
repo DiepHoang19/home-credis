@@ -2,10 +2,6 @@ import {
   Box,
   Typography,
   Paper,
-  TextField,
-  Button,
-  IconButton,
-  InputAdornment,
   Table,
   TableHead,
   TableRow,
@@ -13,8 +9,8 @@ import {
   TableBody,
 } from "@mui/material";
 import { useState } from "react";
-import { Visibility, VisibilityOff, Lock, History } from "@mui/icons-material";
-import { useForm, Controller } from "react-hook-form";
+import { Lock, History } from "@mui/icons-material";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { safeParseJSON } from "@/helpers";
@@ -26,29 +22,35 @@ import {
   OperationVariables,
   ApolloQueryResult,
   useQuery,
+  useLazyQuery,
 } from "@apollo/client";
 import dayjs from "dayjs";
-import { changePassword } from "@/services/auth";
 import { toast } from "sonner";
-import authenService from "@/service/auth.service";
 import { useRouter } from "@/hook";
+import InputCommon from "@/common/input-common";
+import LoadingButtonCommon from "@/common/loading-button";
+import { queryVerifyOtpCode } from "@/services/graphql/user-gql";
+import authenService from "@/service/auth.service";
 import { USER_INFO } from "@/contants/contants";
 
 // 👇 Yup schema
 const schema = yup.object({
+  otp_code: yup.string().required("Mã otp không được để trống"),
   currentPassword: yup.string().required("Vui lòng nhập mật khẩu hiện tại"),
   newPassword: yup
     .string()
     .required("Vui lòng nhập mật khẩu mới")
-    .min(8, "Mật khẩu phải có ít nhất 8 ký tự"),
+    .min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("newPassword")], "Mật khẩu xác nhận không khớp")
-    .required("Vui lòng xác nhận mật khẩu"),
+    .required("Vui lòng xác nhận mật khẩu")
+    .min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
 });
 
 type FormValues = {
   currentPassword: string;
+  otp_code: string;
   newPassword: string;
   confirmPassword: string;
 };
@@ -68,7 +70,7 @@ export default function ChangePasswordAndLoginHistory() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: yupResolver(schema),
   });
@@ -93,9 +95,18 @@ export default function ChangePasswordAndLoginHistory() {
   });
 
   const router = useRouter();
+
+  const [queryVerify] = useLazyQuery(queryVerifyOtpCode);
+
   const onSubmit = async (data: FormValues) => {
     try {
-      setLoading(true);
+      const response = await queryVerify({
+        variables: { verify_code: data.otp_code },
+      });
+      if (response.data?.users?.length === 0) {
+        toast.warning("Mã otp không chính xác");
+        return;
+      }
       const res = await authenService.onChangePassword({
         new_password: data.newPassword,
         old_password: data.currentPassword,
@@ -114,7 +125,6 @@ export default function ChangePasswordAndLoginHistory() {
     } catch (error) {
       toast.warning("Quá trình đổi mật khẩu thất bại");
     }
-    setLoading(false);
   };
 
   function getDeviceAndBrowserInfo(userAgent: string) {
@@ -162,101 +172,39 @@ export default function ChangePasswordAndLoginHistory() {
           component="form"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Controller
+          <InputCommon
+            name="otp_code"
+            errors={errors.otp_code}
+            control={control}
+            label="Mã Otp"
+            type="number"
+          />
+          <InputCommon
             name="currentPassword"
+            errors={errors.currentPassword}
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                fullWidth
-                label="Mật khẩu hiện tại"
-                type={showPassword.current ? "text" : "password"}
-                required
-                error={!!errors.currentPassword}
-                helperText={errors.currentPassword?.message}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={() => toggleShow("current")}>
-                        {showPassword.current ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
+            label="Mật khẩu hiện tại"
+            inputPassword
+            type="password"
           />
-
-          <Controller
+          <InputCommon
+            type="password"
             name="newPassword"
+            errors={errors.newPassword}
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                fullWidth
-                label="Mật khẩu mới"
-                type={showPassword.new ? "text" : "password"}
-                required
-                error={!!errors.newPassword}
-                helperText={
-                  errors.newPassword?.message ||
-                  "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt."
-                }
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={() => toggleShow("new")}>
-                        {showPassword.new ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
+            label="Mật khẩu mới"
+            inputPassword
           />
-
-          <Controller
+          <InputCommon
             name="confirmPassword"
+            errors={errors.confirmPassword}
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                fullWidth
-                label="Xác nhận mật khẩu mới"
-                type={showPassword.confirm ? "text" : "password"}
-                required
-                error={!!errors.confirmPassword}
-                helperText={errors.confirmPassword?.message}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={() => toggleShow("confirm")}>
-                        {showPassword.confirm ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
+            label="Xác nhận lại mật khẩu"
+            inputPassword
+            type="password"
           />
 
-          <Button
-            type="submit"
-            variant="contained"
-            color="error"
-            loading={loading}
-            sx={{ mt: 2, textTransform: "none", fontWeight: "bold" }}
-          >
-            Cập nhật mật khẩu
-          </Button>
+          <LoadingButtonCommon title="Cập nhật mật khẩu" loading={loading} />
         </Box>
       </Paper>
 

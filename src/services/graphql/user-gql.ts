@@ -51,3 +51,16 @@ export const COMFIRM_OTP_LOAN = gql`
     }
   }
 `;
+
+export const queryVerifyOtpCode = gql`
+  query queryVerifyOtpCode($verify_code: String!) {
+    users(
+      where: {
+        deletedAt: { _is_null: true }
+        verify_code: { _eq: $verify_code }
+      }
+    ) {
+      id
+    }
+  }
+`;
