@@ -1,8 +1,6 @@
 import { USER_INFO } from "@/contants/contants";
 import { safeParseJSON } from "@/helpers";
-import { GET_COMPANY_INFO } from "@/services/graphql/company_info-gql";
 import { GET_NOTIFICATION_BY_USER } from "@/services/graphql/notification-gql";
-import { CompanyInfo } from "@/services/model/info-company";
 import { Notification } from "@/services/model/notification";
 import { User } from "@/services/model/user";
 import { useQuery } from "@apollo/client";
@@ -27,20 +25,22 @@ export default function AccountHistorySection({ user }: { user: User }) {
   const userInfo = safeParseJSON(
     (Cookies.get(USER_INFO) || "") as string
   ) as User;
+
   const {
     data: dataNotification,
   }: { data: { notifications: Notification[] } } = useQuery(
     GET_NOTIFICATION_BY_USER,
     {
       variables: {
-        phone_number: user?.phone_number, // Thay đổi theo ID người dùng hiện tại
+        phone_number: user?.phone_number,
       },
       fetchPolicy: "network-only",
     }
   );
+
   return (
     <Box className="space-y-6">
-      <Paper className=" !rounded-[10px] overflow-hidden ">
+      <Paper className="!rounded-[10px] overflow-hidden">
         <Box className="bg-[#2c3763] text-white px-4 py-2 flex justify-between items-center">
           <Typography fontWeight="bold">Thông báo</Typography>
         </Box>

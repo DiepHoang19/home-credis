@@ -7,7 +7,6 @@ import {
   ListItemIcon,
   ListItemText,
   Paper,
-  Button,
   BottomNavigation,
   BottomNavigationAction,
 } from "@mui/material";
@@ -18,9 +17,7 @@ import {
   Logout,
 } from "@mui/icons-material";
 import clsx from "clsx";
-import { formatNumber, safeParseJSON } from "@/helpers";
-import { GET_LOANS_CONFIGS } from "@/services/graphql/loans-config-gql";
-import { LoansConfig } from "@/services/model/loansconfig";
+import { safeParseJSON } from "@/helpers";
 import { User } from "@/services/model/user";
 import {
   ApolloQueryResult,
@@ -29,16 +26,8 @@ import {
 } from "@apollo/client";
 import Cookies from "js-cookie";
 import { GET_USER } from "@/services/graphql/user-gql";
-import dayjs from "dayjs";
 import PersonalInfoPanelSkeleton from "./components/SkeletonProfile";
-import {
-  ArrowLeftRight,
-  DollarSign,
-  HomeIcon,
-  Lock,
-  Package,
-  User2Icon,
-} from "lucide-react";
+import { ArrowLeftRight, Lock } from "lucide-react";
 import { InfoUser } from "./components/info";
 import LoanListSection from "./components/LoanList";
 import BankAccountInfoSection from "./components/BankAccount";
@@ -46,9 +35,9 @@ import ChangePasswordAndLoginHistory from "./components/bao-mat-tk";
 import { GET_LOAN_USER } from "@/services/graphql/loans-gql";
 import { Loan } from "@/services/model/loans";
 import { useSearchParams } from "react-router-dom";
-import { PUBLIC_ROUTER } from "@/router/section";
 import { useRouter } from "@/hook";
 import AccountHistorySection from "./components/bien-dong-so-du";
+import { toast } from "sonner";
 
 export default function UserProfileLayout() {
   const [selected, setSelected] = useState(1);
@@ -71,8 +60,6 @@ export default function UserProfileLayout() {
   const user = dataUser?.users?.[0];
   const {
     data: dataLoanUser,
-    refetch: refetchCurrentLoan,
-    loading,
   }: {
     data: { loans: Loan[] };
     refetch: (
@@ -179,6 +166,7 @@ export default function UserProfileLayout() {
   if (loadingGetUser) {
     return <PersonalInfoPanelSkeleton />;
   }
+
   return (
     <Box className="bg-[#f6f9fb] min-h-fit py-6 px-4 ">
       <Typography
@@ -190,11 +178,7 @@ export default function UserProfileLayout() {
         THÔNG TIN CÁ NHÂN
       </Typography>
       <Box className="flex justify-center gap-6">
-        {/* Sidebar */}
-        <Paper
-          elevation={1}
-          className="w-xs p-4 !rounded-[10px] hidden md:block"
-        >
+        <Paper elevation={1} className=" p-4 !rounded-[10px] hidden md:block">
           <Box className="flex flex-col items-center gap-1 mb-4">
             <Box className="w-16 h-16 rounded-full bg-gray-300">
               <img src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid&w=740" />{" "}
@@ -227,10 +211,7 @@ export default function UserProfileLayout() {
                 </ListItem>
               </>
             ))}
-            <ListItem
-              // button
-              className={clsx("rounded-lg mb-1 cursor-pointer")}
-            >
+            <ListItem className={clsx("rounded-lg mb-1 cursor-pointer")}>
               <ListItemIcon className={clsx("text-white")}>
                 <Logout />
               </ListItemIcon>
@@ -239,7 +220,8 @@ export default function UserProfileLayout() {
                 onClick={() => {
                   Cookies.remove("user_info");
                   Cookies.remove("access_token");
-                  router.push("/dang-nhap");
+                  router.replace("/");
+                  toast.success("Đăng xuất thành công");
                 }}
               />
             </ListItem>
@@ -274,7 +256,6 @@ export default function UserProfileLayout() {
             ))}
           </BottomNavigation>
         </Paper>
-        {/* Content */}
         {renderContent()}
       </Box>
     </Box>

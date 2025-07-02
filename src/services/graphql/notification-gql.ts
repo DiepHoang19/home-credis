@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_NOTIFICATION_BY_USER = gql`
-  query MyQuery($phone_number: String!) {
+  query GET_NOTIFICATION_BY_USER($phone_number: String!) {
     notifications(
       where: {
         phone_number: { _eq: $phone_number }

@@ -1,5 +1,4 @@
 import { formatNumber } from "@/helpers";
-import { useRouter } from "@/hook";
 import { User } from "@/services/model/user";
 import { Person } from "@mui/icons-material";
 import { Paper, Typography, Button, Box } from "@mui/material";
@@ -12,10 +11,8 @@ export const InfoUser = ({
   user: User;
   setSelected: (value: number) => void;
 }) => {
-  const router = useRouter();
   return (
     <Box className="flex-1 max-w-4xl space-y-4">
-      {/* Personal Info */}
       <Paper className="p-4 shadow-md !rounded-[10px]">
         <Typography
           variant="subtitle1"
