@@ -39,18 +39,18 @@ export enum ENUM_STEP_LOAN {
   DONE = 5,
 }
 
-export enum ENUM_STATUS_LOAN {
-  REQUEST = 0, // Chờ duyệt vay
-  WAIT_COMFIRM_CONTACT = 1, // Đã được admin phê duyệt, chờ xác nhận ký hợp đồng đối với user
-  IN_CONTACT = 2, // Đang trong thời gian vay (thơi gian hợp đông có hiệu lực)
-  REJECT = 3, // Từ chối
-  DONE = 4, // Hoàn thành khoản vay
+export enum ENUM_STATUS_LOAN { // Không theo
+  REQUEST = 0, // "Chờ gửi mã OTP",
+  WAIT_COMFIRM_CONTACT = 1, // "Chờ xác nhận mã OTP",
+  IN_CONTACT = 2, // "Chờ xác minh hợp đồng",
+  REJECT = 3, // "Đang xác minh hợp đồng",
+  DONE = 4, // "Từ chối",
 }
 
 export const ENUM_STATUS_LOAN_LABEL = {
-  0: "Chờ duyệt vay",
-  1: "Chờ xác nhận ký hợp đồng",
-  2: "Đang vay",
-  3: "Từ chối",
-  4: "Hoàn thành khoản vay",
+  0: "Chờ gửi mã OTP",
+  1: "Chờ xác nhận mã OTP",
+  2: "Chờ xác minh hợp đồng",
+  3: "Đang xác minh hợp đồng",
+  4: "Từ chối",
 };

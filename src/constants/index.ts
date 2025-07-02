@@ -50,11 +50,11 @@ export const getStatus = (status: number) => {
     case 1:
       return "Chờ xác nhận OTP";
     case 2:
-      return "Xác nhận OTP thành công";
+      return "Chờ xác minh hợp đồng";
     case 3:
       return "Đang xác minh hợp đồng";
     case 4:
-      return "Đã thanh toán";
+      return "Đang trong hợp đồng";
   }
 };
 

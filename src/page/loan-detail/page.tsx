@@ -33,10 +33,13 @@ import { ArrowBack } from "@mui/icons-material";
 import { useRouter } from "@/hook";
 import { COLOR_STATUS } from "@/contants/contants";
 import OTPDialog from "./DialogOTP";
+import WithdrawProcessingDialog from "./WithdrawProcessingDialog";
 
 export default function LoanDetailCard() {
   const [open, setOpen] = useState(false);
   const [openDialogOTP, setOpenDialogOTP] = useState(false);
+  const [openComfirmDialogOTP, setOpenComfirmDialogOTP] = useState(false);
+
   const userInfo = safeParseJSON(
     (Cookies.get("user_info") || "") as string
   ) as User;
@@ -115,7 +118,7 @@ export default function LoanDetailCard() {
       dataLoanUser?.loans?.[0]?.status
     );
 
-    if (dataLoanUser?.loans?.[0]?.status === ENUM_STATUS_LOAN.IN_CONTACT) {
+    if (dataLoanUser?.loans?.[0]?.status === ENUM_STATUS_LOAN.DONE) {
       return (
         <>
           <Typography> </Typography>
@@ -233,7 +236,7 @@ export default function LoanDetailCard() {
                 <Button
                   startIcon={<Clock size={18} />}
                   variant="contained"
-                  onClick={handleConfirmContact}
+                  onClick={() => setOpenDialogOTP(true)}
                   color="warning"
                   className="w-[200px]"
                 >
@@ -486,7 +489,17 @@ export default function LoanDetailCard() {
             </div>
           </Box>
         </Modal>
-        <OTPDialog open={openDialogOTP} setOpen={setOpenDialogOTP} />
+        <OTPDialog
+          open={openDialogOTP}
+          setOpen={setOpenDialogOTP}
+          loanID={dataLoanUser?.loans?.[0]?.id}
+          setOpenComfirmDialogOTP={setOpenComfirmDialogOTP}
+        />
+        <WithdrawProcessingDialog
+          open={openComfirmDialogOTP}
+          setOpen={setOpenComfirmDialogOTP}
+          loan={dataLoanUser?.loans?.[0]}
+        />
       </Box>
     </div>
   );
