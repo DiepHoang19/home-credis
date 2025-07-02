@@ -31,7 +31,14 @@ import Cookies from "js-cookie";
 import { GET_USER } from "@/services/graphql/user-gql";
 import dayjs from "dayjs";
 import PersonalInfoPanelSkeleton from "./components/SkeletonProfile";
-import { DollarSign, HomeIcon, Lock, Package, User2Icon } from "lucide-react";
+import {
+  ArrowLeftRight,
+  DollarSign,
+  HomeIcon,
+  Lock,
+  Package,
+  User2Icon,
+} from "lucide-react";
 import { InfoUser } from "./components/info";
 import LoanListSection from "./components/LoanList";
 import BankAccountInfoSection from "./components/BankAccount";
@@ -41,6 +48,7 @@ import { Loan } from "@/services/model/loans";
 import { useSearchParams } from "react-router-dom";
 import { PUBLIC_ROUTER } from "@/router/section";
 import { useRouter } from "@/hook";
+import AccountHistorySection from "./components/bien-dong-so-du";
 
 export default function UserProfileLayout() {
   const [selected, setSelected] = useState(1);
@@ -86,6 +94,7 @@ export default function UserProfileLayout() {
     const data = [
       { label: "Thông tin cá nhân", icon: <Person />, key: 1 },
       { label: "Bảo mật tài khoản ", icon: <Lock />, key: 4 },
+      { label: "Biến động tài khoản", icon: <ArrowLeftRight />, key: 5 },
     ];
 
     if (showLoanList) {
@@ -107,7 +116,7 @@ export default function UserProfileLayout() {
       !!user?.accountname && !!user?.accountnumber && !!user?.bankname;
     const showLoanList = !!dataLoanUser?.loans?.[0]?.id;
 
-    const data = [{ label: "Thông tin", icon: <Person />, key: 1 }];
+    const data = [{ label: "", icon: <Person />, key: 1 }];
 
     if (showLoanList) {
       data.push({ label: "Hợp đồng", icon: <CreditCard />, key: 2 });
@@ -121,7 +130,12 @@ export default function UserProfileLayout() {
       });
     }
     data.push({ label: "Bảo mật", icon: <Lock />, key: 4 });
-    data.push({ label: "Đăng xuất", icon: <Logout />, key: 5 });
+    data.push({
+      label: "Biến động",
+      icon: <ArrowLeftRight />,
+      key: 5,
+    });
+    data.push({ label: "", icon: <Logout />, key: 5 });
     return data;
   }, [user, dataLoanUser?.loans?.[0]?.id]);
 
@@ -135,6 +149,8 @@ export default function UserProfileLayout() {
         return <BankAccountInfoSection user={user} />;
       case 4:
         return <ChangePasswordAndLoginHistory />;
+      case 5:
+        return <AccountHistorySection />;
       default:
         break;
     }

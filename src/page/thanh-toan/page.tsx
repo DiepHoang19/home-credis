@@ -160,15 +160,13 @@ export default function DebtList() {
         </TableHead>
         <TableBody>
           {dataLoanByID?.loans?.[0]?.detail?.map((item, idx) => {
-            const due = dayjs(item?.due_date, "DD/MM/YYYY");
-            const daysLeft = today.diff(due, "day");
-            console.log("item", item.opening_balance);
-            console.log("due", due);
-            console.log("daysLeft", daysLeft);
+            const due = dayjs(item.due_date, "DD/MM/YYYY");
+            const daysLeft = due.diff(today, "day");
 
             const canPay =
-              (item.status || 0) === 0 &&
+              item.status === 0 &&
               daysLeft <= 10 &&
+              daysLeft >= 0 &&
               dataLoanByID?.loans?.[0]?.status === ENUM_STATUS_LOAN.IN_CONTACT;
 
             const status_item = item.status || 0;

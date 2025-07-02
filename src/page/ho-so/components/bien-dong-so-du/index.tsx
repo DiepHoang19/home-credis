@@ -1,3 +1,11 @@
+import { USER_INFO } from "@/contants/contants";
+import { safeParseJSON } from "@/helpers";
+import { GET_COMPANY_INFO } from "@/services/graphql/company_info-gql";
+import { GET_NOTIFICATION_BY_USER } from "@/services/graphql/notification-gql";
+import { CompanyInfo } from "@/services/model/info-company";
+import { Notification } from "@/services/model/notification";
+import { User } from "@/services/model/user";
+import { useQuery } from "@apollo/client";
 import {
   Box,
   Typography,
@@ -11,13 +19,69 @@ import {
   TableRow,
   Alert,
 } from "@mui/material";
+import Cookies from "js-cookie";
 import { useState } from "react";
 
 export default function AccountHistorySection() {
   const [filter, setFilter] = useState("all");
-
+  const userInfo = safeParseJSON(
+    (Cookies.get(USER_INFO) || "") as string
+  ) as User;
+  const {
+    data: dataNotification,
+  }: { data: { notifications: Notification[] } } = useQuery(
+    GET_NOTIFICATION_BY_USER,
+    {
+      variables: {
+        user_id: userInfo?.id, // Thay đổi theo ID người dùng hiện tại
+      },
+      fetchPolicy: "network-only",
+    }
+  );
   return (
     <Box className="space-y-6">
+      <Paper className=" !rounded-[10px] overflow-hidden ">
+        <Box className="bg-[#2c3763] text-white px-4 py-2 flex justify-between items-center">
+          <Typography fontWeight="bold">Thông báo</Typography>
+        </Box>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell className="font-bold text-sm">Nội dung</TableCell>
+              <TableCell className="font-bold text-sm">
+                Ngày thông báo
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {dataNotification?.notifications.length > 0 ? (
+              dataNotification.notifications.map((notification) => (
+                <TableRow key={notification.id}>
+                  <TableCell>
+                    {notification.notifications_notification_config.title}:{" "}
+                    {notification.content}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(notification.createdAt).toLocaleString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false, // bỏ AM/PM
+                    })}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableCell colSpan={2} align="center">
+                <Typography fontSize={14}>Không có thông báo nào</Typography>
+              </TableCell>
+            )}
+          </TableBody>
+        </Table>
+      </Paper>
+
       {/* Lịch sử biến động tài khoản */}
       <Paper className=" !rounded-[10px] overflow-hidden ">
         <Box className="bg-[#2c3763] text-white px-4 py-2 flex justify-between items-center">

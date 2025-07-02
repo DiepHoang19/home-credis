@@ -46,15 +46,24 @@ export const CCCD_STEPS = [
 export const getStatus = (status: number) => {
   switch (status) {
     case 0:
-      return "Chờ duyệt";
+      return "Chờ xin giải ngân";
     case 1:
-      return "Chờ ký";
+      return "Chờ xác nhận OTP";
     case 2:
-      return "Đang vay";
+      return "Chờ xác minh hợp đồng";
     case 3:
-      return "Đã huỷ";
+      return "Đang xác minh hợp đồng";
     case 4:
-      return "Đã thanh toán";
+      return "Đang trong hợp đồng";
+  }
+};
+
+export const getStatusOTP = (status: number) => {
+  switch (status) {
+    case 0:
+      return "Xin giải ngân";
+    case 1:
+      return "Chờ xác nhận OTP";
   }
 };
 

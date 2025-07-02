@@ -93,7 +93,12 @@ const Header = () => {
             </a>
             <span className="text-gray-600">Tin tức</span>
             <span className="text-gray-600">Hỗ trợ</span>
-            <span className="text-gray-600">Về chúng tôi</span>
+            <span
+              className="text-gray-600 cursor-pointer"
+              onClick={() => router.push("/ho-so?type=5")}
+            >
+              Thông báo
+            </span>
           </div>
 
           {userInfo ? (
