@@ -19,6 +19,8 @@ import {
   useSubscription,
 } from "@apollo/client";
 
+import Alert from "@mui/material/Alert";
+
 import { safeParseJSON } from "@/helpers";
 import { User } from "@/services/model/user";
 import Cookies from "js-cookie";
@@ -204,7 +206,7 @@ export default function LoanDetailCard() {
 
               <Typography>Tình trạng:</Typography>
               <Typography fontWeight="bold" color="orange" textAlign="end">
-                {/* {dataLoanUser?.loans?.[0]?.status ===
+                {dataLoanUser?.loans?.[0]?.status ===
                 ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT ? (
                   <Button
                     startIcon={<Handshake size={18} />}
@@ -221,19 +223,12 @@ export default function LoanDetailCard() {
                   >
                     {getStatus(dataLoanUser?.loans?.[0]?.status)}
                   </span>
-                )} */}
-                <span
-                  className={`${
-                    COLOR_STATUS[dataLoanUser?.loans?.[0]?.status]
-                  } p-2 rounded-[8px]`}
-                >
-                  {listNotifications?.[0]?.content ||
-                    getStatus(dataLoanUser?.loans?.[0]?.status)}
-                </span>
+                )}
               </Typography>
 
               {renderButtonPay()}
             </Box>
+
             <Box textAlign="center" mt={3}>
               <Button
                 startIcon={<Eye size={18} />}
@@ -245,7 +240,14 @@ export default function LoanDetailCard() {
             </Box>
           </Paper>
 
-          <Paper variant="outlined" sx={{ p: 2 }}>
+          <Box>
+            <Alert severity="warning">
+              {listNotifications?.[0]?.content ||
+                getStatus(dataLoanUser?.loans?.[0]?.status)}
+            </Alert>
+          </Box>
+
+          <Paper variant="outlined" sx={{ p: 2, mt: 2 }}>
             {[
               ENUM_STATUS_LOAN.REQUEST,
               ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT,

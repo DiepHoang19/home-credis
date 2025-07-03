@@ -127,20 +127,6 @@ const LoanCalculator = () => {
     ) {
       setActiveStep((dataLoanUser?.loans[0].step || 0) + 1);
     }
-
-    // if (
-    //   dataLoanUser?.loans &&
-    //   dataLoanUser?.loans?.length > 0 &&
-    //   dataLoanUser?.loans[0].step === ENUM_STEP_LOAN.FIVE &&
-    //   [
-    //     ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT,
-    //     ENUM_STATUS_LOAN.IN_CONTACT,
-    //     ENUM_STATUS_LOAN.REQUEST,
-    //   ].includes(dataLoanUser?.loans[0].status)
-    // ) {
-    //   setActiveStep((dataLoanUser?.loans[0].step || 0) + 1);
-    //   router("/chi-tiet-khoan-vay?id=" + dataLoanUser?.loans[0].id);
-    // }
   }, [dataLoanUser?.loans]);
 
   const list = () => {
@@ -154,10 +140,10 @@ const LoanCalculator = () => {
       return [...LOANS_STEPS, INFO_BANK, SIGN_COMFIRM];
     }
   };
+
   if (loading) {
     return <FullScreenSpinner />;
   }
-  console.log("list()?.[activeStep]?.label?.toUpperCase()", activeStep);
 
   return (
     <Box
