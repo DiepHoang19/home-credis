@@ -40,7 +40,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
           }}
         >
           <Typography fontSize={22} fontWeight="bold" letterSpacing={2} pt={3}>
-            {user.accountnumber}
+            {user?.accountnumber}
           </Typography>
 
           <Box className="absolute top-4 left-4 w-6 h-6 bg-yellow-400 rounded-sm" />
@@ -49,7 +49,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
             CHỦ THẺ
           </Typography>
           <Typography fontWeight="bold" fontSize={16}>
-            {user.accountname.toUpperCase()}
+            {user?.accountname?.toUpperCase()}
           </Typography>
 
           <Typography
@@ -86,7 +86,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
       <Box className="grid sm:grid-cols-2 gap-4 px-1">
         <TextField
           label="Số tài khoản / thẻ ATM"
-          value={user.accountnumber}
+          value={user?.accountnumber}
           InputProps={{ readOnly: true }}
           fullWidth
         />

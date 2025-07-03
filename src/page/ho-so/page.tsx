@@ -38,6 +38,8 @@ import { useSearchParams } from "react-router-dom";
 import { useRouter } from "@/hook";
 import AccountHistorySection from "./components/bien-dong-so-du";
 import { toast } from "sonner";
+import { PUBLIC_ROUTER } from "@/router/section";
+import { USER_INFO } from "@/contants/contants";
 
 export default function UserProfileLayout() {
   const [selected, setSelected] = useState(1);
@@ -122,7 +124,7 @@ export default function UserProfileLayout() {
       icon: <ArrowLeftRight />,
       key: 5,
     });
-    data.push({ label: "", icon: <Logout />, key: 5 });
+    data.push({ label: "", icon: <Logout />, key: 6 });
     return data;
   }, [user, dataLoanUser?.loans?.[0]?.id]);
 
@@ -218,9 +220,10 @@ export default function UserProfileLayout() {
               <ListItemText
                 primary="Đăng xuất"
                 onClick={() => {
-                  Cookies.remove("user_info");
+                  Cookies.remove(USER_INFO);
                   Cookies.remove("access_token");
-                  router.replace("/");
+                  router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
+                  window?.location?.reload();
                   toast.success("Đăng xuất thành công");
                 }}
               />
