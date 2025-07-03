@@ -54,3 +54,8 @@ export const ENUM_STATUS_LOAN_LABEL = {
   3: "Đang xác minh hợp đồng",
   4: "Từ chối",
 };
+
+export enum TYPE_NOTIFICATION {
+  SYSTEM = 1, // Thông báo hệ thống
+  KHOAN_VAY = 2, // Thông báo người dùng VỀ TÌNH TRẠNG KHOẢN VAY
+}

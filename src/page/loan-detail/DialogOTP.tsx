@@ -12,11 +12,13 @@ const OTPDialog = ({
   setOpen,
   loanID,
   setOpenComfirmDialogOTP,
+  refetchCurrentLoan,
 }: {
   open: boolean;
   setOpen: (value: boolean) => void;
   loanID: number;
   setOpenComfirmDialogOTP: (value: boolean) => void;
+  refetchCurrentLoan: () => void;
 }) => {
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +46,8 @@ const OTPDialog = ({
         });
         setOpenComfirmDialogOTP(true);
         setOpen(false);
+        refetchCurrentLoan();
+        toast.success("Xác nhận OTP thành công! Vui lòng chờ giải ngân.");
       } else {
         toast.error("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
       }

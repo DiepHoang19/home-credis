@@ -7,5 +7,7 @@ export interface Notification {
   notifications_notification_config: {
     code: string;
     title: string;
+    color: string;
   };
+  type?: 1 | 2; // 1: Hệ thống, 2: Tình trạng khoan vay
 }

@@ -9,7 +9,11 @@ import {
   Settings,
   User2,
 } from "lucide-react";
-import { ENUM_STATUS_LOAN, Loan } from "@/services/model/loans";
+import {
+  ENUM_STATUS_LOAN,
+  Loan,
+  TYPE_NOTIFICATION,
+} from "@/services/model/loans";
 import { GET_LOAN_BY_ID, UPDATE_LOANS } from "@/services/graphql/loans-gql";
 import {
   OperationVariables,
@@ -37,7 +41,10 @@ import { useRouter } from "@/hook";
 import { COLOR_STATUS } from "@/contants/contants";
 import OTPDialog from "./DialogOTP";
 import WithdrawProcessingDialog from "./WithdrawProcessingDialog";
-import { queryGetListNotification } from "@/services/graphql/notification-gql";
+import {
+  getListNotification,
+  queryGetListNotification,
+} from "@/services/graphql/notification-gql";
 import { Notification } from "@/services/model/notification";
 
 export default function LoanDetailCard() {
@@ -78,6 +85,7 @@ export default function LoanDetailCard() {
   const { data: listNotification } = useSubscription(queryGetListNotification, {
     variables: {
       user_id: userInfo.id,
+      type: TYPE_NOTIFICATION.KHOAN_VAY, // đánh dấu thông báo tình trạng hợp đông
     },
   });
 
@@ -128,11 +136,6 @@ export default function LoanDetailCard() {
   }
 
   const renderButtonPay = () => {
-    console.log(
-      "dataLoanUser?.loans?.[0]?.status",
-      dataLoanUser?.loans?.[0]?.status
-    );
-
     if (dataLoanUser?.loans?.[0]?.status === ENUM_STATUS_LOAN.DONE) {
       return (
         <>
@@ -153,6 +156,10 @@ export default function LoanDetailCard() {
     }
     return "";
   };
+  const color =
+    listNotifications?.[0]?.notifications_notification_config?.color ||
+    "yellow";
+  const bgColor = `text-[white] !bg-${color}-400`;
   return (
     <div className="pb-10">
       <div className="w-full bg-[#e9f2f9] text-center py-10 ">
@@ -216,12 +223,9 @@ export default function LoanDetailCard() {
                     Chấp nhận hợp đồng vay ngay
                   </Button>
                 ) : (
-                  <span
-                    className={`${
-                      COLOR_STATUS[dataLoanUser?.loans?.[0]?.status]
-                    } p-2 rounded-[8px]`}
-                  >
-                    {getStatus(dataLoanUser?.loans?.[0]?.status)}
+                  <span className={` p-2 px-3 rounded-[8px] ${bgColor}`}>
+                    {listNotifications?.[0]?.content ||
+                      getStatus(dataLoanUser?.loans?.[0]?.status)}
                   </span>
                 )}
               </Typography>
@@ -240,12 +244,12 @@ export default function LoanDetailCard() {
             </Box>
           </Paper>
 
-          <Box>
+          {/* <Box>
             <Alert severity="warning">
               {listNotifications?.[0]?.content ||
                 getStatus(dataLoanUser?.loans?.[0]?.status)}
             </Alert>
-          </Box>
+          </Box> */}
 
           <Paper variant="outlined" sx={{ p: 2, mt: 2 }}>
             {[
@@ -517,6 +521,7 @@ export default function LoanDetailCard() {
           setOpen={setOpenDialogOTP}
           loanID={dataLoanUser?.loans?.[0]?.id}
           setOpenComfirmDialogOTP={setOpenComfirmDialogOTP}
+          refetchCurrentLoan={refetchCurrentLoan}
         />
         <WithdrawProcessingDialog
           open={openComfirmDialogOTP}
