@@ -62,8 +62,17 @@ export const StepOne = (props: Props) => {
 
   const [INTEREST_RATE, setInterestRate] = useState<number>(0);
 
-  const { data }: { data: { loans_config: LoansConfig[] } } =
-    useQuery(GET_LOANS_CONFIGS);
+  const { data }: { data: { loans_config: LoansConfig[] } } = useQuery(
+    GET_LOANS_CONFIGS,
+    {
+      fetchPolicy: "cache-and-network",
+      nextFetchPolicy: "cache-first",
+      onError: (err) => {
+        console.error("Lỗi khi lấy cấu hình khoản vay:", err);
+        setMessage("Không thể lấy cấu hình khoản vay. Vui lòng thử lại sau.");
+      },
+    }
+  );
 
   const [createLoans, { data: dataCreateLoans, loading: loadingCreateLoans }] =
     useMutation(CREATE_LOANS);
