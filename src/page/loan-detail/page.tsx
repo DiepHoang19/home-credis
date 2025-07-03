@@ -16,6 +16,7 @@ import {
   ApolloQueryResult,
   useQuery,
   useMutation,
+  useSubscription,
 } from "@apollo/client";
 
 import { safeParseJSON } from "@/helpers";
@@ -28,12 +29,14 @@ import { CompanyInfo } from "@/services/model/info-company";
 import { useSearchParams } from "react-router-dom";
 
 import LoanDetailSkeleton from "./LoanSkeleton";
-import { getStatus, getStatusOTP } from "@/constants";
+import { CODE_OTP_GIAI_NGAN, getStatus, getStatusOTP } from "@/constants";
 import { ArrowBack } from "@mui/icons-material";
 import { useRouter } from "@/hook";
 import { COLOR_STATUS } from "@/contants/contants";
 import OTPDialog from "./DialogOTP";
 import WithdrawProcessingDialog from "./WithdrawProcessingDialog";
+import { queryGetListNotification } from "@/services/graphql/notification-gql";
+import { Notification } from "@/services/model/notification";
 
 export default function LoanDetailCard() {
   const [open, setOpen] = useState(false);
@@ -70,7 +73,17 @@ export default function LoanDetailCard() {
     useQuery(GET_LOANS_CONFIGS);
   const { data: dataCompanyInfo }: { data: { company_info: CompanyInfo[] } } =
     useQuery(GET_COMPANY_INFO);
+  const { data: listNotification } = useSubscription(queryGetListNotification, {
+    variables: {
+      user_id: userInfo.id,
+    },
+  });
 
+  console.log(listNotification);
+
+  const listNotifications = (listNotification?.notifications || [])?.filter(
+    (i) => i?.notifications_notification_config?.code !== CODE_OTP_GIAI_NGAN
+  ) as Notification[];
   const formatCurrency = (num: number) =>
     num.toLocaleString("vi-VN", {
       style: "currency",
@@ -214,7 +227,8 @@ export default function LoanDetailCard() {
                     COLOR_STATUS[dataLoanUser?.loans?.[0]?.status]
                   } p-2 rounded-[8px]`}
                 >
-                  {getStatus(dataLoanUser?.loans?.[0]?.status)}
+                  {listNotifications?.[0]?.content ||
+                    getStatus(dataLoanUser?.loans?.[0]?.status)}
                 </span>
               </Typography>
 
