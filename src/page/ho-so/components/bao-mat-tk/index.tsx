@@ -23,6 +23,7 @@ import {
   ApolloQueryResult,
   useQuery,
   useLazyQuery,
+  useMutation,
 } from "@apollo/client";
 import dayjs from "dayjs";
 import { toast } from "sonner";
@@ -32,6 +33,7 @@ import LoadingButtonCommon from "@/common/loading-button";
 import { queryVerifyOtpCode } from "@/services/graphql/user-gql";
 import authenService from "@/service/auth.service";
 import { USER_INFO } from "@/contants/contants";
+import { mutationUdpateRemoveOtp } from "@/graphql/mutation";
 
 // 👇 Yup schema
 const schema = yup.object({
@@ -96,6 +98,8 @@ export default function ChangePasswordAndLoginHistory() {
 
   const router = useRouter();
 
+  const [updateRemoveOtp] = useMutation(mutationUdpateRemoveOtp);
+
   const [queryVerify] = useLazyQuery(queryVerifyOtpCode);
 
   const onSubmit = async (data: FormValues) => {
@@ -114,6 +118,9 @@ export default function ChangePasswordAndLoginHistory() {
       });
 
       if (res.status === 200) {
+        await updateRemoveOtp({
+          variables: { id: userInfo?.id, verify_code: null },
+        });
         toast.success(res.data.message);
         Cookies.remove(USER_INFO);
         Cookies.remove("access_token");
