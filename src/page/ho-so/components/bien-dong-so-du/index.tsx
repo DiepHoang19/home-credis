@@ -1,6 +1,7 @@
 import { USER_INFO } from "@/contants/contants";
 import { safeParseJSON } from "@/helpers";
 import { queryGetListNotification } from "@/services/graphql/notification-gql";
+import { TYPE_NOTIFICATION } from "@/services/model/loans";
 import { User } from "@/services/model/user";
 import { useSubscription } from "@apollo/client";
 import {
@@ -28,6 +29,7 @@ export default function AccountHistorySection({ user }: { user: User }) {
   const { data: listNotification } = useSubscription(queryGetListNotification, {
     variables: {
       user_id: userInfo.id,
+      type: TYPE_NOTIFICATION.SYSTEM,
     },
   });
 
