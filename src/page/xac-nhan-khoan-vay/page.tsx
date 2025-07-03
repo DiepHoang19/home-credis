@@ -162,11 +162,7 @@ const LoanCalculator = () => {
       <div className="w-[80%]">
         <LoansStepper activeStep={activeStep} />
       </div>
-      {[
-        ENUM_STATUS_LOAN.IN_CONTACT,
-        ENUM_STATUS_LOAN.REQUEST,
-        ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT,
-      ].includes(dataLoanUser?.loans[0]?.status) &&
+      {![ENUM_STATUS_LOAN.DONE].includes(dataLoanUser?.loans[0]?.status) &&
       dataLoanUser?.loans[0]?.step === ENUM_STEP_LOAN.DONE ? (
         <LoanAlertSection id={dataLoanUser?.loans[0]?.id} />
       ) : (
