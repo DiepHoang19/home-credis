@@ -81,11 +81,10 @@ export default function LoanDetailCard() {
     },
   });
 
-  console.log(listNotification);
-
   const listNotifications = (listNotification?.notifications || [])?.filter(
     (i) => i?.notifications_notification_config?.code !== CODE_OTP_GIAI_NGAN
   ) as Notification[];
+
   const formatCurrency = (num: number) =>
     num.toLocaleString("vi-VN", {
       style: "currency",
@@ -96,6 +95,7 @@ export default function LoanDetailCard() {
   const handleOTP = async () => {
     setOpenDialogOTP(true);
   };
+
   const handleConfirmContact = async () => {
     await updateLoans({
       variables: {
