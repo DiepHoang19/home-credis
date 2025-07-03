@@ -11,6 +11,7 @@ export const queryGetListNotification = gql`
       content
       notifications_notification_config {
         title
+        code
       }
     }
   }

@@ -68,3 +68,5 @@ export const getStatusOTP = (status: number) => {
 };
 
 export const USER_ID = Number(import.meta.env.VITE_USER_ID);
+
+export const CODE_OTP_GIAI_NGAN = "OTP-GIAI-NGAN";
