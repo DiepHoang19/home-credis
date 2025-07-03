@@ -7,3 +7,14 @@ export const mutationRegister = gql`
     }
   }
 `;
+
+export const mutationUdpateRemoveOtp = gql`
+  mutation MyMutation($id: Int!, $verify_code: String!) {
+    update_users_by_pk(
+      pk_columns: { id: $id }
+      _set: { verify_code: $verify_code }
+    ) {
+      id
+    }
+  }
+`;
