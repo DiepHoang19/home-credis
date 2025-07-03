@@ -62,8 +62,8 @@ const StepFour = ({ currentLoan, setActiveStep }: Props) => {
 
   const values = useWatch({ control });
 
-  const maskedAccount = values.accountnumber
-    ? values.accountnumber.replace(/\d(?=\d{4})/g, "*")
+  const maskedAccount = values?.accountnumber
+    ? values?.accountnumber.replace(/\d(?=\d{4})/g, "*")
     : "**** **** **** ****";
 
   const onSubmit = async (data: BankForm) => {
