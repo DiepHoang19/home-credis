@@ -216,41 +216,45 @@ export default function ChangePasswordAndLoginHistory() {
       </Paper>
 
       {/* Lịch sử đăng nhập */}
-      <Paper className=" !rounded-[10px] overflow-hidden">
+      <Paper className="!rounded-[10px] overflow-hidden">
         <Box className="bg-[#2c3763] text-white px-4 py-2 flex items-center gap-2">
           <History fontSize="small" />
           <Typography fontWeight="bold">Lịch Sử Đăng Nhập</Typography>
         </Box>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell className="font-bold text-sm">Thời gian</TableCell>
-              <TableCell className="font-bold text-sm">Địa chỉ IP</TableCell>
-              <TableCell className="font-bold text-sm">Thiết bị</TableCell>
-              <TableCell className="font-bold text-sm">Trạng thái</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {dataLoginLog?.login_logs?.map((row, idx) => (
-              <TableRow key={idx}>
-                <TableCell>
-                  {dayjs(row?.created_at).format("DD/MM/YYYY")}
-                </TableCell>
-                <TableCell>{row?.ip_public}</TableCell>
-                <TableCell>{getDeviceAndBrowserInfo(row?.browser)} </TableCell>
-                <TableCell>
-                  <Box
-                    className={`inline-block bg-green-100 ${
-                      row?.status === 1 ? "text-green-800" : "text-red-800"
-                    } text-xs font-semibold px-2 py-1 rounded`}
-                  >
-                    {row.status === 1 ? "Thành công" : "Thất bại"}
-                  </Box>
-                </TableCell>
+
+        {/* Vùng scroll có chiều cao cố định */}
+        <Box className="max-h-[400px] overflow-y-auto">
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell className="font-bold text-sm">Thời gian</TableCell>
+                <TableCell className="font-bold text-sm">Thiết bị</TableCell>
+                <TableCell className="font-bold text-sm">Trạng thái</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {dataLoginLog?.login_logs?.map((row, idx) => (
+                <TableRow key={idx}>
+                  <TableCell>
+                    {dayjs(row?.created_at).format("DD/MM/YYYY")}
+                  </TableCell>
+                  <TableCell>{getDeviceAndBrowserInfo(row?.browser)}</TableCell>
+                  <TableCell>
+                    <Box
+                      className={`inline-block  ${
+                        row?.status === 1
+                          ? "text-green-800 bg-green-100"
+                          : "text-red-800 bg-red-100"
+                      } text-xs font-semibold px-2 py-1 rounded`}
+                    >
+                      {row.status === 1 ? "Thành công" : "Thất bại"}
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
       </Paper>
     </Box>
   );
