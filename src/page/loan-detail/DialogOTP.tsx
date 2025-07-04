@@ -61,28 +61,28 @@ const OTPDialog = ({
   };
 
   return (
-    <>
-      <DialogCommon
-        open={open}
-        onClose={() => setOpen(false)}
-        title="Xin giải ngân"
-        footerAction
-        submitText="Xác nhận OTP"
-        closeText="Huỷ"
-        isLoading={isLoading}
-        onSubmit={handleSubmit}
-      >
-        <Box sx={{ padding: 2 }}>
-          <TextField
-            fullWidth
-            label="Nhập mã OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            inputProps={{ maxLength: 6 }}
-          />
-        </Box>
-      </DialogCommon>
-    </>
+    <DialogCommon
+      open={open}
+      onClose={() => setOpen(false)}
+      title="Xin giải ngân"
+      footerAction
+      submitText="Xác nhận OTP"
+      closeText="Đóng"
+      isLoading={isLoading}
+      onSubmit={handleSubmit}
+      fullWidth
+      maxWidth="sm"
+    >
+      <Box p={2}>
+        <TextField
+          fullWidth
+          label="Nhập mã OTP"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          inputProps={{ maxLength: 6 }}
+        />
+      </Box>
+    </DialogCommon>
   );
 };
 
