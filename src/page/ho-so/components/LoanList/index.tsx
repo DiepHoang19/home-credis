@@ -77,6 +77,7 @@ export default function LoanListSection({ list }: { list: Loan[] }) {
                 </TableCell>
                 <TableCell>
                   <Box
+                    sx={{ borderRadius: 2 }}
                     className={`${
                       COLOR_STATUS[loan?.status]
                     } px-2 py-1 text-sm rounded`}
@@ -90,6 +91,7 @@ export default function LoanListSection({ list }: { list: Loan[] }) {
                     size="small"
                     startIcon={<Visibility />}
                     sx={{
+                      borderRadius: 2,
                       backgroundColor: "#00c4ff",
                       "&:hover": {
                         backgroundColor: "#00afd6",

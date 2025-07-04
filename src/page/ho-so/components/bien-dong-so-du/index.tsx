@@ -77,8 +77,7 @@ export default function AccountHistorySection({ user }: { user: User }) {
         </Table>
       </Paper>
 
-      {/* Lịch sử biến động tài khoản */}
-      <Paper className=" !rounded-[10px] overflow-hidden ">
+      <Paper className="!rounded-[10px] overflow-hidden ">
         <Box className="bg-[#2c3763] text-white px-4 py-2 flex justify-between items-center">
           <Typography fontWeight="bold">Lịch sử biến động tài khoản</Typography>
           <Select
@@ -125,7 +124,6 @@ export default function AccountHistorySection({ user }: { user: User }) {
         </Table>
       </Paper>
 
-      {/* Lịch thanh toán sắp tới */}
       <Paper className="rounded-xl overflow-hidden">
         <Box className="bg-[#2c3763] text-white px-4 py-2">
           <Typography fontWeight="bold">Lịch thanh toán sắp tới</Typography>

@@ -30,7 +30,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
   }, []);
 
   return (
-    <Paper className="shadow-md  !rounded-[10px] p-4 space-y-6">
+    <Paper className="shadow-md !rounded-[10px] p-4 space-y-6">
       {/* Bank Card */}
       <Box className="flex justify-center">
         <Box

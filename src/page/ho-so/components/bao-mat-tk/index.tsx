@@ -8,7 +8,6 @@ import {
   TableCell,
   TableBody,
 } from "@mui/material";
-import { useState } from "react";
 import { Lock, History } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -58,17 +57,6 @@ type FormValues = {
 };
 
 export default function ChangePasswordAndLoginHistory() {
-  const [showPassword, setShowPassword] = useState({
-    current: false,
-    new: false,
-    confirm: false,
-  });
-
-  const [loading, setLoading] = useState(false);
-
-  const toggleShow = (key: keyof typeof showPassword) =>
-    setShowPassword((prev) => ({ ...prev, [key]: !prev[key] }));
-
   const {
     control,
     handleSubmit,
@@ -78,7 +66,7 @@ export default function ChangePasswordAndLoginHistory() {
   });
 
   const userInfo = safeParseJSON(
-    (Cookies.get("user_info") || "") as string
+    (Cookies.get(USER_INFO) || "") as string
   ) as User;
 
   const {
@@ -211,7 +199,10 @@ export default function ChangePasswordAndLoginHistory() {
             type="password"
           />
 
-          <LoadingButtonCommon title="Cập nhật mật khẩu" loading={loading} />
+          <LoadingButtonCommon
+            title="Cập nhật mật khẩu"
+            loading={isSubmitting}
+          />
         </Box>
       </Paper>
 
