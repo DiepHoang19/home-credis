@@ -86,10 +86,10 @@ const Header = () => {
         >
           <div className="flex items-center space-x-4 text-lg font-bold">
             <a
-              href="tel:1900633999"
+              href="tel:19007115"
               className="text-blue-600 hover:underline cursor-pointer"
             >
-              Hotline: 1900 633 999
+              Hotline: 1900 7115
             </a>
             <span className="text-gray-600">Tin tức</span>
             <span className="text-gray-600">Hỗ trợ</span>

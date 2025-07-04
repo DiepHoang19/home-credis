@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { useRouter } from "@/hook";
 
 const products = [
   {
@@ -6,6 +6,7 @@ const products = [
     icon: "https://www.homecredit.vn/static/5fa6d575d4ce2a33c57b2a3be5295032/628fd/Vay_tien_mat_d62dd3ca82.webp",
     title: "Vay tiền mặt",
     description: "Giải pháp tài chính linh hoạt",
+    link: "/xac-nhan-khoan-vay",
   },
   {
     id: 2,
@@ -40,6 +41,7 @@ const products = [
 ];
 
 const ProductServices = () => {
+  const router = useRouter();
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
@@ -53,7 +55,16 @@ const ProductServices = () => {
               alt={product.title}
               className="w-16 h-16 mb-3"
             />
-            <h3 className="font-medium text-[#383838] mb-1">{product.title}</h3>
+            <h3
+              className="font-medium text-[#383838] cursor-pointer mb-1"
+              onClick={() => {
+                if (product.link) {
+                  router.push(product.link);
+                }
+              }}
+            >
+              {product.title}
+            </h3>
             <p className="text-sm text-gray-600">{product.description}</p>
           </div>
         ))}

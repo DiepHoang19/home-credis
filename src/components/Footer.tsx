@@ -122,21 +122,18 @@ const Footer = () => {
                 <Linkedin />
               </a>
             </div>
-            <p className="mb-4">Hotline: 1900 633 999</p>
-            <ButtonCommon color="error" sx={{ borderRadius: 10 }}>
-              Tải ứng dụng
-            </ButtonCommon>
+            <p className="mb-4">Hotline: 1900 7115</p>
           </div>
         </div>
 
-        <div className="border-t border-white/20 mt-8 pt-8 text-sm">
+        {/* <div className="border-t border-white/20 mt-8 pt-8 text-sm">
           <p>© 2025 Home Credit Vietnam.</p>
           <p className="mt-2">
             Công ty Tài chính TNHH MTV Home Credit Việt Nam - Giấy phép hoạt
             động số 95/GP-NHNN do Ngân hàng Nhà nước Việt Nam cấp ngày
             28/09/2018.
           </p>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

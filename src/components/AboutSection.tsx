@@ -45,7 +45,7 @@ const AboutSection = () => {
             <div className="relative">
               <div className="bg-[#E11E31]/10 rounded-full p-6">
                 <img
-                  src="https://www.homecredit.vn./static/b22fc1561a5821fa6745e558a104d838/0f57a/Web_banner_desktop_7a8bb72a4e.webp"
+                  src="https://www.homecredit.vn/static/bf0311d1040339e1d6cffebd109f70d7/3ab09/Thumbnail_1_cdba8256bc.webp"
                   alt="Home Credit App"
                   className="w-full max-w-md rounded-lg shadow-lg"
                 />
