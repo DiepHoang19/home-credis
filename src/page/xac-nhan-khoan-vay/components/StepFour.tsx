@@ -35,10 +35,8 @@ interface Props {
 
 // Yup schema
 const schema = yup.object({
-  accountnumber: yup
-    .string()
-    .required("Bắt buộc")
-    .matches(/^[0-9]{10,20}$/, "Số tài khoản không hợp lệ"),
+  accountnumber: yup.string().required("Bắt buộc"),
+  // .matches(/^[0-9]{10,20}$/, "Số tài khoản không hợp lệ"),
   accountname: yup.string().required("Bắt buộc"),
   bankname: yup.string().required("Bắt buộc"),
 });
