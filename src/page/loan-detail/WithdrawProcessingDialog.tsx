@@ -4,6 +4,8 @@ import DialogCommon from "@/common/dialog-common";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber"; // hoặc bạn dùng svg icon OTP bên trên
 import { Loan } from "@/services/model/loans";
 import { formatNumber } from "@/helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsShow } from "@/redux/slices/toggleBoxChat";
 
 const WithdrawProcessingDialog = ({
   open,
@@ -14,10 +16,8 @@ const WithdrawProcessingDialog = ({
   setOpen: (value: boolean) => void;
   loan: Loan;
 }) => {
-  const handleContact = () => {
-    // Chuyển sang trang CSKH hoặc mở chat hỗ trợ
-    window.open("/ho-so?type=3", "_blank");
-  };
+  const isShow = useSelector((state: any) => state.toggleBoxChat.isShow);
+  const dispatch = useDispatch();
 
   return (
     <DialogCommon
@@ -26,7 +26,7 @@ const WithdrawProcessingDialog = ({
       title=""
       footerAction
       submitText="Ấn vào đây để liên hệ CSKH"
-      onSubmit={handleContact}
+      onSubmit={() => dispatch(setIsShow(true))}
       closeText="Đóng"
     >
       <Box textAlign="center" py={2}>
