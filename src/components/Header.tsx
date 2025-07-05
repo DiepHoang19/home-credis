@@ -72,9 +72,9 @@ const Header = () => {
         <div className="flex items-center">
           <Link to={PUBLIC_ROUTER.HOME} className="mr-4">
             <img
-              src="https://www.homecredit.vn/static/2de334676802a591f9444bb556bd334f/f30c4/Microsoft_Teams_image_30_1_1_394b27a905.webp"
-              alt="HomeCredit Logo"
-              className="h-10"
+              src="https://api-auction.site/uploads/images/logo-home-1751713601491.png"
+              alt="Logo"
+              className="h-40"
             />
           </Link>
         </div>

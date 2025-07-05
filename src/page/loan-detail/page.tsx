@@ -383,7 +383,7 @@ export default function LoanDetailCard() {
           </Typography>
 
           <Typography mb={1}>
-            Bên A (Bên cho vay): CÔNG TY TÀI CHÍNH HD SAISON VIỆT NAM
+            Bên A (Bên cho vay): CÔNG TY TÀI CHÍNH HOMECRD VIỆT NAM
           </Typography>
           <Typography mb={1}>
             Bên B (Bên vay) Ông/Bà :{" "}

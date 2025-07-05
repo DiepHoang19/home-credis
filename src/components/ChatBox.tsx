@@ -47,7 +47,7 @@ export default function ChatBox({ open, setOpen }: ChatBoxProps) {
             }}
           >
             <Typography fontWeight="bold">
-              Home Credit - hỗ trợ trực tuyến
+              HomeCRD - hỗ trợ trực tuyến
             </Typography>
             <IconButton
               onClick={() => setOpen(false)}
@@ -83,9 +83,9 @@ export default function ChatBox({ open, setOpen }: ChatBoxProps) {
                 }}
               >
                 <Typography>
-                  Home Credit rất hân hạnh được phục vụ Quý khách. Hiện tại, Bên
-                  em đang có ứng dụng Home Credit trên điện thoại giúp Quý khách
-                  dễ theo dõi giao dịch và thanh toán. Quý khách có thể tải ứng
+                  HomeCRD rất hân hạnh được phục vụ Quý khách. Hiện tại, Bên em
+                  đang có ứng dụng HomeCRD trên điện thoại giúp Quý khách dễ
+                  theo dõi giao dịch và thanh toán. Quý khách có thể tải ứng
                   dụng trên App Store hoặc CH Play. Chúc Quý khách một ngày tốt
                   lành!
                 </Typography>

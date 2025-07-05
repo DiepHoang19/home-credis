@@ -14,17 +14,15 @@ const HelpSection = () => {
             <div className="md:w-1/3 bg-gray-100  flex items-center justify-center p-2">
               <img
                 src="http://api-auction.site/uploads/images/cd_1_791d839154-1751142092031.webp"
-                alt="Home Credit App"
+                alt="HomeCRD App"
                 className="object-contain rounded-xl"
               />
             </div>
             <div className="p-6 md:w-2/3">
-              <h3 className="text-xl font-semibold mb-2">
-                Ứng dụng Home Credit
-              </h3>
+              <h3 className="text-xl font-semibold mb-2">Ứng dụng HomeCRD</h3>
               <p className="text-gray-600 mb-4">
                 Quản lý khoản vay, thanh toán dễ dàng và nhận nhiều ưu đãi hấp
-                dẫn với ứng dụng Home Credit.
+                dẫn với ứng dụng HomeCRD.
               </p>
               <ButtonCommon color="error" sx={{ borderRadius: 10 }}>
                 Tải ứng dụng
@@ -38,7 +36,7 @@ const HelpSection = () => {
             <div className="md:w-1/3 bg-gray-100 flex items-center justify-center p-2">
               <img
                 src="http://api-auction.site/uploads/images/cd_1_791d839154-1751142092031.webp"
-                alt="Home Credit Support"
+                alt="HomeCRD Support"
                 className=" object-contain rounded-xl"
               />
             </div>

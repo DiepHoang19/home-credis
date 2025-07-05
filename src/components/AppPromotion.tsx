@@ -9,9 +9,9 @@ const AppPromotion = () => {
             Home App - Chuẩn tài chính số
           </h2>
           <p className="mb-6">
-            Tải ngay ứng dụng Home Credit để quản lý khoản vay, thanh toán dễ
-            dàng và nhận nhiều ưu đãi hấp dẫn. Với giao diện thân thiện và tính
-            năng đa dạng, Home App sẽ giúp bạn quản lý tài chính hiệu quả.
+            Tải ngay ứng dụng HomeCRD để quản lý khoản vay, thanh toán dễ dàng
+            và nhận nhiều ưu đãi hấp dẫn. Với giao diện thân thiện và tính năng
+            đa dạng, Home App sẽ giúp bạn quản lý tài chính hiệu quả.
           </p>
 
           <ButtonCommon color="error" sx={{ borderRadius: 10 }}>

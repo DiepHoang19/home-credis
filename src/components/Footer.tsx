@@ -2,6 +2,7 @@ import ButtonCommon from "@/common/button-common";
 import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 
 const Footer = () => {
+  const getYear = new Date();
   return (
     <footer className="bg-[#E11E31] text-white rounded-tl-4xl rounded-tr-4xl">
       <div className="container mx-auto px-4 py-12">
@@ -126,14 +127,13 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* <div className="border-t border-white/20 mt-8 pt-8 text-sm">
-          <p>© 2025 Home Credit Vietnam.</p>
+        <div className="border-t border-white/20 mt-8 pt-8 text-sm">
+          <p>© {getYear.getFullYear()} HomeCRD Vietnam.</p>
           <p className="mt-2">
-            Công ty Tài chính TNHH MTV Home Credit Việt Nam - Giấy phép hoạt
-            động số 95/GP-NHNN do Ngân hàng Nhà nước Việt Nam cấp ngày
-            28/09/2018.
+            Công ty TNHH MTV Tài chính HomeCre Việt Nam – Giấy phép đăng ký hoạt
+            động số 95/GP-NHNN do Ngân hàng Nhà nước cấp ngày 28/09/2018.
           </p>
-        </div> */}
+        </div>
       </div>
     </footer>
   );

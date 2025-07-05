@@ -38,7 +38,7 @@ export default function ContactUsSection() {
       {/* Company Info */}
       <Paper elevation={1} className="p-4 space-y-2">
         <Typography fontWeight="bold">
-          CÔNG TY TÀI CHÍNH HD SAISON VIỆT NAM
+          CÔNG TY TÀI CHÍNH HomeCRD VIỆT NAM
         </Typography>
         <Typography>
           MAIL: <span className="text-red-500 font-medium">hd@gmail.com</span>
@@ -47,7 +47,7 @@ export default function ContactUsSection() {
           HOTLINE: <span className="text-red-500 font-medium">123</span>
         </Typography>
         <Typography className="text-red-600 font-bold text-sm">
-          CÙNG HD SAISON MANG ƯỚC MƠ VỀ NHÀ!
+          CÙNG HomeCRD MANG ƯỚC MƠ VỀ NHÀ!
         </Typography>
       </Paper>
 

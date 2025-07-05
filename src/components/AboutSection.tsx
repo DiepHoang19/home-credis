@@ -12,21 +12,20 @@ const AboutSection = () => {
     <section className="py-12 bg-white">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl font-bold text-center mb-8">
-          Về Home Credit Việt Nam
+          Về HomeCRD Việt Nam
         </h2>
 
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="md:w-1/2">
             <p className="text-gray-700 mb-4">
-              Home Credit Việt Nam là công ty tài chính tiêu dùng quốc tế đã có
-              mặt tại Việt Nam từ năm 2008, chuyên cung cấp các dịch vụ tài
-              chính tiêu dùng đơn giản, thông minh và thân thiện cho tất cả mọi
-              người.
+              HomeCRD Việt Nam là công ty tài chính tiêu dùng quốc tế đã có mặt
+              tại Việt Nam từ năm 2008, chuyên cung cấp các dịch vụ tài chính
+              tiêu dùng đơn giản, thông minh và thân thiện cho tất cả mọi người.
             </p>
             <p className="text-gray-700 mb-6">
               Với đội ngũ nhân viên chuyên nghiệp cùng mạng lưới chi nhánh rộng
-              khắp, Home Credit cam kết mang đến những giải pháp tài chính phù
-              hợp với nhu cầu của khách hàng.
+              khắp, HomeCRD cam kết mang đến những giải pháp tài chính phù hợp
+              với nhu cầu của khách hàng.
             </p>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -46,7 +45,7 @@ const AboutSection = () => {
               <div className="bg-[#E11E31]/10 rounded-full p-6">
                 <img
                   src="https://www.homecredit.vn/static/bf0311d1040339e1d6cffebd109f70d7/3ab09/Thumbnail_1_cdba8256bc.webp"
-                  alt="Home Credit App"
+                  alt="HomeCRD App"
                   className="w-full max-w-md rounded-lg shadow-lg"
                 />
               </div>

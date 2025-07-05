@@ -94,7 +94,7 @@ const ServicesGrid = () => {
               Trợ giúp dịch vụ khách hàng
             </h3>
             <p className="text-gray-600 mb-4">
-              Home Credit luôn sẵn sàng hỗ trợ khách hàng 24/7. Đội ngũ chăm sóc
+              HomeCRD luôn sẵn sàng hỗ trợ khách hàng 24/7. Đội ngũ chăm sóc
               khách hàng chuyên nghiệp của chúng tôi sẽ giải đáp mọi thắc mắc và
               hỗ trợ bạn trong quá trình sử dụng dịch vụ.
             </p>
