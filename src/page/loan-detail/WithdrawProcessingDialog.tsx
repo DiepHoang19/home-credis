@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Typography, Box } from "@mui/material";
 import DialogCommon from "@/common/dialog-common";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber"; // hoặc bạn dùng svg icon OTP bên trên
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import { Loan } from "@/services/model/loans";
 import { formatNumber } from "@/helpers";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,17 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import {
-  Check,
-  DollarSign,
-  GavelIcon,
-  HomeIcon,
-  Menu,
-  Package,
-  SendIcon,
-  View,
-  X,
-} from "lucide-react";
-import { Link, useSearchParams } from "react-router-dom";
+import { DollarSign, HomeIcon, Menu, Package, X } from "lucide-react";
+import { setIsShow } from "@/redux/slices/toggleBoxChat";
+import { Link } from "react-router-dom";
 import { PUBLIC_ROUTER } from "@/router/section";
 import { useRouter } from "@/hook";
 import ButtonCommon from "@/common/button-common";
@@ -20,7 +11,6 @@ import { useAuthen } from "@/hook/useAuthen";
 import {
   BottomNavigation,
   BottomNavigationAction,
-  Box,
   IconButton,
   Paper,
   Stack,
@@ -28,7 +18,7 @@ import {
 } from "@mui/material";
 import DropdownMenuMock from "./ProfileDropdown";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { stringify } from "querystring";
+import { useDispatch } from "react-redux";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const userInfo = useAuthen();
@@ -66,22 +56,28 @@ const Header = () => {
         break;
     }
   };
+
+  const scrollToNews = () => {
+    document.getElementById("news")?.scrollIntoView();
+  };
+
+  const dispatch = useDispatch();
   return (
     <header className="sticky top-0 z-50 bg-white shadow-lg">
-      <div className="container mx-auto px-4 py-2 h-30 md:flex justify-between items-center hidden ">
+      <div className="container mx-auto px-4 py-2 h-30 md:flex justify-between items-center hidden">
         <div className="flex items-center">
           <Link to={PUBLIC_ROUTER.HOME} className="mr-4">
             <img
-              src="https://api-auction.site/uploads/images/logo-home-1751713601491.png"
+              src="http://api-auction.site/uploads/images/logo-v2-removebg-preview-1751857685183.png"
               alt="Logo"
-              className="h-40"
+              className="h-24"
             />
           </Link>
         </div>
 
         {/* Desktop Navigation */}
         <div
-          className="hidden md:flex items-center space-x-4"
+          className="hidden md:flex items-center select-none space-x-4"
           onMouseLeave={() => setOpenProfile(false)}
         >
           <div className="flex items-center space-x-4 text-lg font-bold">
@@ -91,8 +87,29 @@ const Header = () => {
             >
               Hotline: 1900 7115
             </a>
-            <span className="text-gray-600">Tin tức</span>
-            <span className="text-gray-600">Hỗ trợ</span>
+            <span
+              onClick={(e) => {
+                e.preventDefault();
+                const headerOffset = 80;
+                const element = document.getElementById("news");
+                if (element) {
+                  const y =
+                    element.getBoundingClientRect().top +
+                    window.pageYOffset -
+                    headerOffset;
+                  window.scrollTo({ top: y, behavior: "auto" });
+                }
+              }}
+              className="text-gray-600 cursor-pointer"
+            >
+              Tin tức
+            </span>
+            <span
+              className="text-gray-600"
+              onClick={() => dispatch(setIsShow(false))}
+            >
+              Hỗ trợ
+            </span>
             <span
               className="text-gray-600 cursor-pointer"
               onClick={() => router.push("/ho-so?type=5")}
@@ -167,8 +184,18 @@ const Header = () => {
             >
               Hotline: 1900 633 999
             </a>
-            <span className="text-gray-600 py-2 border-b">Tin tức</span>
-            <span className="text-gray-600 py-2 border-b">Hỗ trợ</span>
+            <span
+              className="text-gray-600 py-2 border-b"
+              onClick={scrollToNews}
+            >
+              Tin tức
+            </span>
+            <span
+              className="text-gray-600 py-2 border-b"
+              onClick={() => dispatch(setIsShow(false))}
+            >
+              Hỗ trợ
+            </span>
             <span className="text-gray-600 py-2 border-b">Về chúng tôi</span>
 
             <Button

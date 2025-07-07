@@ -53,7 +53,7 @@ const services = [
 
 const ServicesGrid = () => {
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-12" id="news">
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
         Sản phẩm và Dịch vụ
       </h2>
