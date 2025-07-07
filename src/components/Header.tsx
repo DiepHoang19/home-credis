@@ -88,25 +88,14 @@ const Header = () => {
               Hotline: 1900 7115
             </a>
             <span
-              onClick={(e) => {
-                e.preventDefault();
-                const headerOffset = 80;
-                const element = document.getElementById("news");
-                if (element) {
-                  const y =
-                    element.getBoundingClientRect().top +
-                    window.pageYOffset -
-                    headerOffset;
-                  window.scrollTo({ top: y, behavior: "auto" });
-                }
-              }}
+              onClick={scrollToNews}
               className="text-gray-600 cursor-pointer"
             >
               Tin tức
             </span>
             <span
-              className="text-gray-600"
-              onClick={() => dispatch(setIsShow(false))}
+              className="text-gray-600 cursor-pointer"
+              onClick={() => dispatch(setIsShow(true))}
             >
               Hỗ trợ
             </span>
@@ -192,7 +181,7 @@ const Header = () => {
             </span>
             <span
               className="text-gray-600 py-2 border-b"
-              onClick={() => dispatch(setIsShow(false))}
+              onClick={() => dispatch(setIsShow(true))}
             >
               Hỗ trợ
             </span>

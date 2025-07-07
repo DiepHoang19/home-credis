@@ -171,8 +171,6 @@ export default function UserProfileLayout() {
     return <PersonalInfoPanelSkeleton />;
   }
 
-  console.log("userInfo", userInfo);
-
   return (
     <>
       {!userInfo ? (
@@ -241,7 +239,6 @@ export default function UserProfileLayout() {
                       Cookies.remove(USER_INFO);
                       Cookies.remove("access_token");
                       router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
-                      window?.location?.reload();
                       toast.success("Đăng xuất thành công");
                     }}
                   />
