@@ -9,6 +9,7 @@ import {
   Paper,
   BottomNavigation,
   BottomNavigationAction,
+  Stack,
 } from "@mui/material";
 import {
   Person,
@@ -40,6 +41,7 @@ import AccountHistorySection from "./components/bien-dong-so-du";
 import { toast } from "sonner";
 import { PUBLIC_ROUTER } from "@/router/section";
 import { USER_INFO } from "@/contants/contants";
+import Alert from "@mui/material/Alert";
 
 export default function UserProfileLayout() {
   const [selected, setSelected] = useState(1);
@@ -169,98 +171,116 @@ export default function UserProfileLayout() {
     return <PersonalInfoPanelSkeleton />;
   }
 
-  return (
-    <Box className="bg-[#f6f9fb] min-h-fit py-6 px-4 ">
-      <Typography
-        variant="h5"
-        align="center"
-        fontWeight="bold"
-        className="text-gray-700 !mb-6"
-      >
-        THÔNG TIN CÁ NHÂN
-      </Typography>
-      <Box className="flex justify-center gap-6">
-        <Paper elevation={1} className=" p-4 !rounded-[10px] hidden md:block">
-          <Box className="flex flex-col items-center gap-1 mb-4">
-            <Box className="w-16 h-16 rounded-full bg-gray-300">
-              <img src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid&w=740" />{" "}
-            </Box>
-            <Typography fontWeight="bold">{user?.full_name || ""}</Typography>
-            <Typography variant="body2" color="textSecondary">
-              {user?.phone_number || ""}
-            </Typography>
-          </Box>
-          <List>
-            {menuItems.map((item) => (
-              <>
-                <ListItem
-                  key={item.label}
-                  // button
-                  onClick={() => setSelected(item.key)}
-                  className={clsx(
-                    "rounded-lg mb-1 cursor-pointer",
-                    selected === item.key
-                      ? "bg-red-600 text-white"
-                      : "hover:bg-gray-100"
-                  )}
-                >
-                  <ListItemIcon
-                    className={clsx(selected === item.key && "text-white")}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.label} />
-                </ListItem>
-              </>
-            ))}
-            <ListItem className={clsx("rounded-lg mb-1 cursor-pointer")}>
-              <ListItemIcon className={clsx("text-white")}>
-                <Logout />
-              </ListItemIcon>
-              <ListItemText
-                primary="Đăng xuất"
-                onClick={() => {
-                  Cookies.remove(USER_INFO);
-                  Cookies.remove("access_token");
-                  router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
-                  window?.location?.reload();
-                  toast.success("Đăng xuất thành công");
-                }}
-              />
-            </ListItem>
-          </List>
-        </Paper>
+  console.log("userInfo", userInfo);
 
-        <Paper
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 999,
-            backgroundColor: "white",
-            padding: "5px 0px",
-            borderBottomLeftRadius: 0,
-            borderBottomRightRadius: 0,
-          }}
-          className="md:hidden"
-        >
-          <BottomNavigation
-            value={selected - 1}
-            onChange={handleChange}
-            showLabels
+  return (
+    <>
+      {!userInfo ? (
+        <Stack spacing={2} p={4} borderRadius={4}>
+          <Alert severity="warning" sx={{ borderRadius: 2 }}>
+            Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.
+          </Alert>
+        </Stack>
+      ) : (
+        <Box className="bg-[#f6f9fb] min-h-fit py-6 px-4 ">
+          <Typography
+            variant="h5"
+            align="center"
+            fontWeight="bold"
+            className="text-gray-700 !mb-6"
           >
-            {menuItemsMobile.map((i) => (
-              <BottomNavigationAction
-                label={i.label}
-                icon={i.icon}
-                className="!w-fit"
-              />
-            ))}
-          </BottomNavigation>
-        </Paper>
-        {renderContent()}
-      </Box>
-    </Box>
+            THÔNG TIN CÁ NHÂN
+          </Typography>
+
+          <Box className="flex justify-center gap-6">
+            <Paper
+              elevation={1}
+              className=" p-4 !rounded-[10px] hidden md:block"
+            >
+              <Box className="flex flex-col items-center gap-1 mb-4">
+                <Box className="w-16 h-16 rounded-full bg-gray-300">
+                  <img src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid&w=740" />{" "}
+                </Box>
+                <Typography fontWeight="bold">
+                  {user?.full_name || ""}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {user?.phone_number || ""}
+                </Typography>
+              </Box>
+              <List>
+                {menuItems.map((item) => (
+                  <>
+                    <ListItem
+                      key={item.label}
+                      // button
+                      onClick={() => setSelected(item.key)}
+                      className={clsx(
+                        "rounded-lg mb-1 cursor-pointer",
+                        selected === item.key
+                          ? "bg-red-600 text-white"
+                          : "hover:bg-gray-100"
+                      )}
+                    >
+                      <ListItemIcon
+                        className={clsx(selected === item.key && "text-white")}
+                      >
+                        {item.icon}
+                      </ListItemIcon>
+                      <ListItemText primary={item.label} />
+                    </ListItem>
+                  </>
+                ))}
+                <ListItem className={clsx("rounded-lg mb-1 cursor-pointer")}>
+                  <ListItemIcon className={clsx("text-white")}>
+                    <Logout />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Đăng xuất"
+                    onClick={() => {
+                      Cookies.remove(USER_INFO);
+                      Cookies.remove("access_token");
+                      router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
+                      window?.location?.reload();
+                      toast.success("Đăng xuất thành công");
+                    }}
+                  />
+                </ListItem>
+              </List>
+            </Paper>
+
+            <Paper
+              sx={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 999,
+                backgroundColor: "white",
+                padding: "5px 0px",
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+              }}
+              className="md:hidden"
+            >
+              <BottomNavigation
+                value={selected - 1}
+                onChange={handleChange}
+                showLabels
+              >
+                {menuItemsMobile.map((i) => (
+                  <BottomNavigationAction
+                    label={i.label}
+                    icon={i.icon}
+                    className="!w-fit"
+                  />
+                ))}
+              </BottomNavigation>
+            </Paper>
+            {renderContent()}
+          </Box>
+        </Box>
+      )}
+    </>
   );
 }

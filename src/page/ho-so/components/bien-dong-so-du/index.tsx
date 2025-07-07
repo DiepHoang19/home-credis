@@ -28,7 +28,7 @@ export default function AccountHistorySection({ user }: { user: User }) {
 
   const { data: listNotification } = useSubscription(queryGetListNotification, {
     variables: {
-      user_id: userInfo.id,
+      user_id: userInfo?.id,
       type: TYPE_NOTIFICATION.SYSTEM,
     },
   });
