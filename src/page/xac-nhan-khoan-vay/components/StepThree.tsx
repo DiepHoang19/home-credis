@@ -26,7 +26,7 @@ interface StepThreeForm {
   cccd: string;
   phone: string;
   dob: Date | null;
-  gender: string;
+  gender: number;
   job: string;
   income: number;
   purpose: string;
@@ -51,7 +51,7 @@ const schema = yup.object().shape({
     .date()
     .typeError("Ngày sinh không hợp lệ")
     .required("Ngày sinh không được để trống"),
-  gender: yup.string().required("Giới tính không được để trống"),
+  gender: yup.number().required("Giới tính không được để trống"),
   job: yup.string().required("Nghề nghiệp không được để trống"),
   income: yup.number().required("Thu nhập không được để trống"),
   purpose: yup.string().required("Mục đích vay không được để trống"),
@@ -73,7 +73,7 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
     dob: currentLoan?.user?.date_of_birth
       ? dayjs(currentLoan?.user?.date_of_birth).toDate()
       : null,
-    gender: currentLoan?.user?.gender ? "male" : "female",
+    gender: currentLoan?.user?.gender,
     job: currentLoan?.user?.job || "",
     income: currentLoan?.user?.income || 0,
     purpose: "",

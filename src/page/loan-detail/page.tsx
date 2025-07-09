@@ -297,25 +297,26 @@ export default function LoanDetailCard() {
           </Box> */}
 
           <Paper variant="outlined" sx={{ p: 2, mt: 2 }}>
-            {[
+            {/* {[
               ENUM_STATUS_LOAN.REQUEST,
               ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT,
-            ].includes(dataLoanUser?.loans?.[0]?.status) && (
-              <Box display="flex" justifyContent="space-between" rowGap={2}>
-                <Typography fontWeight="bold" mb={2}>
-                  Tình trạng giải ngân:
-                </Typography>
-                <Button
-                  sx={{ borderRadius: 2 }}
-                  startIcon={<Clock size={18} />}
-                  variant="contained"
-                  onClick={() => setOpenDialogOTP(true)}
-                  color="warning"
-                >
-                  {getStatusOTP(dataLoanUser?.loans?.[0]?.status)}
-                </Button>
-              </Box>
-            )}
+            ].includes(dataLoanUser?.loans?.[0]?.status) && ( */}
+            <Box display="flex" justifyContent="space-between" rowGap={2}>
+              <Typography fontWeight="bold" mb={2}>
+                Tình trạng giải ngân:
+              </Typography>
+              <Button
+                sx={{ borderRadius: 2 }}
+                startIcon={<Clock size={18} />}
+                variant="contained"
+                onClick={() => setOpenDialogOTP(true)}
+                color="warning"
+              >
+                {/* {getStatusOTP(dataLoanUser?.loans?.[0]?.status)} */}
+                Xin giải ngân
+              </Button>
+            </Box>
+            {/* )} */}
             <Box display="flex" gap={2} mt={2}>
               <Box
                 sx={{

@@ -34,7 +34,7 @@ export const InfoUser = ({
             }
           />
           <Field label="Email" value={user?.email || ""} />
-          <Field label="Giới tính" value={user?.gender ? "Nam" : "Nữ"} />
+          <Field label="Giới tính" value={user?.gender === 0 ? "Nam" : "Nữ"} />
           <Field label="Nghề nghiệp" value={user?.job || ""} />
           <Field label="Địa chỉ" value={user?.address || ""} />
         </Box>
