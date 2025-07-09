@@ -22,10 +22,7 @@ function Register() {
     phone_number: yup
       .string()
       .required("Vui lòng nhập số điện thoại")
-      .matches(
-        /^(0|\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5,8]|9[0-9])[0-9]{7}$/,
-        "Số điện thoại không hợp lệ"
-      ),
+      .matches(/^[0-9+]{0,11}$/, "Số điện thoại không hợp lệ"),
     password: yup
       .string()
       .required("Vui lòng nhập mật khẩu")

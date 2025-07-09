@@ -5,7 +5,7 @@ export interface User {
   email?: string;
   phone_number: string;
   date_of_birth?: string; // ISO date format: 'YYYY-MM-DD'
-  gender?: boolean; // true = nam, false = nữ (nếu dùng kiểu boolean)
+  gender?: number; // true = nam, false = nữ (nếu dùng kiểu boolean)
   identity_number?: string;
   identity_image_front?: string;
   identity_image_back?: string;
