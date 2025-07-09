@@ -154,7 +154,7 @@ const Header = () => {
       >
         <BottomNavigation value={value} onChange={handleChange} showLabels>
           <BottomNavigationAction label="Trang chủ" icon={<HomeIcon />} />
-          <BottomNavigationAction label="Rút tiền" icon={<DollarSign />} />
+          <BottomNavigationAction label="Khoản vay" icon={<DollarSign />} />
           <BottomNavigationAction label="Thanh toán" icon={<Package />} />
           <BottomNavigationAction
             label="Cá nhân"

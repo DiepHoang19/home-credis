@@ -122,7 +122,7 @@ export default function UserProfileLayout() {
     }
     data.push({ label: "Bảo mật", icon: <Lock />, key: 4 });
     data.push({
-      label: "Biến động",
+      label: "Thông báo",
       icon: <ArrowLeftRight />,
       key: 5,
     });
