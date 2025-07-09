@@ -249,7 +249,7 @@ export default function LoanDetailCard() {
 
               <Typography>Tình trạng:</Typography>
               <Typography fontWeight="bold" color="orange" textAlign="end">
-                {dataLoanUser?.loans?.[0]?.status ===
+                {/* {dataLoanUser?.loans?.[0]?.status ===
                 ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT ? (
                   <Button
                     startIcon={<Handshake size={18} />}
@@ -269,7 +269,17 @@ export default function LoanDetailCard() {
                     {listNotifications?.[0]?.content ||
                       getStatus(dataLoanUser?.loans?.[0]?.status)}
                   </span>
-                )}
+                )} */}
+                <span
+                  className={`p-2 px-3 rounded-lg`}
+                  style={{
+                    backgroundColor: color,
+                    color: textColor,
+                  }}
+                >
+                  {listNotifications?.[0]?.content ||
+                    getStatus(dataLoanUser?.loans?.[0]?.status)}
+                </span>
               </Typography>
 
               {renderButtonPay()}
@@ -313,7 +323,7 @@ export default function LoanDetailCard() {
                 color="warning"
               >
                 {/* {getStatusOTP(dataLoanUser?.loans?.[0]?.status)} */}
-                Xin giải ngân
+                Rút tiền
               </Button>
             </Box>
             {/* )} */}
