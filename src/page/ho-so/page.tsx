@@ -85,7 +85,7 @@ export default function UserProfileLayout() {
     const data = [
       { label: "Thông tin cá nhân", icon: <Person />, key: 1 },
       { label: "Bảo mật tài khoản ", icon: <Lock />, key: 4 },
-      { label: "Biến động tài khoản", icon: <ArrowLeftRight />, key: 5 },
+      { label: "Thông báo", icon: <ArrowLeftRight />, key: 5 },
     ];
 
     if (showLoanList) {
