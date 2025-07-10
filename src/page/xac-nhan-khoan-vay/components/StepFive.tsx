@@ -59,7 +59,7 @@ const LoanDetailSection = ({ currentLoan }: Props) => {
       />
       <Row
         label="Giới tính:"
-        value={!!currentLoan.user?.gender ? "Nam" : "Nữ"}
+        value={currentLoan.user?.gender === 0 ? "Nam" : "Nữ"}
       />
     </Paper>
   );

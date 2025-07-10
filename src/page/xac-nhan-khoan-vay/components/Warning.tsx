@@ -12,7 +12,7 @@ export default function LoanAlertSection({ id }: { id: number }) {
   return (
     <Box className="space-y-4 w-[80vw]">
       {/* Info Alert Box */}
-      <Box className="border border-blue-200 bg-blue-50 rounded-md p-4 relative flex items-start gap-3">
+      <Box className="border border-blue-200 bg-blue-50 rounded-md p-4 relative flex items-start gap-3 flex-col ">
         <InfoOutlined className="text-blue-600 mt-0.5" />
         <Box className="flex-1">
           <Typography fontWeight={600} className="text-blue-600">

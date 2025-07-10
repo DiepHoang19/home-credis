@@ -127,6 +127,13 @@ const LoanCalculator = () => {
     ) {
       setActiveStep((dataLoanUser?.loans[0].step || 0) + 1);
     }
+
+    if (
+      ![ENUM_STATUS_LOAN.DONE].includes(dataLoanUser?.loans[0]?.status) &&
+      dataLoanUser?.loans[0]?.step === ENUM_STEP_LOAN.DONE
+    ) {
+      router("/chi-tiet-khoan-vay?id=" + dataLoanUser?.loans[0]?.id);
+    }
   }, [dataLoanUser?.loans]);
 
   const list = () => {
@@ -162,20 +169,20 @@ const LoanCalculator = () => {
       <div className="w-[80%]">
         <LoansStepper activeStep={activeStep} />
       </div>
-      {![ENUM_STATUS_LOAN.DONE].includes(dataLoanUser?.loans[0]?.status) &&
+      {/* {![ENUM_STATUS_LOAN.DONE].includes(dataLoanUser?.loans[0]?.status) &&
       dataLoanUser?.loans[0]?.step === ENUM_STEP_LOAN.DONE ? (
         <LoanAlertSection id={dataLoanUser?.loans[0]?.id} />
       ) : (
-        <>
-          {activeStep === 1 && (
-            <div className="w-[60%]">
-              <CCCDStepper activeStep={cccdStep} />
-            </div>
-          )}
-
-          {renderStep()}
-        </>
+        <> */}
+      {activeStep === 1 && (
+        <div className="w-[60%]">
+          <CCCDStepper activeStep={cccdStep} />
+        </div>
       )}
+
+      {renderStep()}
+      {/* </>
+      )} */}
     </Box>
   );
 };

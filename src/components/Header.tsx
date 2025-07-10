@@ -37,6 +37,7 @@ const Header = () => {
     else if (pathname === PUBLIC_ROUTER.LOANS) setValue(1);
     else if (pathname === PUBLIC_ROUTER.THANH_TOAN) setValue(2);
     else if (pathname === PUBLIC_ROUTER.PROFILE) setValue(3);
+    else setValue(null);
   }, [JSON.stringify(pathname)]);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {

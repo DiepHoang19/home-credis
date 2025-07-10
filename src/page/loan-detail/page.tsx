@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import dayjs from "dayjs";
 import {
+  BellRing,
   CircleDollarSignIcon,
   Clock,
   Eye,
@@ -201,7 +202,12 @@ export default function LoanDetailCard() {
       <div className="w-full bg-[#e9f2f9] text-center py-10 ">
         <Typography variant="h4">CHI TIẾT KHOẢN VAY</Typography>
       </div>
-
+      <div className="w-full md:!w-[70vw]  flex justify-end pr-7 md:!pr-2 mx-auto">
+        <BellRing
+          className="cursor-pointer"
+          onClick={() => router.push("/ho-so?type=5")}
+        />
+      </div>
       <Box
         sx={{
           display: "flex",
@@ -217,8 +223,8 @@ export default function LoanDetailCard() {
         }}
       >
         {/* Left Sidebar */}
-
         {/* Right content */}
+
         <Box sx={{ flex: 1, p: 3 }}>
           <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
             <Typography fontWeight="bold" mb={2}>
@@ -373,7 +379,6 @@ export default function LoanDetailCard() {
             </Button>
           </Box>
         </Box>
-
         <DialogCommon
           open={open}
           onClose={() => setOpen(false)}

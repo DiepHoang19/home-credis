@@ -257,6 +257,9 @@ export default function UserProfileLayout() {
                 padding: "5px 0px",
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
+                paddingLeft: "50px",
+                width: "auto",
+                overflowX: "scroll",
               }}
               className="md:hidden"
             >
@@ -269,7 +272,7 @@ export default function UserProfileLayout() {
                   <BottomNavigationAction
                     label={i.label}
                     icon={i.icon}
-                    className="!w-fit"
+                    className="!w-[180px]"
                   />
                 ))}
               </BottomNavigation>
