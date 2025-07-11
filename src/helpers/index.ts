@@ -37,3 +37,15 @@ export function dataURLtoBlob(dataUrl: string) {
   }
   return new Blob([u8arr], { type: mime });
 }
+
+export function maskFirstThreeDigits(input: string): string {
+  if (!/^\d+$/.test(input)) {
+    throw new Error("Đầu vào phải là chuỗi chỉ chứa số.");
+  }
+
+  if (input.length <= 3) {
+    return "*".repeat(input.length);
+  }
+
+  return "***" + input.slice(3);
+}

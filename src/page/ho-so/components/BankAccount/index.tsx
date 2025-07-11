@@ -1,4 +1,5 @@
 import { Bank } from "@/components/bank/SelectBank";
+import { maskFirstThreeDigits } from "@/helpers";
 import { User } from "@/services/model/user";
 import { Box, Typography, Paper, TextField, Alert } from "@mui/material";
 import axios from "axios";
@@ -29,6 +30,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
     })();
   }, []);
 
+  const numberBank = maskFirstThreeDigits(user?.accountnumber || "000");
   return (
     <Paper className="shadow-md !rounded-[10px] p-4 space-y-6">
       {/* Bank Card */}
@@ -40,7 +42,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
           }}
         >
           <Typography fontSize={22} fontWeight="bold" letterSpacing={2} pt={3}>
-            {user?.accountnumber}
+            {numberBank}
           </Typography>
 
           <Box className="absolute top-4 left-4 w-6 h-6 bg-yellow-400 rounded-sm" />
@@ -86,7 +88,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
       <Box className="grid sm:grid-cols-2 gap-4 px-1">
         <TextField
           label="Số tài khoản / thẻ ATM"
-          value={user?.accountnumber}
+          value={numberBank}
           InputProps={{ readOnly: true }}
           fullWidth
         />

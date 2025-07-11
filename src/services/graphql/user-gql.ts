@@ -45,9 +45,10 @@ export const GET_ADMIN_BY_CODE_ROLE = gql`
 `;
 
 export const COMFIRM_OTP_LOAN = gql`
-  query MyQuery($id: Int!, $otp: String!) {
-    loans(where: { otp: { _eq: $otp }, id: { _eq: $id } }) {
+  query MyQuery($id: Int!) {
+    otp_logs(where: { loanid: { _eq: $id } }, order_by: { createdat: desc }) {
       id
+      otpcode
     }
   }
 `;

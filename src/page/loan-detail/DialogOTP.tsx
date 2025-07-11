@@ -30,12 +30,15 @@ const OTPDialog = ({
     try {
       const { data } = await comfirmOTP({
         variables: {
-          otp, // Mã OTP nhập vào
+          // otp, // Mã OTP nhập vào
           id: loanID,
         },
       });
 
-      if (!!data?.loans?.[0]?.id) {
+      if (
+        String(data?.otp_logs?.[0]?.otpcode) === otp &&
+        !!data?.otp_logs?.[0]?.id
+      ) {
         await updateLoans({
           variables: {
             id: loanID, // ID khoản vay

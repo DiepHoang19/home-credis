@@ -86,7 +86,7 @@ const Header = () => {
               href="tel:19007115"
               className="text-blue-600 hover:underline cursor-pointer"
             >
-              Hotline: 1900 7115
+              Hotline: 1900 7458
             </a>
             <span
               onClick={scrollToNews}
