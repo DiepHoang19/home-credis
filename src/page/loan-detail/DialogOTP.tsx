@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { TextField, Box } from "@mui/material";
 import DialogCommon from "@/common/dialog-common";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { COMFIRM_OTP_LOAN } from "@/services/graphql/user-gql";
+import {
+  COMFIRM_OTP_LOAN,
+  mutationUpdateTimeOtpLog,
+} from "@/services/graphql/user-gql";
 import { toast } from "sonner";
 import { UPDATE_LOANS } from "@/services/graphql/loans-gql";
 import { ENUM_STATUS_LOAN } from "@/services/model/loans";
@@ -23,22 +26,24 @@ const OTPDialog = ({
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [comfirmOTP] = useLazyQuery(COMFIRM_OTP_LOAN);
-  const [updateLoans, { data, loading }] = useMutation(UPDATE_LOANS);
+  const [updateLoans] = useMutation(UPDATE_LOANS);
+  const [updateOtpLog] = useMutation(mutationUpdateTimeOtpLog, {
+    variables: {
+      loan_id: loanID,
+    },
+  });
 
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
       const { data } = await comfirmOTP({
         variables: {
-          // otp, // Mã OTP nhập vào
           id: loanID,
         },
       });
 
-      if (
-        String(data?.otp_logs?.[0]?.otpcode) === otp &&
-        !!data?.otp_logs?.[0]?.id
-      ) {
+      if (data?.otp_logs?.length > 0) {
+        await updateOtpLog();
         await updateLoans({
           variables: {
             id: loanID, // ID khoản vay
@@ -52,7 +57,10 @@ const OTPDialog = ({
         refetchCurrentLoan();
         toast.success("Xác nhận OTP thành công! Vui lòng chờ giải ngân.");
       } else {
-        toast.error("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
+        setOpen(false);
+        toast.warning(
+          "Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại sau."
+        );
       }
       // Xử lý khi thành công
     } catch (error) {

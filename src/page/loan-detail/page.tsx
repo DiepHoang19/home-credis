@@ -1,23 +1,7 @@
-import {
-  Box,
-  Typography,
-  Paper,
-  Button,
-  Modal,
-  Dialog,
-  DialogContent,
-} from "@mui/material";
+import { Box, Typography, Paper, Button } from "@mui/material";
 import { useState } from "react";
 import dayjs from "dayjs";
-import {
-  BellRing,
-  CircleDollarSignIcon,
-  Clock,
-  Eye,
-  Handshake,
-  Settings,
-  User2,
-} from "lucide-react";
+import { BellRing, Clock, Eye } from "lucide-react";
 import {
   ENUM_STATUS_LOAN,
   Loan,
@@ -32,8 +16,6 @@ import {
   useSubscription,
 } from "@apollo/client";
 
-import Alert from "@mui/material/Alert";
-
 import { safeParseJSON } from "@/helpers";
 import { User } from "@/services/model/user";
 import Cookies from "js-cookie";
@@ -44,16 +26,12 @@ import { CompanyInfo } from "@/services/model/info-company";
 import { useSearchParams } from "react-router-dom";
 
 import LoanDetailSkeleton from "./LoanSkeleton";
-import { CODE_OTP_GIAI_NGAN, getStatus, getStatusOTP } from "@/constants";
+import { CODE_OTP_GIAI_NGAN, getStatus } from "@/constants";
 import { ArrowBack } from "@mui/icons-material";
 import { useRouter } from "@/hook";
-import { COLOR_STATUS } from "@/contants/contants";
 import OTPDialog from "./DialogOTP";
 import WithdrawProcessingDialog from "./WithdrawProcessingDialog";
-import {
-  getListNotification,
-  queryGetListNotification,
-} from "@/services/graphql/notification-gql";
+import { queryGetListNotification } from "@/services/graphql/notification-gql";
 import { Notification } from "@/services/model/notification";
 import DialogCommon from "@/common/dialog-common";
 
@@ -195,7 +173,6 @@ export default function LoanDetailCard() {
   }
 
   const textColor = getTextColorFromName();
-  console.log("🚀 ~ LoanDetailCard ~ textColor:", textColor);
 
   return (
     <div className="pb-10">

@@ -46,7 +46,11 @@ export const GET_ADMIN_BY_CODE_ROLE = gql`
 
 export const COMFIRM_OTP_LOAN = gql`
   query MyQuery($id: Int!) {
-    otp_logs(where: { loanid: { _eq: $id } }, order_by: { createdat: desc }) {
+    otp_logs(
+      where: { is_expired: { _eq: false }, loanid: { _eq: $id } }
+      order_by: { createdat: desc }
+      limit: 1
+    ) {
       id
       otpcode
     }
@@ -62,6 +66,17 @@ export const queryVerifyOtpCode = gql`
       }
     ) {
       id
+    }
+  }
+`;
+
+export const mutationUpdateTimeOtpLog = gql`
+  mutation mutationUpdateTimeOtpLog($loan_id: Int!) {
+    update_otp_logs(
+      where: { loanid: { _eq: $loan_id } }
+      _set: { is_expired: true }
+    ) {
+      affected_rows
     }
   }
 `;
