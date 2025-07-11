@@ -28,6 +28,7 @@ export interface Loan {
   step: ENUM_STEP_LOAN; //0: Chọn khoản vay 1: Xác minh tài khoản  2: Thông tin cá nhân  3: hoan tat 4: xác nhận thông tin ngân hàng  5:Ký xác nhận
   loan_code: string; // mã code
   signature: string;
+  purpose: string; // Mục đích vay
 }
 
 export enum ENUM_STEP_LOAN {

@@ -74,6 +74,7 @@ export const GET_LOAN_USER = gql`
       user_id
       num_months
       createdAt
+      purpose
       user {
         address
         createdAt

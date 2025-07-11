@@ -43,9 +43,12 @@ export function maskFirstThreeDigits(input: string): string {
     throw new Error("Đầu vào phải là chuỗi chỉ chứa số.");
   }
 
-  if (input.length <= 3) {
-    return "*".repeat(input.length);
+  if (input.length < 3) {
+    return "***";
   }
 
-  return "***" + input.slice(3);
+  const start = Math.floor((input.length - 3) / 2);
+  const masked = input.slice(0, start) + "***" + input.slice(start + 3);
+
+  return masked;
 }

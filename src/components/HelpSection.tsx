@@ -1,7 +1,11 @@
 import ButtonCommon from "@/common/button-common";
 import { Button } from "./ui/button";
+import { setIsShow } from "@/redux/slices/toggleBoxChat";
+import { useDispatch, useSelector } from "react-redux";
 
 const HelpSection = () => {
+  const isShow = useSelector((state: any) => state.toggleBoxChat.isShow);
+  const dispatch = useDispatch();
   return (
     <div className="container mx-auto px-4 py-12">
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
@@ -46,7 +50,11 @@ const HelpSection = () => {
                 Đội ngũ chăm sóc khách hàng chuyên nghiệp sẵn sàng hỗ trợ bạn
                 24/7.
               </p>
-              <ButtonCommon color="error" sx={{ borderRadius: 10 }}>
+              <ButtonCommon
+                color="error"
+                sx={{ borderRadius: 10 }}
+                onClick={() => dispatch(setIsShow(true))}
+              >
                 Liên hệ ngay
               </ButtonCommon>
             </div>

@@ -1,8 +1,12 @@
 import ButtonCommon from "@/common/button-common";
+import { setIsShow } from "@/redux/slices/toggleBoxChat";
 import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Footer = () => {
   const getYear = new Date();
+  const isShow = useSelector((state: any) => state.toggleBoxChat.isShow);
+  const dispatch = useDispatch();
   return (
     <footer className="bg-[#E11E31] text-white rounded-tl-4xl rounded-tr-4xl">
       <div className="container mx-auto px-4 py-12">
@@ -31,7 +35,11 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
+                <a
+                  href="#"
+                  className="hover:underline"
+                  onClick={() => dispatch(setIsShow(true))}
+                >
                   Liên hệ
                 </a>
               </li>
@@ -123,7 +131,7 @@ const Footer = () => {
                 <Linkedin />
               </a>
             </div>
-            <p className="mb-4">Hotline: 1900 7115</p>
+            <p className="mb-4">Hotline: 1900 7458</p>
           </div>
         </div>
 

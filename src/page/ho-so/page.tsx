@@ -133,7 +133,13 @@ export default function UserProfileLayout() {
   const renderContent = () => {
     switch (selected) {
       case 1:
-        return <InfoUser user={user} setSelected={setSelected} />;
+        return (
+          <InfoUser
+            user={user}
+            setSelected={setSelected}
+            loanCurrent={dataLoanUser?.loans?.[0]}
+          />
+        );
       case 2:
         return <LoanListSection list={dataLoanUser?.loans} />;
       case 3:

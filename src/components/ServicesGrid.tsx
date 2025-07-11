@@ -1,4 +1,6 @@
 import ButtonCommon from "@/common/button-common";
+import { setIsShow } from "@/redux/slices/toggleBoxChat";
+import { useDispatch } from "react-redux";
 
 const services = [
   {
@@ -52,6 +54,7 @@ const services = [
 ];
 
 const ServicesGrid = () => {
+  const dispatch = useDispatch();
   return (
     <div className="container mx-auto px-4 py-12" id="news">
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
@@ -98,7 +101,11 @@ const ServicesGrid = () => {
               khách hàng chuyên nghiệp của chúng tôi sẽ giải đáp mọi thắc mắc và
               hỗ trợ bạn trong quá trình sử dụng dịch vụ.
             </p>
-            <ButtonCommon sx={{ borderRadius: 10 }} color="error">
+            <ButtonCommon
+              sx={{ borderRadius: 10 }}
+              color="error"
+              onClick={() => dispatch(setIsShow(true))}
+            >
               Liên hệ ngay
             </ButtonCommon>
           </div>

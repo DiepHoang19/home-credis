@@ -1,16 +1,23 @@
-import { formatNumber } from "@/helpers";
+import { formatNumber, maskFirstThreeDigits } from "@/helpers";
+import { setIsShow } from "@/redux/slices/toggleBoxChat";
+import { Loan } from "@/services/model/loans";
 import { User } from "@/services/model/user";
 import { Person } from "@mui/icons-material";
 import { Paper, Typography, Button, Box } from "@mui/material";
 import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
 
 export const InfoUser = ({
   user,
   setSelected,
+  loanCurrent,
 }: {
   user: User;
   setSelected: (value: number) => void;
+  loanCurrent: Loan;
 }) => {
+  const numberBank = maskFirstThreeDigits(user?.accountnumber || "000");
+  const dispatch = useDispatch();
   return (
     <Box className="flex-1 max-w-4xl space-y-4">
       <Paper className="p-4 shadow-md !rounded-[10px]">
@@ -49,21 +56,23 @@ export const InfoUser = ({
               label: "Thu nhập hàng tháng",
               value: formatNumber(user?.income || 0),
             },
-            { label: "Mục đích vay", value: "" },
+            { label: "Mục đích vay", value: loanCurrent?.purpose || "" },
           ],
         },
         {
           title: "Thông Tin Người Thân",
           data: [
-            { label: "Người thân 1", value: user?.relatives?.[0].name },
+            { label: "Người thân 1", value: user?.relatives?.[0].relationship },
             { label: "Số điện thoại", value: user?.relatives?.[0].phone },
+            { label: "Người thân 2", value: user?.relatives?.[1].relationship },
+            { label: "Số điện thoại", value: user?.relatives?.[1].phone },
           ],
         },
         {
           title: "Thông Tin Ngân Hàng",
           data: [
             { label: "Tên ngân hàng", value: user?.bankname },
-            { label: "Số tài khoản", value: user?.accountnumber },
+            { label: "Số tài khoản", value: numberBank },
             {
               label: "Chủ tài khoản",
               value: user?.accountname,
@@ -141,7 +150,12 @@ export const InfoUser = ({
                   Nếu bạn muốn thay đổi thông tin cá nhân, vui lòng liên hệ với
                   tổng đài hỗ trợ
                 </Typography>
-                <Button variant="outlined" color="error" sx={{ mt: 2 }}>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  sx={{ mt: 2 }}
+                  onClick={() => dispatch(setIsShow(true))}
+                >
                   Liên hệ hỗ trợ
                 </Button>
               </Box>
