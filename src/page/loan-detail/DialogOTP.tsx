@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Box } from "@mui/material";
 import DialogCommon from "@/common/dialog-common";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import {
   COMFIRM_OTP_LOAN,
   mutationUpdateTimeOtpLog,
@@ -25,28 +25,30 @@ const OTPDialog = ({
 }) => {
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [comfirmOTP] = useLazyQuery(COMFIRM_OTP_LOAN);
-  const [updateLoans] = useMutation(UPDATE_LOANS);
-  const [updateOtpLog] = useMutation(mutationUpdateTimeOtpLog, {
+  const { data } = useSubscription(COMFIRM_OTP_LOAN, {
     variables: {
-      loan_id: loanID,
+      id: loanID,
     },
+    fetchPolicy: "network-only",
   });
+  const [updateLoans] = useMutation(UPDATE_LOANS);
+  const [updateOtpLog] = useMutation(mutationUpdateTimeOtpLog);
+
+  console.log("data", data.otp_logs);
 
   const handleSubmit = async () => {
+    console.log("run submit");
     setIsLoading(true);
     try {
-      const { data } = await comfirmOTP({
-        variables: {
-          id: loanID,
-        },
-      });
-
-      if (data?.otp_logs?.length > 0) {
-        await updateOtpLog();
+      if (data?.otp_logs?.length > 0 && otp === data.otp_logs?.[0]?.otpcode) {
+        await updateOtpLog({
+          variables: {
+            loan_id: loanID,
+          },
+        });
         await updateLoans({
           variables: {
-            id: loanID, // ID khoản vay
+            id: loanID,
             data: {
               status: ENUM_STATUS_LOAN.IN_CONTACT,
             },
@@ -62,10 +64,8 @@ const OTPDialog = ({
           "Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại sau."
         );
       }
-      // Xử lý khi thành công
     } catch (error) {
       console.error("Lỗi xác nhận OTP:", error);
-      // Có thể hiện lỗi ở đây nếu muốn
     } finally {
       setIsLoading(false);
     }

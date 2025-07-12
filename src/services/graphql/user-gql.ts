@@ -45,7 +45,7 @@ export const GET_ADMIN_BY_CODE_ROLE = gql`
 `;
 
 export const COMFIRM_OTP_LOAN = gql`
-  query MyQuery($id: Int!) {
+  subscription MyQuery($id: Int!) {
     otp_logs(
       where: { is_expired: { _eq: false }, loanid: { _eq: $id } }
       order_by: { createdat: desc }
