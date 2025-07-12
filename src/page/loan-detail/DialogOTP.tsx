@@ -34,8 +34,6 @@ const OTPDialog = ({
   const [updateLoans] = useMutation(UPDATE_LOANS);
   const [updateOtpLog] = useMutation(mutationUpdateTimeOtpLog);
 
-  console.log("data", data.otp_logs);
-
   const handleSubmit = async () => {
     console.log("run submit");
     setIsLoading(true);

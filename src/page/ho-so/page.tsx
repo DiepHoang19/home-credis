@@ -199,7 +199,7 @@ export default function UserProfileLayout() {
           <Box className="flex justify-center gap-6">
             <Paper
               elevation={1}
-              className=" p-4 !rounded-[10px] hidden md:block"
+              className="p-4 !rounded-[10px] hidden md:block"
             >
               <Box className="flex flex-col items-center gap-1 mb-4">
                 <Box className="w-16 h-16 rounded-full bg-gray-300">

@@ -34,7 +34,7 @@ export default function AccountHistorySection({ user }: { user: User }) {
   });
 
   return (
-    <Box className="space-y-6 ">
+    <Box className="space-y-6 max-w-4xl">
       <Paper className="!rounded-[10px] overflow-hidden">
         <Box className="bg-[#2c3763] text-white px-4 py-2 flex justify-between items-center">
           <Typography fontWeight="bold">Thông báo</Typography>
@@ -49,30 +49,55 @@ export default function AccountHistorySection({ user }: { user: User }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {listNotification?.notifications.length > 0 ? (
-              listNotification?.notifications.map((notification) => (
-                <TableRow key={notification.id}>
-                  <TableCell>
-                    {notification.notifications_notification_config.title}:{" "}
-                    {notification.content}
-                  </TableCell>
-                  <TableCell>
-                    {new Date(notification.createdAt).toLocaleString("vi-VN", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: false,
-                    })}
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableCell colSpan={2} align="center">
-                <Typography fontSize={14}>Không có thông báo nào</Typography>
+            <TableRow>
+              <TableCell colSpan={2} style={{ padding: 0 }}>
+                <div
+                  style={{
+                    maxHeight: "300px",
+                    overflowY: "auto",
+                  }}
+                >
+                  <Table size="small">
+                    <TableBody>
+                      {listNotification?.notifications.length > 0 ? (
+                        listNotification.notifications.map((notification) => (
+                          <TableRow key={notification.id}>
+                            <TableCell>
+                              {
+                                notification.notifications_notification_config
+                                  .title
+                              }
+                              : {notification.content}
+                            </TableCell>
+                            <TableCell>
+                              {new Date(notification.createdAt).toLocaleString(
+                                "vi-VN",
+                                {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: false,
+                                }
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={2} align="center">
+                            <Typography fontSize={14}>
+                              Không có thông báo nào
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
               </TableCell>
-            )}
+            </TableRow>
           </TableBody>
         </Table>
       </Paper>
