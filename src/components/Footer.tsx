@@ -142,8 +142,8 @@ const Footer = () => {
             động số 95/GP-NHNN do Ngân hàng Nhà nước cấp ngày 28/09/2018.
           </p>
           <p className="mt-2">
-            Tầng G, 8 và 10 Tòa nhà Phụ Nữ, Số 20 Nguyễn Đăng Giai, Phường Thảo
-            Điền, TP. Thủ Đức, TP.HCM
+            Địa chỉ: Tầng G, 8 và 10 Tòa nhà Phụ Nữ, Số 20 Nguyễn Đăng Giai,
+            Phường Thảo Điền, TP. Thủ Đức, TP.HCM
           </p>
         </div>
       </div>
