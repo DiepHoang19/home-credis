@@ -7,8 +7,8 @@ import { PUBLIC_ROUTER } from "./section";
 import NotFount from "@/page/not-found";
 import LoanCalculator from "@/page/xac-nhan-khoan-vay/page";
 import LoanDetailCard from "@/page/loan-detail/page";
-import UserProfileLayout from "@/page/ho-so/page";
 import DebtList from "@/page/thanh-toan/page";
+import { UserProfileLayout } from "@/page/ho-so/page";
 
 const router = createBrowserRouter(
   [

@@ -41,9 +41,8 @@ import AccountHistorySection from "./components/bien-dong-so-du";
 import { toast } from "sonner";
 import { PUBLIC_ROUTER } from "@/router/section";
 import { USER_INFO } from "@/contants/contants";
-import Alert from "@mui/material/Alert";
 
-export default function UserProfileLayout() {
+export const UserProfileLayout = () => {
   const [selected, setSelected] = useState(1);
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type");
@@ -153,7 +152,6 @@ export default function UserProfileLayout() {
   };
   const pathname = router.pathname;
 
-  const [openProfile, setOpenProfile] = useState(false);
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -174,9 +172,11 @@ export default function UserProfileLayout() {
     return <PersonalInfoPanelSkeleton />;
   }
 
-  if (!userInfo) {
-    return window.location.replace("/dang-nhap");
-  }
+  useEffect(() => {
+    if (!userInfo) {
+      window.location.replace("/dang-nhap");
+    }
+  }, [userInfo]);
 
   return (
     <Box className="bg-[#f6f9fb] min-h-fit py-6 px-4 ">
@@ -283,4 +283,4 @@ export default function UserProfileLayout() {
       </Box>
     </Box>
   );
-}
+};

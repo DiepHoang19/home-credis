@@ -42,7 +42,6 @@ import StepFour from "./components/StepFour";
 import StepFive from "./components/StepFive";
 import { useNavigate } from "react-router-dom";
 import { FullScreenSpinner } from "@/components/loading/Loading";
-import LoanAlertSection from "./components/Warning";
 
 const LoanCalculator = () => {
   const router = useNavigate();
