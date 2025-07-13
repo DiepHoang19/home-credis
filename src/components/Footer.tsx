@@ -141,6 +141,10 @@ const Footer = () => {
             Công ty TNHH MTV Tài chính HomeCre Việt Nam – Giấy phép đăng ký hoạt
             động số 95/GP-NHNN do Ngân hàng Nhà nước cấp ngày 28/09/2018.
           </p>
+          <p className="mt-2">
+            Tầng G, 8 và 10 Tòa nhà Phụ Nữ, Số 20 Nguyễn Đăng Giai, Phường Thảo
+            Điền, TP. Thủ Đức, TP.HCM
+          </p>
         </div>
       </div>
     </footer>
