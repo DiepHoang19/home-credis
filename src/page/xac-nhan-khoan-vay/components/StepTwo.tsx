@@ -7,10 +7,9 @@ import {
   ListItem,
   ListItemText,
   Button,
-  IconButton,
   Skeleton,
 } from "@mui/material";
-import { PhotoCamera, Delete } from "@mui/icons-material";
+import { PhotoCamera } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import uploadServices from "@/services/upload.service";
 import { UPDATE_LOANS } from "@/services/graphql/loans-gql";
@@ -21,10 +20,8 @@ import {
 } from "@apollo/client";
 import { Loan } from "@/services/model/loans";
 import ButtonCommon from "@/common/button-common";
-import { toast } from "sonner";
 import { ENUM_STEP_LOAN } from "@/services/model/loans";
 import { UPDATE_USER } from "@/services/graphql/user-gql";
-import { userInfo } from "os";
 
 interface Props {
   setActiveStep: (value: number) => void;
@@ -53,8 +50,8 @@ export default function StepTwo(props: Props) {
   const [loadingUpload, setLoadingUpload] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [updateLoans, { data, loading }] = useMutation(UPDATE_LOANS);
-  const [updateUser, { loading: loadingUpdateUser }] = useMutation(UPDATE_USER);
+  const [updateLoans] = useMutation(UPDATE_LOANS);
+  const [updateUser] = useMutation(UPDATE_USER);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -100,10 +97,6 @@ export default function StepTwo(props: Props) {
   const currentImage = info[getImageField() as keyof typeof info];
 
   const onSubmit = async () => {
-    // if (!info.cccd_before || !info.cccd_after) {
-    //   toast.warning("Vui lòng tải lên đầy đủ ảnh căn cước công dân");
-    //   return;
-    // }
     if (cccdStep === 0 && info.cccd_before) {
       setCccdStep(1);
     }
@@ -198,7 +191,6 @@ export default function StepTwo(props: Props) {
           my: 4,
           p: 3,
           borderRadius: 2,
-          // boxShadow: 1,
           backgroundColor: "#fff",
           border: "2px dashed #ccc",
           textAlign: "center",
@@ -214,7 +206,7 @@ export default function StepTwo(props: Props) {
           id="upload-cccd"
           type="file"
           hidden
-          accept="image/jpeg, image/png"
+          accept="image/*"
           onChange={handleFileChange}
           ref={inputRef}
         />

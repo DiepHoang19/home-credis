@@ -126,7 +126,7 @@ export default function UserProfileLayout() {
       icon: <ArrowLeftRight />,
       key: 5,
     });
-    data.push({ label: "", icon: <Logout />, key: 6 });
+    data.push({ label: "Đăng xuất", icon: <Logout />, key: 6 });
     return data;
   }, [user, dataLoanUser?.loans?.[0]?.id]);
 
@@ -274,10 +274,18 @@ export default function UserProfileLayout() {
                 onChange={handleChange}
                 showLabels
               >
-                {menuItemsMobile.map((i) => (
+                {menuItemsMobile.map((menu) => (
                   <BottomNavigationAction
-                    label={i.label}
-                    icon={i.icon}
+                    label={menu.label}
+                    icon={menu.icon}
+                    onClick={() => {
+                      if (menu.key === 6) {
+                        toast.success("Đăng xuất thành công");
+                        Cookies.remove(USER_INFO);
+                        Cookies.remove("access_token");
+                        router.push("/dang-nhap");
+                      }
+                    }}
                     className="!w-[180px]"
                   />
                 ))}

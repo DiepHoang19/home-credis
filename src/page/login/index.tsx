@@ -73,7 +73,7 @@ function Login() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ p: 10 }}>
+    <Container maxWidth="md" sx={{ p: { xs: 2, sm: 4, md: 6, lg: 10 } }}>
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
         Đăng nhập tài khoản
       </h2>

@@ -152,7 +152,6 @@ export const StepOne = (props: Props) => {
         },
       });
       refetchCurrentLoan();
-      console.log("Số dòng được thêm:", result.data.insert_loans.affected_rows);
     } catch (err) {
       console.error("Lỗi khi tạo loan:", err);
     }
