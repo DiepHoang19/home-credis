@@ -6,28 +6,24 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 export default function BankAccountInfoSection({ user }: { user: User }) {
-  const [banks, setBanks] = useState<Bank[]>([]);
-  const [loading, setLoading] = useState(false);
   const [myBank, setMyBank] = useState("");
 
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get("https://api.vietqr.io/v2/banks");
-        if (res.data?.data) {
-          // setBanks(res.data.data);
-          const data = (res.data?.data as Bank[]).find(
-            (i) => i.shortName === user?.bankname
-          );
-          setMyBank(data.shortName + " - " + data.name);
-        }
-      } catch (err) {
-        console.error("Fetch banks failed", err);
-      } finally {
-        setLoading(false);
+  const getListBanking = async () => {
+    try {
+      const res = await axios.get("https://api.vietqr.io/v2/banks");
+      if (res.data?.data) {
+        const data = (res.data?.data as Bank[]).find(
+          (i) => i.shortName === user?.bankname
+        );
+        setMyBank(data.shortName + " - " + data.name);
       }
-    })();
+    } catch (err) {
+      console.error("Fetch banks failed", err);
+    }
+  };
+
+  useEffect(() => {
+    getListBanking();
   }, []);
 
   const numberBank = maskFirstThreeDigits(user?.accountnumber || "000");
@@ -75,7 +71,6 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
         Thông tin tài khoản ngân hàng đã được lưu
       </Typography>
 
-      {/* Info Section */}
       <Box className="bg-[#2c3763] text-white rounded-t-md px-4 py-2">
         <Typography fontWeight="bold">Thông tin tài khoản ngân hàng</Typography>
       </Box>

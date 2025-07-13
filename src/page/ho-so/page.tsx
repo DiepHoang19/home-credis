@@ -101,13 +101,12 @@ export default function UserProfileLayout() {
     }
     return data;
   }, [user, dataLoanUser?.loans?.[0]?.id]);
-
   const menuItemsMobile = useMemo(() => {
     const showInfoBank =
       !!user?.accountname && !!user?.accountnumber && !!user?.bankname;
     const showLoanList = !!dataLoanUser?.loans?.[0]?.id;
 
-    const data = [{ label: "", icon: <Person />, key: 1 }];
+    const data = [{ label: "Tài khoản", icon: <Person />, key: 1 }];
 
     if (showLoanList) {
       data.push({ label: "Hợp đồng", icon: <CreditCard />, key: 2 });
@@ -115,12 +114,12 @@ export default function UserProfileLayout() {
 
     if (showInfoBank) {
       data.push({
-        label: "Thẻ",
+        label: "Khoản vay",
         icon: <AccountBalance />,
         key: 3,
       });
     }
-    data.push({ label: "Bảo mật", icon: <Lock />, key: 4 });
+    data.push({ label: "Ngân hàng", icon: <AccountBalance />, key: 4 });
     data.push({
       label: "Thông báo",
       icon: <ArrowLeftRight />,
@@ -131,8 +130,18 @@ export default function UserProfileLayout() {
   }, [user, dataLoanUser?.loans?.[0]?.id]);
 
   const renderContent = () => {
+    console.log("selected", selected);
+
     switch (selected) {
-      case 1:
+      case 2: // Hợp đồng
+        return <LoanListSection list={dataLoanUser?.loans} />;
+      case 3: // Khoản vay
+        return <BankAccountInfoSection user={user} />;
+      case 4: // Ngân hàng
+        return <ChangePasswordAndLoginHistory />;
+      case 5: // Thông báo
+        return <AccountHistorySection user={user} />;
+      default:
         return (
           <InfoUser
             user={user}
@@ -140,16 +149,6 @@ export default function UserProfileLayout() {
             loanCurrent={dataLoanUser?.loans?.[0]}
           />
         );
-      case 2:
-        return <LoanListSection list={dataLoanUser?.loans} />;
-      case 3:
-        return <BankAccountInfoSection user={user} />;
-      case 4:
-        return <ChangePasswordAndLoginHistory />;
-      case 5:
-        return <AccountHistorySection user={user} />;
-      default:
-        break;
     }
   };
   const pathname = router.pathname;
@@ -162,8 +161,6 @@ export default function UserProfileLayout() {
   }, [JSON.stringify(pathname)]);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    console.log(newValue);
-
     setSelected(newValue + 1);
   };
   useEffect(() => {
@@ -177,124 +174,113 @@ export default function UserProfileLayout() {
     return <PersonalInfoPanelSkeleton />;
   }
 
+  if (!userInfo) {
+    return window.location.replace("/dang-nhap");
+  }
+
   return (
-    <>
-      {!userInfo ? (
-        <Stack spacing={2} p={4} borderRadius={4}>
-          <Alert severity="warning" sx={{ borderRadius: 2 }}>
-            Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.
-          </Alert>
-        </Stack>
-      ) : (
-        <Box className="bg-[#f6f9fb] min-h-fit py-6 px-4 ">
-          <Typography
-            variant="h5"
-            align="center"
-            fontWeight="bold"
-            className="text-gray-700 !mb-6"
-          >
-            THÔNG TIN CÁ NHÂN
-          </Typography>
+    <Box className="bg-[#f6f9fb] min-h-fit py-6 px-4 ">
+      <Typography
+        variant="h5"
+        align="center"
+        fontWeight="bold"
+        className="text-gray-700 !mb-6"
+      >
+        THÔNG TIN CÁ NHÂN
+      </Typography>
 
-          <Box className="flex justify-center gap-6">
-            <Paper
-              elevation={1}
-              className="p-4 !rounded-[10px] hidden md:block"
-            >
-              <Box className="flex flex-col items-center gap-1 mb-4">
-                <Box className="w-16 h-16 rounded-full bg-gray-300">
-                  <img src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid&w=740" />{" "}
-                </Box>
-                <Typography fontWeight="bold">
-                  {user?.full_name || ""}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {user?.phone_number || ""}
-                </Typography>
-              </Box>
-              <List>
-                {menuItems.map((item) => (
-                  <>
-                    <ListItem
-                      key={item.label}
-                      // button
-                      onClick={() => setSelected(item.key)}
-                      className={clsx(
-                        "rounded-lg mb-1 cursor-pointer",
-                        selected === item.key
-                          ? "bg-red-600 text-white"
-                          : "hover:bg-gray-100"
-                      )}
-                    >
-                      <ListItemIcon
-                        className={clsx(selected === item.key && "text-white")}
-                      >
-                        {item.icon}
-                      </ListItemIcon>
-                      <ListItemText primary={item.label} />
-                    </ListItem>
-                  </>
-                ))}
-                <ListItem className={clsx("rounded-lg mb-1 cursor-pointer")}>
-                  <ListItemIcon className={clsx("text-white")}>
-                    <Logout />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Đăng xuất"
-                    onClick={() => {
-                      Cookies.remove(USER_INFO);
-                      Cookies.remove("access_token");
-                      router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
-                      toast.success("Đăng xuất thành công");
-                    }}
-                  />
-                </ListItem>
-              </List>
-            </Paper>
-
-            <Paper
-              sx={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 999,
-                backgroundColor: "white",
-                padding: "5px 0px",
-                borderBottomLeftRadius: 0,
-                borderBottomRightRadius: 0,
-                paddingLeft: "50px",
-                width: "auto",
-                overflowX: "scroll",
-              }}
-              className="md:hidden"
-            >
-              <BottomNavigation
-                value={selected - 1}
-                onChange={handleChange}
-                showLabels
-              >
-                {menuItemsMobile.map((menu) => (
-                  <BottomNavigationAction
-                    label={menu.label}
-                    icon={menu.icon}
-                    onClick={() => {
-                      if (menu.key === 6) {
-                        toast.success("Đăng xuất thành công");
-                        Cookies.remove(USER_INFO);
-                        Cookies.remove("access_token");
-                        router.push("/dang-nhap");
-                      }
-                    }}
-                    className="!w-[180px]"
-                  />
-                ))}
-              </BottomNavigation>
-            </Paper>
-            {renderContent()}
+      <Box className="flex justify-center gap-6">
+        <Paper elevation={1} className="p-4 !rounded-[10px] hidden md:block">
+          <Box className="flex flex-col items-center gap-1 mb-4">
+            <Box className="w-16 h-16 rounded-full bg-gray-300">
+              <img src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid&w=740" />{" "}
+            </Box>
+            <Typography fontWeight="bold">{user?.full_name || ""}</Typography>
+            <Typography variant="body2" color="textSecondary">
+              {user?.phone_number || ""}
+            </Typography>
           </Box>
-        </Box>
-      )}
-    </>
+          <List>
+            {menuItems.map((item) => (
+              <>
+                <ListItem
+                  key={item.label}
+                  // button
+                  onClick={() => setSelected(item.key)}
+                  className={clsx(
+                    "rounded-lg mb-1 cursor-pointer",
+                    selected === item.key
+                      ? "bg-red-600 text-white"
+                      : "hover:bg-gray-100"
+                  )}
+                >
+                  <ListItemIcon
+                    className={clsx(selected === item.key && "text-white")}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.label} />
+                </ListItem>
+              </>
+            ))}
+            <ListItem className={clsx("rounded-lg mb-1 cursor-pointer")}>
+              <ListItemIcon className={clsx("text-white")}>
+                <Logout />
+              </ListItemIcon>
+              <ListItemText
+                primary="Đăng xuất"
+                onClick={() => {
+                  Cookies.remove(USER_INFO);
+                  Cookies.remove("access_token");
+                  router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
+                  toast.success("Đăng xuất thành công");
+                }}
+              />
+            </ListItem>
+          </List>
+        </Paper>
+
+        <Paper
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 999,
+            backgroundColor: "white",
+            padding: "5px 0px",
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+            paddingLeft: "50px",
+            width: "auto",
+            overflowX: "scroll",
+          }}
+          className="md:hidden"
+        >
+          <BottomNavigation
+            value={selected - 1}
+            onChange={handleChange}
+            showLabels
+          >
+            {menuItemsMobile.map((menu) => (
+              <BottomNavigationAction
+                label={menu.label}
+                icon={menu.icon}
+                onClick={() => {
+                  if (menu.key === 6) {
+                    toast.success("Đăng xuất thành công");
+                    Cookies.remove(USER_INFO);
+                    Cookies.remove("access_token");
+                    router.push("/dang-nhap");
+                  }
+                }}
+                className="!w-[180px]"
+              />
+            ))}
+          </BottomNavigation>
+        </Paper>
+        {renderContent()}
+      </Box>
+    </Box>
   );
 }

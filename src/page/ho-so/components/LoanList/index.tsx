@@ -24,13 +24,21 @@ import { PUBLIC_ROUTER } from "@/router/section";
 export default function LoanListSection({ list }: { list: Loan[] }) {
   const router = useRouter();
 
+  if (list?.length === 0) {
+    return (
+      <TableRow>
+        <TableCell colSpan={7} align="center" className="py-6">
+          Không có khoản vay nào
+        </TableCell>
+      </TableRow>
+    );
+  }
   return (
     <Paper className="shadow-md !rounded-[10px] overflow-hidden">
-      {/* Header */}
       <Box className="bg-[#2c3763] text-white flex justify-between items-center px-4 py-3">
         <Typography fontWeight="bold">Danh Sách Khoản Vay</Typography>
         {[ENUM_STATUS_LOAN.DONE, ENUM_STATUS_LOAN.REJECT].includes(
-          list?.[0].status
+          list?.[0]?.status
         ) && (
           <Button
             variant="contained"
