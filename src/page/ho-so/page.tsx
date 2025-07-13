@@ -9,7 +9,6 @@ import {
   Paper,
   BottomNavigation,
   BottomNavigationAction,
-  Stack,
 } from "@mui/material";
 import {
   Person,
@@ -49,18 +48,31 @@ export const UserProfileLayout = () => {
   const router = useRouter();
 
   const userInfo = safeParseJSON(
-    (Cookies.get("user_info") || "") as string
+    (Cookies.get(USER_INFO) || "") as string
   ) as User;
+
+  // 🧠 Redirect nếu không có userInfo
+  useEffect(() => {
+    if (!userInfo?.id) {
+      router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
+    }
+  }, [userInfo]);
+
+  // 🛑 Tránh render khi chưa có userInfo
+  if (!userInfo?.id) {
+    return null;
+  }
 
   const {
     data: dataUser,
     loading: loadingGetUser,
   }: { data: { users: User[] }; loading: boolean } = useQuery(GET_USER, {
-    variables: { id: userInfo?.id },
-    skip: !userInfo?.id,
+    variables: { id: userInfo.id },
+    skip: !userInfo.id,
   });
 
   const user = dataUser?.users?.[0];
+
   const {
     data: dataLoanUser,
   }: {
@@ -71,9 +83,9 @@ export const UserProfileLayout = () => {
     loading: boolean;
   } = useQuery(GET_LOAN_USER, {
     variables: {
-      user_id: userInfo?.id,
+      user_id: userInfo.id,
     },
-    skip: !userInfo?.id,
+    skip: !userInfo.id,
   });
 
   const menuItems = useMemo(() => {
@@ -83,12 +95,16 @@ export const UserProfileLayout = () => {
 
     const data = [
       { label: "Thông tin cá nhân", icon: <Person />, key: 1 },
-      { label: "Bảo mật tài khoản ", icon: <Lock />, key: 4 },
+      { label: "Bảo mật tài khoản", icon: <Lock />, key: 4 },
       { label: "Thông báo", icon: <ArrowLeftRight />, key: 5 },
     ];
 
     if (showLoanList) {
-      data.push({ label: "Hợp đồng khoản vay", icon: <CreditCard />, key: 2 });
+      data.splice(1, 0, {
+        label: "Hợp đồng khoản vay",
+        icon: <CreditCard />,
+        key: 2,
+      });
     }
 
     if (showInfoBank) {
@@ -98,8 +114,10 @@ export const UserProfileLayout = () => {
         key: 3,
       });
     }
+
     return data;
   }, [user, dataLoanUser?.loans?.[0]?.id]);
+
   const menuItemsMobile = useMemo(() => {
     const showInfoBank =
       !!user?.accountname && !!user?.accountnumber && !!user?.bankname;
@@ -112,33 +130,25 @@ export const UserProfileLayout = () => {
     }
 
     if (showInfoBank) {
-      data.push({
-        label: "Khoản vay",
-        icon: <AccountBalance />,
-        key: 3,
-      });
+      data.push({ label: "Khoản vay", icon: <AccountBalance />, key: 3 });
     }
+
     data.push({ label: "Ngân hàng", icon: <AccountBalance />, key: 4 });
-    data.push({
-      label: "Thông báo",
-      icon: <ArrowLeftRight />,
-      key: 5,
-    });
+    data.push({ label: "Thông báo", icon: <ArrowLeftRight />, key: 5 });
     data.push({ label: "Đăng xuất", icon: <Logout />, key: 6 });
+
     return data;
   }, [user, dataLoanUser?.loans?.[0]?.id]);
 
   const renderContent = () => {
-    console.log("selected", selected);
-
     switch (selected) {
-      case 2: // Hợp đồng
+      case 2:
         return <LoanListSection list={dataLoanUser?.loans} />;
-      case 3: // Khoản vay
+      case 3:
         return <BankAccountInfoSection user={user} />;
-      case 4: // Ngân hàng
+      case 4:
         return <ChangePasswordAndLoginHistory />;
-      case 5: // Thông báo
+      case 5:
         return <AccountHistorySection user={user} />;
       default:
         return (
@@ -150,36 +160,18 @@ export const UserProfileLayout = () => {
         );
     }
   };
-  const pathname = router.pathname;
 
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    if (type === "2") setValue(2);
-  }, [JSON.stringify(pathname)]);
-
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setSelected(newValue + 1);
-  };
   useEffect(() => {
     const num = Number(type);
-    if (num) {
-      setSelected(num || 1);
-    }
+    if (num) setSelected(num || 1);
   }, [type]);
 
   if (loadingGetUser) {
     return <PersonalInfoPanelSkeleton />;
   }
 
-  useEffect(() => {
-    if (!userInfo) {
-      window.location.replace("/dang-nhap");
-    }
-  }, [userInfo]);
-
   return (
-    <Box className="bg-[#f6f9fb] min-h-fit py-6 px-4 ">
+    <Box className="bg-[#f6f9fb] min-h-fit py-6 px-4">
       <Typography
         variant="h5"
         align="center"
@@ -192,8 +184,11 @@ export const UserProfileLayout = () => {
       <Box className="flex justify-center gap-6">
         <Paper elevation={1} className="p-4 !rounded-[10px] hidden md:block">
           <Box className="flex flex-col items-center gap-1 mb-4">
-            <Box className="w-16 h-16 rounded-full bg-gray-300">
-              <img src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid&w=740" />{" "}
+            <Box className="w-16 h-16 rounded-full bg-gray-300 overflow-hidden">
+              <img
+                src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid&w=740"
+                alt="avatar"
+              />
             </Box>
             <Typography fontWeight="bold">{user?.full_name || ""}</Typography>
             <Typography variant="body2" color="textSecondary">
@@ -202,44 +197,42 @@ export const UserProfileLayout = () => {
           </Box>
           <List>
             {menuItems.map((item) => (
-              <>
-                <ListItem
-                  key={item.label}
-                  // button
-                  onClick={() => setSelected(item.key)}
-                  className={clsx(
-                    "rounded-lg mb-1 cursor-pointer",
-                    selected === item.key
-                      ? "bg-red-600 text-white"
-                      : "hover:bg-gray-100"
-                  )}
+              <ListItem
+                key={item.key}
+                onClick={() => setSelected(item.key)}
+                className={clsx(
+                  "rounded-lg mb-1 cursor-pointer",
+                  selected === item.key
+                    ? "bg-red-600 text-white"
+                    : "hover:bg-gray-100"
+                )}
+              >
+                <ListItemIcon
+                  className={clsx(selected === item.key && "text-white")}
                 >
-                  <ListItemIcon
-                    className={clsx(selected === item.key && "text-white")}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.label} />
-                </ListItem>
-              </>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItem>
             ))}
-            <ListItem className={clsx("rounded-lg mb-1 cursor-pointer")}>
-              <ListItemIcon className={clsx("text-white")}>
+            <ListItem
+              className="rounded-lg mb-1 cursor-pointer"
+              onClick={() => {
+                Cookies.remove(USER_INFO);
+                Cookies.remove("access_token");
+                toast.success("Đăng xuất thành công");
+                router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
+              }}
+            >
+              <ListItemIcon>
                 <Logout />
               </ListItemIcon>
-              <ListItemText
-                primary="Đăng xuất"
-                onClick={() => {
-                  Cookies.remove(USER_INFO);
-                  Cookies.remove("access_token");
-                  router.push(PUBLIC_ROUTER.ACCOUNT.LOGIN);
-                  toast.success("Đăng xuất thành công");
-                }}
-              />
+              <ListItemText primary="Đăng xuất" />
             </ListItem>
           </List>
         </Paper>
 
+        {/* Mobile Menu */}
         <Paper
           sx={{
             position: "fixed",
@@ -259,18 +252,19 @@ export const UserProfileLayout = () => {
         >
           <BottomNavigation
             value={selected - 1}
-            onChange={handleChange}
+            onChange={(_e, newValue) => setSelected(newValue + 1)}
             showLabels
           >
             {menuItemsMobile.map((menu) => (
               <BottomNavigationAction
+                key={menu.key}
                 label={menu.label}
                 icon={menu.icon}
                 onClick={() => {
                   if (menu.key === 6) {
-                    toast.success("Đăng xuất thành công");
                     Cookies.remove(USER_INFO);
                     Cookies.remove("access_token");
+                    toast.success("Đăng xuất thành công");
                     router.push("/dang-nhap");
                   }
                 }}
@@ -279,6 +273,7 @@ export const UserProfileLayout = () => {
             ))}
           </BottomNavigation>
         </Paper>
+
         {renderContent()}
       </Box>
     </Box>

@@ -62,7 +62,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
             className="absolute top-4 right-6 text-white font-semibold"
             fontSize={14}
           >
-            {user.bankname}
+            {user?.bankname}
           </Typography>
         </Box>
       </Box>
