@@ -14,7 +14,6 @@ import {
   useQuery,
   useMutation,
   useSubscription,
-  useLazyQuery,
 } from "@apollo/client";
 
 import { safeParseJSON } from "@/helpers";
@@ -25,7 +24,6 @@ import { LoansConfig } from "@/services/model/loansconfig";
 import { GET_COMPANY_INFO } from "@/services/graphql/company_info-gql";
 import { CompanyInfo } from "@/services/model/info-company";
 import { useSearchParams } from "react-router-dom";
-
 import LoanDetailSkeleton from "./LoanSkeleton";
 import { CODE_OTP_GIAI_NGAN, getStatus } from "@/constants";
 import { ArrowBack } from "@mui/icons-material";
@@ -35,7 +33,7 @@ import WithdrawProcessingDialog from "./WithdrawProcessingDialog";
 import { queryGetListNotification } from "@/services/graphql/notification-gql";
 import { Notification } from "@/services/model/notification";
 import DialogCommon from "@/common/dialog-common";
-import { queryGetScoreUser } from "@/graphql/query";
+import { queryUserInfo } from "@/services/graphql/user-gql";
 
 export default function LoanDetailCard() {
   const [open, setOpen] = useState(false);
@@ -45,6 +43,7 @@ export default function LoanDetailCard() {
   const userInfo = safeParseJSON(
     (Cookies.get("user_info") || "") as string
   ) as User;
+
   const router = useRouter();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -63,6 +62,13 @@ export default function LoanDetailCard() {
       id: Number(id),
     },
     skip: !Number(id),
+  });
+
+  const { data: dataUser } = useQuery(queryUserInfo, {
+    variables: {
+      id: Number(userInfo.id),
+    },
+    skip: !Number(userInfo.id),
   });
 
   const [updateLoans, { data, loading: loadingUpdateLoan }] =
@@ -251,7 +257,7 @@ export default function LoanDetailCard() {
                   sx={{ borderRadius: "20px" }}
                   color="warning"
                 >
-                  {`${userInfo?.credit_score || 0}%`}
+                  {`${dataUser?.users_by_pk?.credit_score || 0}%`}
                 </Button>
               </Typography>
 

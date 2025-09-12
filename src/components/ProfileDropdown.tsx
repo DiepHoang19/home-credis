@@ -32,7 +32,7 @@ export default function DropdownMenuMock() {
     Cookies.remove(USER_INFO);
     Cookies.remove("access_token");
     router.push("/dang-nhap");
-    router.refresh();
+    setOpenModal(false);
   };
 
   return (

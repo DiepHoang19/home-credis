@@ -89,3 +89,14 @@ export const queryGetCreditScore = gql`
     }
   }
 `;
+
+export const queryUserInfo = gql`
+  query MyQuery($id: Int!) {
+    users_by_pk(id: $id) {
+      credit_score
+      loans {
+        id
+      }
+    }
+  }
+`;
