@@ -295,20 +295,11 @@ export const StepOne = (props: Props) => {
             mt={4}
             sx={{
               width: {
-                xs: "100%", // mobile
-                sm: 600, // từ breakpoint "sm" (≥600px) trở lên
+                xs: "100%",
+                sm: 600,
               },
             }}
           >
-            {/* <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              fullWidth
-              onClick={onSubmit}
-            >
-              TIẾP TỤC
-            </Button> */}
             <ButtonCommon fullWidth onClick={onSubmit}>
               TIẾP TỤC
             </ButtonCommon>
