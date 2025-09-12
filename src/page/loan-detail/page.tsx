@@ -163,11 +163,6 @@ export default function LoanDetailCard() {
     return brightness > 128 ? "black" : "white";
   }
 
-  /**
-   * Viết hoa chữ cái đầu mỗi từ trong chuỗi
-   * @param str Chuỗi đầu vào
-   * @returns Chuỗi đã được chuẩn hóa
-   */
   function capitalizeWords(str: string) {
     if (str) {
       return str
