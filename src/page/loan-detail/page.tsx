@@ -150,19 +150,6 @@ export default function LoanDetailCard() {
     return window.getComputedStyle(ctx.canvas).color;
   }
 
-  function getTextColorFromName() {
-    const rgb = getRGBFromColorName();
-    if (!rgb) return "black";
-
-    const match = rgb.match(/\d+/g);
-    if (!match || match.length < 3) return "black";
-
-    const [r, g, b] = match.map(Number);
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-
-    return brightness > 128 ? "black" : "white";
-  }
-
   function capitalizeWords(str: string) {
     if (str) {
       return str
