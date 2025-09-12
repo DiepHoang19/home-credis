@@ -138,17 +138,6 @@ export default function LoanDetailCard() {
     listNotifications?.[0]?.notifications_notification_config?.color ||
     "yellow";
 
-  function getRGBFromColorName() {
-    const ctx = document.createElement("canvas").getContext("2d");
-    if (!ctx) return null;
-
-    ctx.fillStyle = color;
-    const computed = ctx.fillStyle;
-
-    ctx.fillStyle = computed;
-    return window.getComputedStyle(ctx.canvas).color;
-  }
-
   function capitalizeWords(str: string) {
     if (str) {
       return str
