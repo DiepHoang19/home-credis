@@ -1,4 +1,9 @@
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  ScrollRestoration,
+} from "react-router-dom";
 import App from "@/App";
 import DefaultLayout from "@/components/ui/default-layout";
 import Login from "@/page/login";
@@ -15,6 +20,7 @@ const router = createBrowserRouter(
     {
       element: (
         <DefaultLayout>
+          <ScrollRestoration />
           <Outlet />
         </DefaultLayout>
       ),

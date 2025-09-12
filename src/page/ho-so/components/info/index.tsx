@@ -72,7 +72,7 @@ export const InfoUser = ({
           title: "Thông Tin Ngân Hàng",
           data: [
             { label: "Tên ngân hàng", value: user?.bankname },
-            { label: "Số tài khoản", value: numberBank },
+            { label: "Số tài khoản", value: user?.accountnumber },
             {
               label: "Chủ tài khoản",
               value: user?.accountname,

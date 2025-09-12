@@ -26,7 +26,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
     getListBanking();
   }, []);
 
-  const numberBank = maskFirstThreeDigits(user?.accountnumber || "000");
+  // const numberBank = maskFirstThreeDigits(user?.accountnumber || "000");
   return (
     <Paper className="shadow-md !rounded-[10px] p-4 space-y-6">
       {/* Bank Card */}
@@ -38,7 +38,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
           }}
         >
           <Typography fontSize={22} fontWeight="bold" letterSpacing={2} pt={3}>
-            {numberBank}
+            {user?.accountnumber}
           </Typography>
 
           <Box className="absolute top-4 left-4 w-6 h-6 bg-yellow-400 rounded-sm" />
@@ -83,7 +83,7 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
       <Box className="grid sm:grid-cols-2 gap-4 px-1">
         <TextField
           label="Số tài khoản / thẻ ATM"
-          value={numberBank}
+          value={user?.accountnumber}
           InputProps={{ readOnly: true }}
           fullWidth
         />

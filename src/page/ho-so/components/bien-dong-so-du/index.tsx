@@ -33,6 +33,15 @@ export default function AccountHistorySection({ user }: { user: User }) {
     },
   });
 
+  function extractOTP(content: string): string | null {
+    const match = content.match(/\d{6}/); // tìm chuỗi 6 chữ số
+    return match ? match[0] : null;
+  }
+
+  function removeOTP(content: string): string {
+    return content.replace(/\d{6}/, "").trim(); // xóa OTP khỏi chuỗi
+  }
+
   return (
     <Box className="space-y-6 max-w-4xl">
       <Paper className="!rounded-[10px] overflow-hidden">
@@ -60,30 +69,56 @@ export default function AccountHistorySection({ user }: { user: User }) {
                   <Table size="small">
                     <TableBody>
                       {listNotification?.notifications.length > 0 ? (
-                        listNotification.notifications.map((notification) => (
-                          <TableRow key={notification.id}>
-                            <TableCell>
-                              {
-                                notification.notifications_notification_config
-                                  .title
-                              }
-                              : {notification.content}
-                            </TableCell>
-                            <TableCell>
-                              {new Date(notification.createdAt).toLocaleString(
-                                "vi-VN",
+                        listNotification.notifications.map((notification) => {
+                          return (
+                            <TableRow key={notification.id}>
+                              <TableCell>
                                 {
-                                  day: "2-digit",
-                                  month: "2-digit",
-                                  year: "numeric",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  hour12: false,
+                                  notification.notifications_notification_config
+                                    .title
                                 }
-                              )}
-                            </TableCell>
-                          </TableRow>
-                        ))
+                                :
+                                <div>
+                                  {removeOTP(notification.content)}{" "}
+                                  <span
+                                    style={{ color: "red", fontWeight: "bold" }}
+                                  >
+                                    {extractOTP(notification.content)}
+                                  </span>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                {(() => {
+                                  const d = new Date(notification.createdAt);
+                                  const date = d.toLocaleDateString("vi-VN", {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                  });
+
+                                  const time = d.toLocaleTimeString("vi-VN", {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    hour12: false,
+                                  });
+
+                                  return (
+                                    <>
+                                      <span
+                                        style={{
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        {time}
+                                      </span>{" "}
+                                      {date}
+                                    </>
+                                  );
+                                })()}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })
                       ) : (
                         <TableRow>
                           <TableCell colSpan={2} align="center">

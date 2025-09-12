@@ -54,9 +54,8 @@ const StepFour = ({ currentLoan, setActiveStep }: Props) => {
     },
     resolver: yupResolver(schema),
   });
-  const [updateUser, { loading }] = useMutation(UPDATE_USER);
-  const [updateLoans, { loading: loadingUpdateLoan }] =
-    useMutation(UPDATE_LOANS);
+  const [updateUser] = useMutation(UPDATE_USER);
+  const [updateLoans] = useMutation(UPDATE_LOANS);
 
   const values = useWatch({ control });
 

@@ -15,3 +15,10 @@ export const queryLogin = gql`
     }
   }
 `;
+export const queryGetScoreUser = gql`
+  query MyQuery($id: Int!) {
+    users_by_pk(id: $id) {
+      credit_score
+    }
+  }
+`;

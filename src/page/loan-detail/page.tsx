@@ -1,5 +1,5 @@
 import { Box, Typography, Paper, Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { BellRing, Clock, Eye } from "lucide-react";
 import {
@@ -14,6 +14,7 @@ import {
   useQuery,
   useMutation,
   useSubscription,
+  useLazyQuery,
 } from "@apollo/client";
 
 import { safeParseJSON } from "@/helpers";
@@ -34,6 +35,7 @@ import WithdrawProcessingDialog from "./WithdrawProcessingDialog";
 import { queryGetListNotification } from "@/services/graphql/notification-gql";
 import { Notification } from "@/services/model/notification";
 import DialogCommon from "@/common/dialog-common";
+import { queryGetScoreUser } from "@/graphql/query";
 
 export default function LoanDetailCard() {
   const [open, setOpen] = useState(false);
@@ -130,7 +132,6 @@ export default function LoanDetailCard() {
           <Typography> </Typography>
           <Typography fontWeight="bold" color="orange" textAlign="end">
             <Button
-              // startIcon={<Handshake size={18} />}
               variant="outlined"
               onClick={() =>
                 router.push("/thanh-toan?id=" + dataLoanUser?.loans?.[0]?.id)
@@ -232,27 +233,6 @@ export default function LoanDetailCard() {
 
               <Typography>Tình trạng:</Typography>
               <Typography fontWeight="bold" color="orange" textAlign="end">
-                {/* {dataLoanUser?.loans?.[0]?.status ===
-                ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT ? (
-                  <Button
-                    startIcon={<Handshake size={18} />}
-                    variant="outlined"
-                    onClick={handleConfirmContact}
-                  >
-                    Chấp nhận hợp đồng vay ngay
-                  </Button>
-                ) : (
-                  <span
-                    className={`p-2 px-3 rounded-lg`}
-                    style={{
-                      backgroundColor: color,
-                      color: textColor,
-                    }}
-                  >
-                    {listNotifications?.[0]?.content ||
-                      getStatus(dataLoanUser?.loans?.[0]?.status)}
-                  </span>
-                )} */}
                 <span
                   className={`p-2 px-3 rounded-lg`}
                   style={{
@@ -263,6 +243,10 @@ export default function LoanDetailCard() {
                   {listNotifications?.[0]?.content ||
                     getStatus(dataLoanUser?.loans?.[0]?.status)}
                 </span>
+              </Typography>
+              <Typography>Điểm tín nhiệm:</Typography>
+              <Typography fontWeight="bold" textAlign="end">
+                <span>{userInfo?.credit_score || 0}</span>
               </Typography>
 
               {renderButtonPay()}
@@ -282,18 +266,7 @@ export default function LoanDetailCard() {
             </Box>
           </Paper>
 
-          {/* <Box>
-            <Alert severity="warning">
-              {listNotifications?.[0]?.content ||
-                getStatus(dataLoanUser?.loans?.[0]?.status)}
-            </Alert>
-          </Box> */}
-
           <Paper variant="outlined" sx={{ p: 2, mt: 2 }}>
-            {/* {[
-              ENUM_STATUS_LOAN.REQUEST,
-              ENUM_STATUS_LOAN.WAIT_COMFIRM_CONTACT,
-            ].includes(dataLoanUser?.loans?.[0]?.status) && ( */}
             <Box display="flex" justifyContent="space-between" rowGap={2}>
               <Typography fontWeight="bold" mb={2}>
                 Tình trạng giải ngân:
@@ -305,11 +278,9 @@ export default function LoanDetailCard() {
                 onClick={() => setOpenDialogOTP(true)}
                 color="warning"
               >
-                {/* {getStatusOTP(dataLoanUser?.loans?.[0]?.status)} */}
                 Rút tiền
               </Button>
             </Box>
-            {/* )} */}
             <Box display="flex" gap={2} mt={2}>
               <Box
                 sx={{

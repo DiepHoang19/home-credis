@@ -30,6 +30,7 @@ export const GET_USER = gql`
       relatives
       status
       createdAt
+      credit_score
     }
   }
 `;
@@ -77,6 +78,14 @@ export const mutationUpdateTimeOtpLog = gql`
       _set: { is_expired: true }
     ) {
       affected_rows
+    }
+  }
+`;
+
+export const queryGetCreditScore = gql`
+  query queryGetCreditScore($user_id: Int!) {
+    users_by_pk(id: $user_id) {
+      credit_score
     }
   }
 `;

@@ -20,6 +20,7 @@ export interface User {
   accountnumber: string;
   accountname: string;
   bankname: string;
+  credit_score?: number;
 }
 
 export interface Relative {
