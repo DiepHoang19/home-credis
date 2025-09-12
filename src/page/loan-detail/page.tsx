@@ -238,12 +238,11 @@ export default function LoanDetailCard() {
               </Typography>
 
               <Typography>Tình trạng:</Typography>
-              <Typography fontWeight="bold" color="orange" textAlign="end">
+              <Typography fontWeight="bold" textAlign="end">
                 <span
                   className={`p-2 px-3 rounded-lg`}
                   style={{
-                    backgroundColor: color,
-                    color: textColor,
+                    color: "red",
                   }}
                 >
                   {listNotifications?.[0]?.content ||
@@ -251,7 +250,7 @@ export default function LoanDetailCard() {
                 </span>
               </Typography>
               <Typography>Điểm tín nhiệm:</Typography>
-              <Typography fontWeight="bold" textAlign="end">
+              <Typography fontWeight="bold" textAlign="left">
                 <Button
                   variant="contained"
                   sx={{ borderRadius: "20px" }}

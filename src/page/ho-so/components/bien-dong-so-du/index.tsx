@@ -102,18 +102,7 @@ export default function AccountHistorySection({ user }: { user: User }) {
                                     hour12: false,
                                   });
 
-                                  return (
-                                    <>
-                                      <span
-                                        style={{
-                                          fontWeight: "bold",
-                                        }}
-                                      >
-                                        {time}
-                                      </span>{" "}
-                                      {date}
-                                    </>
-                                  );
+                                  return <>{date}</>;
                                 })()}
                               </TableCell>
                             </TableRow>
