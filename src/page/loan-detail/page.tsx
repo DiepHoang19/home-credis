@@ -246,7 +246,13 @@ export default function LoanDetailCard() {
               </Typography>
               <Typography>Điểm tín nhiệm:</Typography>
               <Typography fontWeight="bold" textAlign="end">
-                <span>{userInfo?.credit_score || 0}</span>
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: "20px" }}
+                  color="warning"
+                >
+                  {`${userInfo?.credit_score || 0}%`}
+                </Button>
               </Typography>
 
               {renderButtonPay()}

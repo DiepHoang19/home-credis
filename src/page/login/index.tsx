@@ -59,10 +59,10 @@ function Login() {
     };
     try {
       const data = await authenService.onLogin(dataLogin);
-      toast.success("Đăng nhập thành công");
       cookies.set(USER_INFO, JSON.stringify(data.data.data.user));
       cookies.set("access_token", data.data.data.access_token);
-      window.location.replace(PUBLIC_ROUTER.HOME);
+      toast.success("Đăng nhập thành công");
+      router.push(PUBLIC_ROUTER.HOME);
     } catch (error) {
       const message =
         error?.response?.data?.message ||
