@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   // Grid,
@@ -14,6 +14,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ButtonCommon from "@/common/button-common";
 import { useRouter } from "@/hook";
+import { useLocation } from "react-router-dom";
 
 const LoanCalculator = () => {
   const [loanAmount, setLoanAmount] = useState(15000000);
@@ -64,6 +65,8 @@ const LoanCalculator = () => {
                 <RemoveIcon />
               </IconButton>
               <TextField
+                onCopy={(e) => e.preventDefault()}
+                onPaste={(e) => e.preventDefault()}
                 value={loanAmount.toLocaleString("vi-VN") + " VND"}
                 InputProps={{ readOnly: true }}
                 variant="outlined"
@@ -84,8 +87,8 @@ const LoanCalculator = () => {
               max={50000000}
               sx={{ mt: 2 }}
             />
-
             {/* Duration */}
+
             <Typography gutterBottom sx={{ mt: 3 }}>
               Thời hạn bạn trả:
             </Typography>
@@ -96,6 +99,8 @@ const LoanCalculator = () => {
                 <RemoveIcon />
               </IconButton>
               <TextField
+                onCopy={(e) => e.preventDefault()}
+                onPaste={(e) => e.preventDefault()}
                 value={`${duration} tháng`}
                 InputProps={{ readOnly: true }}
                 variant="outlined"
@@ -114,7 +119,6 @@ const LoanCalculator = () => {
               max={24}
               sx={{ mt: 2 }}
             />
-
             {/* Monthly payment */}
             <Typography align="center" sx={{ mt: 4, mb: 1 }}>
               Số tiền bạn trả mỗi tháng
@@ -127,11 +131,16 @@ const LoanCalculator = () => {
             >
               {parseInt(calculateMonthlyPayment()).toLocaleString("vi-VN")} VND
             </Typography>
-            <Typography fontSize={12} color="gray" align="center">
+            <Typography
+              id="vay-tien"
+              component="div"
+              fontSize={12}
+              color="gray"
+              align="center"
+            >
               Số tiền thực tế có thể thay đổi tùy vào từng trường hợp và/hoặc
               gói vay cụ thể.
             </Typography>
-
             <Box display="flex" justifyContent="center" mt={3}>
               <ButtonCommon
                 onClick={() => router.push("/xac-nhan-khoan-vay")}

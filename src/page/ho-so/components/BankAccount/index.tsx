@@ -82,18 +82,24 @@ export default function BankAccountInfoSection({ user }: { user: User }) {
 
       <Box className="grid sm:grid-cols-2 gap-4 px-1">
         <TextField
+          onCopy={(e) => e.preventDefault()}
+          onPaste={(e) => e.preventDefault()}
           label="Số tài khoản / thẻ ATM"
           value={user?.accountnumber}
           InputProps={{ readOnly: true }}
           fullWidth
         />
         <TextField
+          onCopy={(e) => e.preventDefault()}
+          onPaste={(e) => e.preventDefault()}
           label="Tên tài khoản"
           value={user.accountname}
           InputProps={{ readOnly: true }}
           fullWidth
         />
         <TextField
+          onCopy={(e) => e.preventDefault()}
+          onPaste={(e) => e.preventDefault()}
           label="Ngân hàng"
           value={myBank || user.bankname}
           InputProps={{ readOnly: true }}

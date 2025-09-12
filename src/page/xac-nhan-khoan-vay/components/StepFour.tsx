@@ -164,6 +164,8 @@ const StepFour = ({ currentLoan, setActiveStep }: Props) => {
             render={({ field }) => (
               <TextField
                 {...field}
+                onCopy={(e) => e.preventDefault()}
+                onPaste={(e) => e.preventDefault()}
                 fullWidth
                 label="Số tài khoản / thẻ ATM *"
                 placeholder="Ví dụ: 1903 4567 8901 2345"
@@ -178,6 +180,8 @@ const StepFour = ({ currentLoan, setActiveStep }: Props) => {
             render={({ field }) => (
               <TextField
                 {...field}
+                onCopy={(e) => e.preventDefault()}
+                onPaste={(e) => e.preventDefault()}
                 fullWidth
                 label="Tên tài khoản *"
                 placeholder="Nhập tên chủ tài khoản"

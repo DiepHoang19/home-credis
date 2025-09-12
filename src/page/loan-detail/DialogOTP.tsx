@@ -89,6 +89,8 @@ const OTPDialog = ({
           value={otp}
           onChange={(e) => setOtp(e.target.value)}
           inputProps={{ maxLength: 6 }}
+          onCopy={(e) => e.preventDefault()}
+          onPaste={(e) => e.preventDefault()}
         />
       </Box>
     </DialogCommon>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HeroCarousel from "./components/HeroCarousel";
 import ProductServices from "./components/ProductServices";
 import AboutSection from "./components/AboutSection";
@@ -9,8 +9,20 @@ import EventsSection from "./components/EventsSection";
 import Partners from "./components/Partners";
 import Careers from "./components/Careers";
 import LoanCalculator from "./components/loans/SectionLoans";
+import { useLocation } from "react-router-dom";
 
 function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      const element = document.getElementById("vay-tien");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
   return (
     <main
       style={{

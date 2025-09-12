@@ -168,6 +168,8 @@ export default function ChangePasswordAndLoginHistory() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <InputCommon
+            onCopy={(e) => e.preventDefault()}
+            onPaste={(e) => e.preventDefault()}
             name="otp_code"
             errors={errors.otp_code}
             control={control}

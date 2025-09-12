@@ -185,6 +185,8 @@ export const StepOne = (props: Props) => {
             <Box display="flex" flexDirection="column" gap={2}>
               <Box>
                 <TextField
+                  onCopy={(e) => e.preventDefault()}
+                  onPaste={(e) => e.preventDefault()}
                   fullWidth
                   type="number"
                   label="Số tiền cần vay"
@@ -222,6 +224,8 @@ export const StepOne = (props: Props) => {
 
               <Box>
                 <TextField
+                  onCopy={(e) => e.preventDefault()}
+                  onPaste={(e) => e.preventDefault()}
                   label="Kỳ hạn vay"
                   fullWidth
                   select
