@@ -134,9 +134,6 @@ export default function LoanDetailCard() {
     }
     return "";
   };
-  const color =
-    listNotifications?.[0]?.notifications_notification_config?.color ||
-    "yellow";
 
   function capitalizeWords(str: string) {
     if (str) {
