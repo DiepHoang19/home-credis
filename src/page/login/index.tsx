@@ -12,14 +12,6 @@ import { toast } from "sonner";
 import cookies from "js-cookie";
 import { USER_INFO } from "@/contants/contants";
 import authenService from "@/service/auth.service";
-import { queryUserInfo } from "@/services/graphql/user-gql";
-import {
-  OperationVariables,
-  ApolloQueryResult,
-  useQuery,
-  useLazyQuery,
-} from "@apollo/client";
-import { userInfo } from "os";
 
 interface PayloadLogin {
   phone_number: string;
@@ -57,8 +49,6 @@ function Login() {
     control,
   } = methods;
 
-  const [QueryGetUser] = useLazyQuery(queryUserInfo);
-
   const router = useRouter();
 
   const onSubmitForm = async (values: PayloadLogin) => {
@@ -72,18 +62,7 @@ function Login() {
       cookies.set(USER_INFO, JSON.stringify(data.data.data.user));
       cookies.set("access_token", data.data.data.access_token);
       toast.success("Đăng nhập thành công");
-      const res = await QueryGetUser({
-        variables: {
-          id: data.data.data.user.id,
-        },
-      });
-      if (res.data?.users_by_pk?.loans?.length > 0) {
-        router.push(
-          `/chi-tiet-khoan-vay?id=${res.data.users_by_pk.loans[0].id}`
-        );
-        return;
-      }
-      router.push(PUBLIC_ROUTER.HOME);
+      router.push("/xac-nhan-khoan-vay");
     } catch (error) {
       const message =
         error?.response?.data?.message ||
