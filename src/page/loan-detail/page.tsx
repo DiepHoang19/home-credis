@@ -96,22 +96,6 @@ export default function LoanDetailCard() {
       minimumFractionDigits: 0,
     });
 
-  const handleOTP = async () => {
-    setOpenDialogOTP(true);
-  };
-
-  const handleConfirmContact = async () => {
-    await updateLoans({
-      variables: {
-        id: dataLoanUser?.loans?.[0].id, // ID khoản vay
-        data: {
-          updatedAt: new Date().toISOString(),
-          status: ENUM_STATUS_LOAN.IN_CONTACT,
-        },
-      },
-    });
-    refetchCurrentLoan();
-  };
   if (loading || loadingUpdateLoan) {
     return <LoanDetailSkeleton />;
   }
@@ -179,7 +163,21 @@ export default function LoanDetailCard() {
     return brightness > 128 ? "black" : "white";
   }
 
-  const textColor = getTextColorFromName();
+  /**
+   * Viết hoa chữ cái đầu mỗi từ trong chuỗi
+   * @param str Chuỗi đầu vào
+   * @returns Chuỗi đã được chuẩn hóa
+   */
+  function capitalizeWords(str: string) {
+    if (str) {
+      return str
+        .toLowerCase() // chuẩn hóa toàn bộ về chữ thường
+        .split(" ") // tách thành mảng các từ
+        .filter((word) => word.trim() !== "") // bỏ khoảng trắng thừa
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+    }
+  }
 
   return (
     <div className="pb-10">
@@ -206,9 +204,6 @@ export default function LoanDetailCard() {
           boxShadow: 1,
         }}
       >
-        {/* Left Sidebar */}
-        {/* Right content */}
-
         <Box sx={{ flex: 1, p: 3 }}>
           <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
             <Typography fontWeight="bold" mb={2}>
@@ -245,7 +240,7 @@ export default function LoanDetailCard() {
                     color: "red",
                   }}
                 >
-                  {listNotifications?.[0]?.content ||
+                  {capitalizeWords(listNotifications?.[0]?.content) ||
                     getStatus(dataLoanUser?.loans?.[0]?.status)}
                 </span>
               </Typography>
