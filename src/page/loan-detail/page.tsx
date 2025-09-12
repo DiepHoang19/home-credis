@@ -166,9 +166,9 @@ export default function LoanDetailCard() {
   function capitalizeWords(str: string) {
     if (str) {
       return str
-        .toLowerCase() // chuẩn hóa toàn bộ về chữ thường
-        .split(" ") // tách thành mảng các từ
-        .filter((word) => word.trim() !== "") // bỏ khoảng trắng thừa
+        .toLowerCase()
+        .split(" ")
+        .filter((word) => word.trim() !== "")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
     }
