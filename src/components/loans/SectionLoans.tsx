@@ -89,7 +89,12 @@ const LoanCalculator = () => {
             />
             {/* Duration */}
 
-            <Typography gutterBottom sx={{ mt: 3 }}>
+            <Typography
+              id="vay-tien"
+              component="div"
+              gutterBottom
+              sx={{ mt: 3 }}
+            >
               Thời hạn bạn trả:
             </Typography>
             <Box display="flex" alignItems="center">
@@ -131,13 +136,7 @@ const LoanCalculator = () => {
             >
               {parseInt(calculateMonthlyPayment()).toLocaleString("vi-VN")} VND
             </Typography>
-            <Typography
-              id="vay-tien"
-              component="div"
-              fontSize={12}
-              color="gray"
-              align="center"
-            >
+            <Typography fontSize={12} color="gray" align="center">
               Số tiền thực tế có thể thay đổi tùy vào từng trường hợp và/hoặc
               gói vay cụ thể.
             </Typography>
