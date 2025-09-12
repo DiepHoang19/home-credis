@@ -1,5 +1,5 @@
 import { Box, Typography, Paper, Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
 import { BellRing, Clock, Eye } from "lucide-react";
 import {
@@ -15,7 +15,6 @@ import {
   useMutation,
   useSubscription,
 } from "@apollo/client";
-
 import { safeParseJSON } from "@/helpers";
 import { User } from "@/services/model/user";
 import Cookies from "js-cookie";
