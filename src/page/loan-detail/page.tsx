@@ -176,11 +176,12 @@ export default function LoanDetailCard() {
 
   return (
     <div className="pb-10">
-      <div className="w-full bg-[#e9f2f9] text-center py-10 ">
+      <div className="w-full bg-[#e9f2f9] text-center py-10">
         <Typography variant="h4">CHI TIẾT KHOẢN VAY</Typography>
       </div>
       <div className="w-full md:!w-[70vw]  flex justify-end pr-7 md:!pr-2 mx-auto">
         <BellRing
+          size={50}
           className="cursor-pointer"
           onClick={() => router.push("/ho-so?type=5")}
         />

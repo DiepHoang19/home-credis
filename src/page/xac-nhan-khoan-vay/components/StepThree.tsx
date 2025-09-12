@@ -56,10 +56,7 @@ const schema = yup.object().shape({
   income: yup.number().required("Thu nhập không được để trống"),
   purpose: yup.string().required("Mục đích vay không được để trống"),
   address: yup.string().required("Địa chỉ không được để trống"),
-  relativePhone1: yup
-    .string()
-    .matches(/^(0|\+84)\d{9}$/, "SĐT người thân không hợp lệ")
-    .required("SDT người thân không được để trống"),
+  relativePhone1: yup.string().required("SDT người thân không được để trống"),
   relativeRelation1: yup.string().required("Mối quan hệ không được để trống"),
   relativePhone2: yup.string().notRequired(),
   relativeRelation2: yup.string().notRequired(),
@@ -148,6 +145,10 @@ export default function StepThree({ currentLoan, setActiveStep }: Props) {
     }
 
     setActiveStep(3);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const optionGender = [

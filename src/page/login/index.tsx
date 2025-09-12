@@ -20,13 +20,7 @@ interface PayloadLogin {
 
 function Login() {
   const schemaLogin = yup.object({
-    phone_number: yup
-      .string()
-      .required("Vui lòng nhập số điện thoại")
-      .matches(
-        /^(0|\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5,8]|9[0-9])[0-9]{7}$/,
-        "Số điện thoại không hợp lệ"
-      ),
+    phone_number: yup.string().required("Vui lòng nhập số điện thoại"),
     password: yup
       .string()
       .required("Vui lòng nhập mật khẩu")
@@ -62,7 +56,7 @@ function Login() {
       cookies.set(USER_INFO, JSON.stringify(data.data.data.user));
       cookies.set("access_token", data.data.data.access_token);
       toast.success("Đăng nhập thành công");
-      router.push("/xac-nhan-khoan-vay");
+      window.location.replace("/xac-nhan-khoan-vay");
     } catch (error) {
       const message =
         error?.response?.data?.message ||
