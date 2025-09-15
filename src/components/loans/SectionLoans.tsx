@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Box,
   // Grid,
@@ -14,11 +14,11 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ButtonCommon from "@/common/button-common";
 import { useRouter } from "@/hook";
-import { useLocation } from "react-router-dom";
 
 const LoanCalculator = () => {
   const [loanAmount, setLoanAmount] = useState(15000000);
   const [duration, setDuration] = useState(11);
+  const router = useRouter();
 
   // const calculateMonthlyPayment = () => {
   //   const interestRate = 0.02; // lãi suất giả định 2%/tháng
@@ -32,8 +32,6 @@ const LoanCalculator = () => {
     const firstMonthPayment = principalPerMonth + firstMonthInterest;
     return Math.round(firstMonthPayment); // làm tròn
   };
-
-  const router = useRouter();
 
   return (
     <Container maxWidth="xl" sx={{ p: 4 }}>
@@ -141,7 +139,7 @@ const LoanCalculator = () => {
               color="error"
               fontWeight="bold"
             >
-              {parseInt(calculateMonthlyPayment()).toLocaleString("vi-VN")} VND
+              {calculateMonthlyPayment().toLocaleString("vi-VN")} VND
             </Typography>
             <Typography fontSize={12} color="gray" align="center">
               Số tiền thực tế có thể thay đổi tùy vào từng trường hợp và/hoặc
