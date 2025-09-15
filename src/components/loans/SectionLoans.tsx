@@ -20,10 +20,17 @@ const LoanCalculator = () => {
   const [loanAmount, setLoanAmount] = useState(15000000);
   const [duration, setDuration] = useState(11);
 
+  // const calculateMonthlyPayment = () => {
+  //   const interestRate = 0.02; // lãi suất giả định 2%/tháng
+  //   const monthly = (loanAmount * (1 + interestRate * duration)) / duration;
+  //   return monthly.toFixed(0);
+  // };
+
   const calculateMonthlyPayment = () => {
-    const interestRate = 0.02; // lãi suất giả định 2%/tháng
-    const monthly = (loanAmount * (1 + interestRate * duration)) / duration;
-    return monthly.toFixed(0);
+    const principalPerMonth = loanAmount / duration; // gốc chia đều
+    const firstMonthInterest = loanAmount * 0.009; // lãi tháng đầu
+    const firstMonthPayment = principalPerMonth + firstMonthInterest;
+    return Math.round(firstMonthPayment); // làm tròn
   };
 
   const router = useRouter();

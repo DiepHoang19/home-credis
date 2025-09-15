@@ -1,19 +1,9 @@
 import ButtonCommon from "@/common/button-common";
 import DialogCommon from "@/common/dialog-common";
-import NumberInput from "@/common/input-money";
-import {
-  formatNumber,
-  generateCode,
-  parseFormattedNumber,
-  safeParseJSON,
-} from "@/helpers";
+import { formatNumber, generateCode, safeParseJSON } from "@/helpers";
 import { GET_LOANS_CONFIGS } from "@/services/graphql/loans-config-gql";
-import { CREATE_LOANS, GET_LOAN_USER } from "@/services/graphql/loans-gql";
-import {
-  ENUM_STATUS_LOAN_DETAIL,
-  ENUM_STEP_LOAN,
-  Loan,
-} from "@/services/model/loans";
+import { CREATE_LOANS } from "@/services/graphql/loans-gql";
+import { ENUM_STATUS_LOAN_DETAIL } from "@/services/model/loans";
 import { LoansConfig } from "@/services/model/loansconfig";
 import { User } from "@/services/model/user";
 import {
@@ -53,7 +43,6 @@ export const StepOne = (props: Props) => {
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState(0);
   const [term, setTerm] = useState(6);
-  const principalPerMonth = amount / term;
   const [message, setMessage] = useState("");
   const [MAX_AMOUNT, setMaxAmount] = useState<number>(0);
   const [MIN_AMOUNT, setMinAmount] = useState<number>(0);
@@ -74,8 +63,7 @@ export const StepOne = (props: Props) => {
     }
   );
 
-  const [createLoans, { data: dataCreateLoans, loading: loadingCreateLoans }] =
-    useMutation(CREATE_LOANS);
+  const [createLoans] = useMutation(CREATE_LOANS);
 
   const getMonthlyDetails = () => {
     const details = [];
@@ -146,7 +134,7 @@ export const StepOne = (props: Props) => {
     ];
 
     try {
-      const result = await createLoans({
+      await createLoans({
         variables: {
           data: inputData,
         },
