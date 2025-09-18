@@ -131,7 +131,7 @@ const Footer = () => {
                 <Linkedin />
               </a>
             </div>
-            <p className="mb-4">Hotline: 1900 7458</p>
+            <p className="mb-4">Hotline: 1900 7051</p>
           </div>
         </div>
 
