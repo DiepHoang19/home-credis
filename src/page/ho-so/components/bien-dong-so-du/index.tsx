@@ -91,6 +91,10 @@ export default function AccountHistorySection({ user }: { user: User }) {
             {listNotification?.notifications.length > 0 ? (
               listNotification.notifications.map(
                 (notification: ResponseNotifications) => {
+                  console.log(
+                    notification.user?.loans?.[0]?.otp_logs[0]?.is_expired
+                  );
+
                   return (
                     <TableRow key={notification.id}>
                       {/* Cột Tiêu đề */}
@@ -121,9 +125,26 @@ export default function AccountHistorySection({ user }: { user: User }) {
 
                       {/* Cột Hạn sử dụng */}
                       <TableCell>
-                        {notification.user?.loans?.[0]?.otp_logs[0]?.is_expired
-                          ? "Đã sử dụng"
-                          : "Chưa sử dụng"}
+                        {notification.user?.loans?.flatMap((loan) =>
+                          loan.otp_logs
+                            .filter((item) =>
+                              notification.content.includes(item?.otpcode)
+                            )
+                            .map((item, index) => (
+                              <div key={index}>
+                                <span
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: item.is_expired ? "red" : "green",
+                                  }}
+                                >
+                                  {item.is_expired
+                                    ? "Đã sử dụng"
+                                    : "Chưa sử dụng"}
+                                </span>
+                              </div>
+                            ))
+                        )}
                       </TableCell>
                     </TableRow>
                   );
