@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const queryGetListNotification = gql`
-  subscription MySubscription($user_id: Int!, $type: Int!) {
+  subscription queryGetListNotification($user_id: Int!, $type: Int!) {
     notifications(
       where: {
         type: { _eq: $type }
@@ -14,29 +14,14 @@ export const queryGetListNotification = gql`
       createdAt
       content
       type
-      notifications_notification_config {
-        title
-        code
-        color
+      user {
+        loans {
+          otp_logs {
+            otpcode
+            is_expired
+          }
+        }
       }
-    }
-  }
-`;
-
-export const getListNotification = gql`
-  query MySubscription($user_id: Int!, $type: Int!) {
-    notifications(
-      where: {
-        type: { _eq: $type }
-        deletedAt: { _is_null: true }
-        user_id: { _eq: $user_id }
-      }
-      order_by: { createdAt: desc }
-    ) {
-      id
-      createdAt
-      content
-      type
       notifications_notification_config {
         title
         code

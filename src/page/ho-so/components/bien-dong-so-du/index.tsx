@@ -20,6 +20,34 @@ import {
 import Cookies from "js-cookie";
 import { useState } from "react";
 
+interface ResponseNotifications {
+  id: number;
+  createdAt: string;
+  content: string;
+  type: number;
+  user: UserRes;
+  notifications_notification_config: NotificationsNotificationConfig;
+}
+
+interface UserRes {
+  loans: Loan[];
+}
+
+interface Loan {
+  otp_logs: OtpLog[];
+}
+
+interface OtpLog {
+  otpcode: string;
+  is_expired: boolean;
+}
+
+interface NotificationsNotificationConfig {
+  title: string;
+  code: string;
+  color: string;
+}
+
 export default function AccountHistorySection({ user }: { user: User }) {
   const [filter, setFilter] = useState("all");
   const userInfo = safeParseJSON(
@@ -51,77 +79,63 @@ export default function AccountHistorySection({ user }: { user: User }) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell className="font-bold text-sm">Nội dung</TableCell>
-              <TableCell className="font-bold text-sm">
+              <TableCell className="font-bold text-lg">Tiêu đề</TableCell>
+              <TableCell className="font-bold text-lg">Nội dung</TableCell>
+              <TableCell className="font-bold text-lg">
                 Ngày thông báo
               </TableCell>
+              <TableCell className="font-bold text-lg">Tình trạng</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell colSpan={2} style={{ padding: 0 }}>
-                <div
-                  style={{
-                    maxHeight: "300px",
-                    overflowY: "auto",
-                  }}
-                >
-                  <Table size="small">
-                    <TableBody>
-                      {listNotification?.notifications.length > 0 ? (
-                        listNotification.notifications.map((notification) => {
-                          return (
-                            <TableRow key={notification.id}>
-                              <TableCell>
-                                {
-                                  notification.notifications_notification_config
-                                    .title
-                                }
-                                :
-                                <div>
-                                  {removeOTP(notification.content)}{" "}
-                                  <span
-                                    style={{ color: "red", fontWeight: "bold" }}
-                                  >
-                                    {extractOTP(notification.content)}
-                                  </span>
-                                </div>
-                              </TableCell>
-                              <TableCell>
-                                {(() => {
-                                  const d = new Date(notification.createdAt);
-                                  const date = d.toLocaleDateString("vi-VN", {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                  });
+            {listNotification?.notifications.length > 0 ? (
+              listNotification.notifications.map(
+                (notification: ResponseNotifications) => {
+                  return (
+                    <TableRow key={notification.id}>
+                      {/* Cột Tiêu đề */}
+                      <TableCell style={{ fontWeight: "bold" }}>
+                        {notification.notifications_notification_config.title}
+                      </TableCell>
 
-                                  const time = d.toLocaleTimeString("vi-VN", {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                    hour12: false,
-                                  });
+                      {/* Cột Nội dung */}
+                      <TableCell>
+                        {removeOTP(notification.content)}{" "}
+                        <span style={{ color: "red", fontWeight: "bold" }}>
+                          {extractOTP(notification.content)}
+                        </span>
+                      </TableCell>
 
-                                  return <>{date}</>;
-                                })()}
-                              </TableCell>
-                            </TableRow>
-                          );
-                        })
-                      ) : (
-                        <TableRow>
-                          <TableCell colSpan={2} align="center">
-                            <Typography fontSize={14}>
-                              Không có thông báo nào
-                            </Typography>
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                </div>
-              </TableCell>
-            </TableRow>
+                      {/* Cột Ngày thông báo */}
+                      <TableCell>
+                        {(() => {
+                          const d = new Date(notification.createdAt);
+                          const date = d.toLocaleDateString("vi-VN", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          });
+                          return <>{date}</>;
+                        })()}
+                      </TableCell>
+
+                      {/* Cột Hạn sử dụng */}
+                      <TableCell>
+                        {notification.user?.loans?.[0]?.otp_logs[0]?.is_expired
+                          ? "Đã sử dụng"
+                          : "Chưa sử dụng"}
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
+              )
+            ) : (
+              <TableRow>
+                <TableCell colSpan={4} align="center">
+                  <Typography fontSize={14}>Không có thông báo nào</Typography>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </Paper>
